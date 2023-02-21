@@ -25,7 +25,7 @@ Install the compiler on the same OS (can't extract installer, must install then 
 
 ```
 cd /path/to/msp430-gcc/..
-tar --exclude="msp430-gcc/uninstall*" --exclude=msp430-gcc/install_logs --exclude=msp430-gcc/examples --exclude=msp430-gcc/common --exclude=msp430-gcc/reidist --exclude=msp430-gcc/emulation --exclude=msp430-gcc/docs --exclude=msp430-gcc/install_scripts --create --bzip2 -f ~/tool.tar.bz2 msp430-gcc/
+tar --exclude="msp430-gcc/uninstall*" --exclude=msp430-gcc/install_logs --exclude=msp430-gcc/examples --exclude=msp430-gcc/common --exclude=msp430-gcc/reidist --exclude=msp430-gcc/emulation --exclude=msp430-gcc/docs --exclude=msp430-gcc/install_scripts --exclude=msp430-gcc/include/gdb --create --bzip2 -f ~/tool.tar.bz2 msp430-gcc/
 ```
 
 On windows, use 7zip to make the archive. Manually exclude the folders listed as excludes above.
@@ -46,3 +46,14 @@ tar --create --bzip2 -f ~/tool.tar.bz2 DebugServer
 ```
 
 On windows, use 7zip to make the archive. Manually exclude the folders listed as excludes above.
+
+### Updating index file
+
+Add entries in same form. Need hashsum (use `sha256sum`) and size in bytes (`wc -c`).
+
+
+## References
+
+[Platform Spec](https://arduino.github.io/arduino-cli/0.31/platform-specification/)
+
+[Package Index Spec](https://arduino.github.io/arduino-cli/0.31/package_index_json-specification/)
