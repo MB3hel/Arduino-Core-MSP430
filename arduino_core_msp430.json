@@ -13,8 +13,8 @@
           "version": "3.0.0", 
           "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.0.0/msp430-core-3.0.0.tar.bz2", 
           "archiveFileName": "msp430-core-3.0.0.tar.bz2", 
-          "checksum": "SHA-256:7fb6fb5653d1e5f1ab368a0ae002633a5e949621aa0ade20328ea3acc223de58", 
-          "size": "2249761", 
+          "checksum": "SHA-256:a708a5d323cca4af4ee440d3a77c188a77784e22625ce8f4a748dba7ab12a2ce", 
+          "size": "2250004", 
           "boards": [
             {
               "name": "MSP-EXP430F5529"
