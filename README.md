@@ -6,11 +6,17 @@ My fork of Energia core for MSP430 with compiler updates and maybe some bug fixe
 
 ## Use
 
-Add the following as a boards manager URL in preferences
+- Install the Arduino IDE
+- Add the following as a boards manager URL in preferences (`File > Preferences` on Windows or Linux, `Arduino IDE > Settings` on macOS)
 
 ```
 https://raw.githubusercontent.com/MB3hel/Arduino-Core-MSP430/main/arduino_core_msp430.json
 ```
+
+- Install the MSP430 boards package from the board manager
+
+
+*Note: Currently support is provided for 64-bit Windows, macOS, and Linux systems (x86-64).*
 
 
 
