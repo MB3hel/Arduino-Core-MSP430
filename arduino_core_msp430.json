@@ -1,0 +1,72 @@
+{
+  "packages": [
+    {
+      "name": "msp430",
+      "maintainer": "Marcus Behel",
+      "websiteURL": "https://github.com/MB3hel/Arduino-Core-MSP430",
+      "email": "marcus.behel@mindspring.com",
+      "help": {},
+      "platforms": [
+        {
+          "name": "MSP430 Boards", 
+          "architecture": "msp430", 
+          "version": "3.0.0", 
+          "url": "https://raw.githubusercontent.com/MB3hel/Arduino-Core-MSP430/main/packages/", 
+          "archiveFileName": "", 
+          "checksum": "", 
+          "size": "", 
+          "boards": [
+            {
+              "name": "MSP-EXP430F5529"
+            }, 
+            {
+              "name": "MSP-EXP430FR2433"
+            }, 
+            {
+              "name": "MSP-EXP430FR4133"
+            }, 
+            {
+              "name": "MSP-EXP430FR5969"
+            }, 
+            {
+              "name": "MSP-EXP430FR6989"
+            }, 
+            {
+              "name": "MSP-EXP430FR5739"
+            }, 
+            {
+              "name": "MSP-EXP430FR2355"
+            }, 
+            {
+              "name": "MSP-EXP430FR2231"
+            }, 
+            {
+              "name": "MSP-EXP430G2"
+            }, 
+            {
+              "name": "MSP-EXP430G2ET"
+            }, 
+            {
+              "name": "MSP-EXP430FR5994"
+            }
+          ], 
+          "toolsDependencies": [
+            {
+              "packager": "arduino-core-msp430", 
+              "name": "msp430-gcc-opensource", 
+              "version": "9.3.1.2"
+            }, 
+            {
+              "packager": "arduino-core-msp430", 
+              "name": "uniflash", 
+              "version": "8.2.0"
+            }
+          ]
+        }
+      ],
+      "tools": [
+
+      ]
+    }
+  ]
+}
