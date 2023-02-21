@@ -13,8 +13,8 @@
           "version": "3.0.0", 
           "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.0.0/msp430-core-3.0.0.tar.bz2", 
           "archiveFileName": "msp430-core-3.0.0.tar.bz2", 
-          "checksum": "SHA-256:ec0384ac0c3914bdc467f1bb6978af28abc4199eac54338969de3129878a5cd8", 
-          "size": "2254170", 
+          "checksum": "SHA-256:cc537e93300312fc6e87197fbb06ad8da8ff1446c319ea7c91c0423eb363aa0a", 
+          "size": "2249979", 
           "boards": [
             {
               "name": "MSP-EXP430F5529"
@@ -98,10 +98,10 @@
           "systems": [
             {
               "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.0.0/DebugServer-8.2.0-win-amd64.tar.bz2", 
-              "checksum": "SHA-256:f71536899f9e195d5a524200b09a8dad192c22a5fd02f22ab488675aca8fcd69", 
+              "checksum": "SHA-256:155df8bd3c3e7aabcc9b861616fce5e22e6d3aafb768e1b34d6060785570ced6", 
               "host": "x86_64-mingw32", 
               "archiveFileName": "DebugServer-8.2.0-win-amd64.tar.bz2", 
-              "size": "117361660"
+              "size": "62689325"
             }, 
             {
               "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.0.0/DebugServer-8.2.0-mac-amd64.tar.bz2", 
