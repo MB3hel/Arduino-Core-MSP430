@@ -1,12 +1,16 @@
 # Arduino Core MSP430
 
 
-My WIP fork of Energia core for MSP430 with compiler updates and maybe some bug fixes as needed.
+My fork of Energia core for MSP430 with compiler updates and maybe some bug fixes as needed.
 
 
 ## Use
 
-TODO
+Add the following as a boards manager URL in preferences
+
+```
+https://raw.githubusercontent.com/MB3hel/Arduino-Core-MSP430/main/arduino_core_msp430.json
+```
 
 
 
