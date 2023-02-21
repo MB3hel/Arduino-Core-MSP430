@@ -56,7 +56,7 @@ tar --create --bzip2 -f ~/tool.tar.bz2 DebugServer
 rm -r DebugServer/
 ```
 
-On windows, use 7zip to make the archive. Manually exclude the folders listed as excludes above.
+On windows, use 7zip to make the archive. Manually exclude the folders listed as excludes above. This is best done by duplicating the msp430-gcc directory and deleting the excluded files (since the archive needs to have a top level directory named `msp430-gcc`)
 
 ### Updating index file
 

@@ -71,10 +71,10 @@
           "systems": [
             {
               "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.0.0/msp430-gcc-9.3.1.2-win-amd64.tar.bz2", 
-              "checksum": "SHA-256:006d52e0d01fcfaf492f0e3e5d43db8d497e32162e5ed898047dc1057d9ad9d2", 
+              "checksum": "SHA-256:590421451b742bfb8d2f60cca1b42fdf4dc5344eb2a3c1346a5c08bb3f2575d9", 
               "host": "x86_64-mingw32", 
               "archiveFileName": "msp430-gcc-9.3.1.2-win-amd64.tar.bz2", 
-              "size": "79541968"
+              "size": "79560484"
             }, 
             {
               "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.0.0/msp430-gcc-9.3.1.2-mac-amd64.tar.bz2", 
