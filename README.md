@@ -43,10 +43,11 @@ Install UniFlash on the same OS (can't extract installer, must install then make
 
 ```
 cd /path/to/uniflash/deskdb/content/TICloudAgent
-cd linux   # Change to matchcd host os
-cd ccs_base/
-cp ../../../../../docs/licenses/license.txt DebugServer
+cd linux   # Change to match host os
+cp -r ccs_base/ DebugServer/
+cp ../../../../docs/licenses/license.txt DebugServer
 tar --create --bzip2 -f ~/tool.tar.bz2 DebugServer
+rm -r DebugServer/
 ```
 
 On windows, use 7zip to make the archive. Manually exclude the folders listed as excludes above.

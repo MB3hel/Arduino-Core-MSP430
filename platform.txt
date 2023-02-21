@@ -101,14 +101,14 @@ tools.dslite.upload.params.verbose=
 tools.dslite.upload.params.quiet=
 tools.dslite.path={runtime.tools.DebugServer.path}
 tools.dslite.config.path={path}
-tools.dslite.cmd.path={path}/bin/DSLite
+tools.dslite.cmd.path={path}/DebugServer/bin/DSLite
 tools.dslite.upload.pattern={cmd.path} {upload.verbose} load -c "{runtime.platform.path}/variants/{build.variant}/{build.variant}.ccxml" -f "{build.path}/{build.project_name}.elf"
 
 # mspdebug
 tools.mspdebug.upload.params.verbose=
 tools.mspdebug.upload.params.quiet=
 tools.mspdebug.path={runtime.tools.DebugServer.path}
-tools.mspdebug.cmd.path={path}/bin/mspdebug
+tools.mspdebug.cmd.path={path}/DebugServer/bin/mspdebug
 tools.mspdebug.upload.pattern={cmd.path} {upload.verbose} {upload.protocol} --force-reset "prog {build.path}/{build.project_name}.hex"
 
 

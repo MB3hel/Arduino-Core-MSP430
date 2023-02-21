@@ -13,8 +13,8 @@
           "version": "3.0.0", 
           "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.0.0/msp430-core-3.0.0.tar.bz2", 
           "archiveFileName": "msp430-core-3.0.0.tar.bz2", 
-          "checksum": "SHA-256:a078fc62908ddaf2ca65cd06a2c913abc9d46540d31346cf28e282562f0bcfb9", 
-          "size": "2250732", 
+          "checksum": "SHA-256:7fb6fb5653d1e5f1ab368a0ae002633a5e949621aa0ade20328ea3acc223de58", 
+          "size": "2249761", 
           "boards": [
             {
               "name": "MSP-EXP430F5529"
@@ -98,24 +98,24 @@
           "systems": [
             {
               "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.0.0/DebugServer-8.2.0-win-amd64.tar.bz2", 
-              "checksum": "SHA-256:155df8bd3c3e7aabcc9b861616fce5e22e6d3aafb768e1b34d6060785570ced6", 
+              "checksum": "SHA-256:dd8499af4a3c9f5341175497908c5a656b4d21ac8084f5968aaecc6edc942450", 
               "host": "x86_64-mingw32", 
               "archiveFileName": "DebugServer-8.2.0-win-amd64.tar.bz2", 
-              "size": "62689325"
+              "size": "117338789"
             }, 
             {
               "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.0.0/DebugServer-8.2.0-mac-amd64.tar.bz2", 
-              "checksum": "SHA-256:940a3bd9b87010d0f825dd0b917554affc583ebd93f9d937ba01d89ee5b5e798", 
+              "checksum": "SHA-256:777e7b614d75721abbca43c81d8056e7e838ac3fc669558aa7d56807ff2fce33", 
               "host": "x86_64-apple-darwin", 
               "archiveFileName": "DebugServer-8.2.0-mac-amd64.tar.bz2", 
-              "size": "54862181"
+              "size": "98115492"
             }, 
             {
               "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.0.0/DebugServer-8.2.0-linux-amd64.tar.bz2", 
-              "checksum": "SHA-256:7deb39e7f81def538a340fb443550bc85f1b744a64e0c9930c73952614f1f40f", 
+              "checksum": "SHA-256:95ce5af7c438c3ae2c73bf5a671a2da94bec4787a6bee452c5288a025329c49f", 
               "host": "x86_64-pc-linux-gnu", 
               "archiveFileName": "DebugServer-8.2.0-linux-amd64.tar.bz2", 
-              "size": "72162525"
+              "size": "116578053"
             }
           ]
         }
