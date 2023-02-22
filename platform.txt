@@ -1,15 +1,15 @@
-
-# Energia MSP430 Core and platform.
-# ------------------------------
-#
-# For more info:
-# https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5-3rd-party-Hardware-specification
+################################################################################
+# Arduino MSP430 Core and platform.
+################################################################################
 
 name=arduino-core-msp430
 version=3.0.0
 
+
+
+# ------------------------------------------------------------------------------
 # MSP430 compile variables
-# --------------------- 
+# ------------------------------------------------------------------------------
 
 compiler.warning_flags=-w
 compiler.warning_flags.none=-w
@@ -17,10 +17,7 @@ compiler.warning_flags.default=
 compiler.warning_flags.more=-Wall
 compiler.warning_flags.all=-Wall -Wextra
 
-#compiler.mlarge_flag=
-compiler.mlarge_flag=-mlarge -mcode-region=upper
 
-# Default "compiler.path" is correct, change only if you want to overidde the initial value
 compiler.path={runtime.tools.msp430-gcc.path}/bin/
 compiler.c.cmd=msp430-elf-gcc
 compiler.c.flags=-c -Os {compiler.warning_flags} -ffunction-sections -fdata-sections -MMD -flto
@@ -38,8 +35,8 @@ compiler.elf2hex.cmd=msp430-elf-objcopy
 compiler.ldflags=-flto
 compiler.size.cmd=msp430-elf-size
 
-# This can be overriden in boards.txt
-build.extra_flags={compiler.mlarge_flag} -mhwmult=auto
+# This can be overridden in boards.txt
+build.extra_flags=-mlarge -mcode-region=upper -mhwmult=auto
 
 
 # These can be overridden in platform.local.txt
@@ -51,8 +48,13 @@ compiler.ar.extra_flags=
 compiler.objcopy.eep.extra_flags=
 compiler.elf2hex.extra_flags=
 
+# ------------------------------------------------------------------------------
+
+
+
+# ------------------------------------------------------------------------------
 # MSP430 compile patterns
-# --------------------
+# ------------------------------------------------------------------------------
 
 ## Compile c files
 recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} -mmcu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DENERGIA={runtime.ide.version} -DENERGIA_{build.board} -DENERGIA_ARCH_{build.arch} {compiler.c.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
@@ -90,11 +92,13 @@ recipe.preproc.includes="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags}
 preproc.macros.flags=-w -x c++ -E -CC
 recipe.preproc.macros="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.macros.flags} -mmcu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DENERGIA={runtime.ide.version} -DENERGIA_{build.board} -DENERGIA_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{preprocessed_file_path}"
 
+# ------------------------------------------------------------------------------
 
 
 
+# ------------------------------------------------------------------------------
 # msp430 Uploader/Programmers tools
-# -----------------------------------
+# ------------------------------------------------------------------------------
 
 # TI's DSLite
 tools.dslite.upload.params.verbose=
@@ -111,5 +115,4 @@ tools.mspdebug.path={runtime.tools.DebugServer.path}
 tools.mspdebug.cmd.path={path}/DebugServer/bin/mspdebug
 tools.mspdebug.upload.pattern={cmd.path} {upload.verbose} {upload.protocol} --force-reset "prog {build.path}/{build.project_name}.hex"
 
-
-
+# ------------------------------------------------------------------------------
