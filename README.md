@@ -30,6 +30,11 @@ https://raw.githubusercontent.com/MB3hel/Arduino-Core-MSP430/main/arduino_core_m
 - Open the boards manager (`Tools > Boards > Boards Manager`) and search for "MSP430" and install the package.
 
 
+## Pinout Diagrams
+
+Some boards have diagrams in `extras/pinmaps`. Others may not. There is typically a comment in the `pins_energia.h` file for each variant with an ASCII pinout diagram.
+
+
 ## Supported Host Systems
 
 The following host systems are supported (toolchain and debug server packages are provided)
