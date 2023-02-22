@@ -7,7 +7,9 @@ This repo provides package index files that can be used in the [Arduino IDE](htt
 
 Newer versions of the msp430-gcc compiler are supported than what were provided in the last official Energia release (`1.0.7` for MSP430 boards).
 
-Additionally, I do intend to fix bugs if I find them (PRs welcome of course). I will likely also get around to investigating reported bugs at some point (though I have a limited number of launchpads).
+I do intend to fix bugs if I find them (PRs are also welcome if anyone else finds a bug).
+
+If bugs are reported on the issue tracker, I do also intend to investigate (though I have a limited number of launchpads).
 
 
 *This is a fork of the MSP430 core. There is no support for MSP432 boards or other boards that Eneriga supported.*
