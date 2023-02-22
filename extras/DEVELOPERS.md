@@ -9,6 +9,8 @@ Run `extras/package.sh` and enter the version number. The tarball will be create
 Note that while developing the core, clone to `SKETCHBOOK/hardware/arduino-core-msp430/msp430` and restart the Arduino IDE after making changes for them to take effect.
 
 
+Also, be aware of [this bug](https://github.com/arduino/arduino-ide/issues/1030) where the IDE won't pickup changes to files that it should. Make sure to delete the folder indicated if editing installed files.
+
 
 ## MSP430-GCC Tool Package
 
