@@ -25,23 +25,32 @@ On windows, use 7zip to make the archive. Manually exclude the folders listed as
 
 
 
-## Debug Server Tool Package
+## mspdebug Tool Package
 
-Note: Version numbers match UniFlash version, not DSLite or mspdebug version.
+- Build [mspdebug](https://github.com/dlbeer/mspdebug). Note that libusb and libreadline are required. Use msys2 on windows. Use brew on macos. Copy the resulting binary to an empty directory name `mspdebug`.
+- Download [TI's MSP Debug Stack](https://www.ti.com/tool/MSPDS) DLLs (not source code) and grab the dll (windows), so (linux), or dynlib (macos) required. Could build from source too, but that is more involved (follow instructions in the source package's readme if attempting).
+- Place the libmsp430 dynamic library in the same directory as the built mspdebug tool. Remove the "_64" suffix if one exists. Note for windows it is not libmsp430, but MSP430.dll
+- Use `ldd` (linux / msys2) or `otool -L` (macos) to determine what dynamic libraries also need to be copied. Libraries every system will have can be skipped.
+- If linux or macos, rename `mspdebug` to `mspdebug.bin`
+- Add the wrapper script named `mspdebug` to launch `mspdebug.bin` and make it executable (linux and macos only)
+- Run `./mspdebug tilib` and make sure it works (no errors about libmsp430).
+- tar bz2 the directory (`tar --create --bzip2 -f mspdebug.tar.bz2 mspdebug`). It is important that the top level directory of the tar be named mspdebug.
 
-Install UniFlash on the same OS (can't extract installer, must install then make archive from installed folder). This unfortunately means a computer of each OS and architecture combination is required to package the debug server.
+Linux script
 
+```sh
+#!/usr/bin/env bash
+DIR=$(dirname "$0")
+LD_LIBRARY_PATH="$DIR":$LD_LIBRARY_PATH "$DIR"/mspdebug.bin "$@"
 ```
-cd /path/to/uniflash/deskdb/content/TICloudAgent
-cd linux   # Change to match host os
-cp -r ccs_base/ DebugServer/
-cp ../../../../docs/licenses/license.txt DebugServer
-tar --create --bzip2 -f ~/tool.tar.bz2 DebugServer
-rm -r DebugServer/
+
+macOS script:
+
+```sh
+#!/usr/bin/env zsh
+DIR=$(dirname "$0")
+DYLD_LIBRARY_PATH="$DIR":$DYLD_LIBRARY_PATH "$DIR"/mspdebug.bin "$@"
 ```
-
-On windows, use 7zip to make the archive. Manually copy / rename files and folders as directed above.
-
 
 
 ## Index File
