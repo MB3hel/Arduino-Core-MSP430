@@ -32,7 +32,7 @@ compiler.objcopy.cmd=msp430-elf-objcopy
 compiler.objcopy.eep.flags=-O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0
 compiler.elf2hex.flags=-O ihex -R .eeprom
 compiler.elf2hex.cmd=msp430-elf-objcopy
-compiler.ldflags=-flto
+compiler.ldflags=
 compiler.size.cmd=msp430-elf-size
 
 # This can be overridden in boards.txt
