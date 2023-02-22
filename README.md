@@ -24,7 +24,7 @@ If bugs are reported on the issue tracker, I do also intend to investigate (thou
 - Add the following in the "Additional boards manager URLs" section
 
 ```
-https://raw.githubusercontent.com/MB3hel/Arduino-Core-MSP430/main/arduino_core_msp430.json
+https://raw.githubusercontent.com/MB3hel/Arduino-Core-MSP430/main/package_core_msp430_index.json
 ```
 
 - Open the boards manager (`Tools > Boards > Boards Manager`) and search for "MSP430" and install the package.

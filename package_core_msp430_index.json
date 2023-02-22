@@ -10,6 +10,62 @@
         {
           "name": "MSP430 Boards", 
           "architecture": "msp430", 
+          "version": "3.0.1", 
+          "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.0.1/msp430-core-3.0.1.tar.bz2", 
+          "archiveFileName": "msp430-core-3.0.1.tar.bz2", 
+          "checksum": "SHA-256:77ab0c5abe735a4bd96b1cd00b647fb8c8556ec9dc8f98053410c87f38c3046a", 
+          "size": "2249333", 
+          "boards": [
+            {
+              "name": "MSP-EXP430F5529"
+            }, 
+            {
+              "name": "MSP-EXP430FR2433"
+            }, 
+            {
+              "name": "MSP-EXP430FR4133"
+            }, 
+            {
+              "name": "MSP-EXP430FR5969"
+            }, 
+            {
+              "name": "MSP-EXP430FR6989"
+            }, 
+            {
+              "name": "MSP-EXP430FR5739"
+            }, 
+            {
+              "name": "MSP-EXP430FR2355"
+            }, 
+            {
+              "name": "MSP-EXP430FR2231"
+            }, 
+            {
+              "name": "MSP-EXP430G2"
+            }, 
+            {
+              "name": "MSP-EXP430G2ET"
+            }, 
+            {
+              "name": "MSP-EXP430FR5994"
+            }
+          ], 
+          "toolsDependencies": [
+            {
+              "packager": "arduino-core-msp430", 
+              "name": "msp430-gcc", 
+              "version": "9.3.1.2"
+            }, 
+            {
+              "packager": "arduino-core-msp430", 
+              "name": "DebugServer", 
+              "version": "8.2.0"
+            }
+          ]
+        },
+        {
+          "name": "MSP430 Boards", 
+          "architecture": "msp430", 
           "version": "3.0.0", 
           "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.0.0/msp430-core-3.0.0.tar.bz2", 
           "archiveFileName": "msp430-core-3.0.0.tar.bz2", 
