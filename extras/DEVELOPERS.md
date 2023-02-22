@@ -6,7 +6,7 @@
 
 Run `extras/package.sh` and enter the version number. The tarball will be created in the `build` directory. This script is intended to be run on a Linux system. It may work on macOS or on MSYS2 on windows, but those are not tested.
 
-Note that while developing the core, the `dev-update.sh` script can be used to install it in the IDE (it is assumed that the toolchain and debug server tool packages are already installed). Note that you will need to manually delete `~/.arduino15/packages/arduino-core-msp430/hardware/msp430/999.999.999/` to be able to install official releases.
+Note that while developing the core, clone to `SKETCHBOOK/hardware/arduino-core-msp430/msp430` and restart the Arduino IDE after making changes for them to take effect.
 
 
 
