@@ -1,7 +1,7 @@
 {
   "packages": [
     {
-      "name": "arduino-core-msp430",
+      "name": "mb3hel-msp430",
       "maintainer": "Marcus Behel",
       "websiteURL": "https://github.com/MB3hel/Arduino-Core-MSP430",
       "email": "marcus.behel@mindspring.com",
@@ -52,12 +52,12 @@
           ], 
           "toolsDependencies": [
             {
-              "packager": "arduino-core-msp430", 
+              "packager": "mb3hel-msp430", 
               "name": "msp430-gcc", 
               "version": "9.3.1.2"
             }, 
             {
-              "packager": "arduino-core-msp430", 
+              "packager": "mb3hel-msp430", 
               "name": "DebugServer", 
               "version": "8.2.0"
             }
@@ -108,12 +108,12 @@
           ], 
           "toolsDependencies": [
             {
-              "packager": "arduino-core-msp430", 
+              "packager": "mb3hel-msp430", 
               "name": "msp430-gcc", 
               "version": "9.3.1.2"
             }, 
             {
-              "packager": "arduino-core-msp430", 
+              "packager": "mb3hel-msp430", 
               "name": "DebugServer", 
               "version": "8.2.0"
             }

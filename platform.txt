@@ -2,7 +2,7 @@
 # Arduino MSP430 Core and platform.
 ################################################################################
 
-name=arduino-core-msp430
+name=mb3hel-msp430
 version=3.0.1
 
 
