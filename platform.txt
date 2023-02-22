@@ -11,11 +11,11 @@ version=3.0.1
 # MSP430 compile variables
 # ------------------------------------------------------------------------------
 
-compiler.warning_flags=-w
-compiler.warning_flags.none=-w
-compiler.warning_flags.default=
-compiler.warning_flags.more=-Wall
-compiler.warning_flags.all=-Wall -Wextra
+compiler.warning_flags=-Wall -Wextra
+# compiler.warning_flags.none=-w
+# compiler.warning_flags.default=
+# compiler.warning_flags.more=-Wall
+# compiler.warning_flags.all=-Wall -Wextra
 
 
 compiler.path={runtime.tools.msp430-gcc.path}/bin/
