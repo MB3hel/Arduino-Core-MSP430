@@ -36,7 +36,7 @@ compiler.ldflags=-flto
 compiler.size.cmd=msp430-elf-size
 
 # This can be overridden in boards.txt
-build.extra_flags=-mlarge -mcode-region=upper -mhwmult=auto
+build.extra_flags=-mlarge -mcode-region=either -mdata-region=either -mhwmult=auto
 
 
 # These can be overridden in platform.local.txt
