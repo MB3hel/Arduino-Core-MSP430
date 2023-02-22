@@ -54,7 +54,7 @@ void processMessage(aJsonObject *msg)
   const static int pins_n = 2;
   for (int i = 0; i < pins_n; i++) {
     char pinstr[3];
-    snprintf(pinstr, sizeof(pinstr), "%d", pins[i]);
+    sniprintf(pinstr, sizeof(pinstr), "%d", pins[i]);
 
     aJsonObject *pwmval = aJson.getObjectItem(pwm, pinstr);
     if (!pwmval) continue; /* Value not provided, ok. */

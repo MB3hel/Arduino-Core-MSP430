@@ -18,7 +18,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
   Modified by Robert Wessels for msp430 on Energia.
-  * mspgcc does not support the %f format in sprintf.
+  * mspgcc does not support the %f format in siprintf.
   * This is a crude workaround.
 */
 #include <stdint.h>
@@ -34,8 +34,8 @@ char *dtostrf (double val, signed char width, unsigned char prec, char *sout) {
   int32_t frac = mantissa * powf(10, prec);
   if(frac < 0) frac = -frac;
 
-  sprintf(fmt, "%%0%dd.%%0%dd", width, prec);
-  sprintf(sout, fmt, whole, frac);
+  siprintf(fmt, "%%0%dd.%%0%dd", width, prec);
+  siprintf(sout, fmt, whole, frac);
   return sout;
 }
 

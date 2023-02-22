@@ -209,7 +209,7 @@ const char* WiFiClass::firmwareVersion()
     sl_DevGet(SL_DEVICE_GENERAL_CONFIGURATION, &ucConfigOpt, 
                                 &ucConfigLen, (unsigned char *)(&ver));
     
-    snprintf(fwVersion, sizeof(fwVersion),
+    sniprintf(fwVersion, sizeof(fwVersion),
              "%ld.%ld.%ld.%ld:%ld.%ld.%ld.%ld:%d.%d.%d.%d",
     ver.NwpVersion[0], ver.NwpVersion[1], ver.NwpVersion[2], ver.NwpVersion[3],
     ver.ChipFwAndPhyVersion.FwVersion[0], ver.ChipFwAndPhyVersion.FwVersion[1],

@@ -94,17 +94,17 @@ String i32toa(int32_t number, int32_t unit, uint8_t decimal, uint8_t size)
 	number = (number * multiplier *10 / unit +5) /10 ;
     
 	if (decimal > 0) {
-		if (size>decimal) sprintf(bufferFormat, "%%%dd.", size-decimal-1);
+		if (size>decimal) siprintf(bufferFormat, "%%%dd.", size-decimal-1);
 		else strcpy(bufferFormat, "%0d.");
-		sprintf(bufferOut, bufferFormat, number/multiplier);
+		siprintf(bufferOut, bufferFormat, number/multiplier);
         
 		if (number < 0) number  = -number;
-		sprintf(bufferFormat, "%%0%dd", decimal);
-		sprintf(bufferOut+strlen(bufferOut), bufferFormat, number%multiplier);
+		siprintf(bufferFormat, "%%0%dd", decimal);
+		siprintf(bufferOut+strlen(bufferOut), bufferFormat, number%multiplier);
         
 	} else {
-		sprintf(bufferFormat, "%%%dd", size);
-		sprintf(bufferOut, bufferFormat, number/multiplier);
+		siprintf(bufferFormat, "%%%dd", size);
+		siprintf(bufferOut, bufferFormat, number/multiplier);
 	}
     
 	if ((size > 0) && (strlen(bufferOut)>size)) strcpy(bufferOut, "#");
@@ -113,8 +113,8 @@ String i32toa(int32_t number, int32_t unit, uint8_t decimal, uint8_t size)
 
 String htoa(uint32_t number, uint8_t size)
 {
-    sprintf(bufferFormat, "%%0%dx", size);
-    sprintf(bufferOut, bufferFormat, number);
+    siprintf(bufferFormat, "%%0%dx", size);
+    siprintf(bufferOut, bufferFormat, number);
     
     if ((size > 0) && (strlen(bufferOut)>size)) strcpy(bufferOut, "#");
     
@@ -128,23 +128,23 @@ String ttoa(uint32_t number, uint8_t size)
     memset(&bufferOut, 0x00, sizeof(bufferOut));
     
     if (number < (uint32_t)1000) {
-        sprintf(bufferFormat, "%%%ddms", (size>2) ? size-2 : 0);
-        sprintf(bufferOut, bufferFormat, number);
+        siprintf(bufferFormat, "%%%ddms", (size>2) ? size-2 : 0);
+        siprintf(bufferOut, bufferFormat, number);
     } else if (number < (uint32_t)60000) {
         number /= 100;
-        sprintf(bufferFormat, "%%%dd", (size>3) ? size-3 : 0);
-        sprintf(bufferOut, bufferFormat, number/10);
-        sprintf(bufferOut+strlen(bufferOut), ".%ds", number%10);
+        siprintf(bufferFormat, "%%%dd", (size>3) ? size-3 : 0);
+        siprintf(bufferOut, bufferFormat, number/10);
+        siprintf(bufferOut+strlen(bufferOut), ".%ds", number%10);
     } else if (number < (uint32_t)3600000) {
         number /= (uint32_t)6000;
-        sprintf(bufferFormat, "%%%dd", (size>4) ? size-4 : 0);
-        sprintf(bufferOut, bufferFormat, number/10);
-        sprintf(bufferOut+strlen(bufferOut), ".%dmn", number%10);
+        siprintf(bufferFormat, "%%%dd", (size>4) ? size-4 : 0);
+        siprintf(bufferOut, bufferFormat, number/10);
+        siprintf(bufferOut+strlen(bufferOut), ".%dmn", number%10);
     } else {
         number /= (uint32_t)360000;
-        sprintf(bufferFormat, "%%%dd", (size>3) ? size-3 : 0);
-        sprintf(bufferOut, bufferFormat, number/10);
-        sprintf(bufferOut+strlen(bufferOut), ".%dh", number%10);
+        siprintf(bufferFormat, "%%%dd", (size>3) ? size-3 : 0);
+        siprintf(bufferOut, bufferFormat, number/10);
+        siprintf(bufferOut+strlen(bufferOut), ".%dh", number%10);
     }
     
     return bufferOut;
