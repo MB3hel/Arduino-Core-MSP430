@@ -1,70 +1,53 @@
 # Arduino Core MSP430
 
+A fork of the now unmaintained [Energia MSP430 Core](https://github.com/energia/msp430-lg-core).
 
-My fork of Energia core for MSP430 with compiler updates and maybe some bug fixes as needed.
+This repo provides package index files that can be used in the [Arduino IDE](https://www.arduino.cc/en/software).
 
 
-## Use
+Newer versions of the msp430-gcc compiler are supported than what were provided in the last official Energia release (`1.0.7` for MSP430 boards).
 
-- Install the Arduino IDE
-- Add the following as a boards manager URL in preferences (`File > Preferences` on Windows or Linux, `Arduino IDE > Settings` on macOS)
+Additionally, I do intend to fix bugs if I find them (PRs welcome of course). I will likely also get around to investigating reported bugs at some point (though I have a limited number of launchpads).
+
+
+*This is a fork of the MSP430 core. There is no support for MSP432 boards or other boards that Eneriga supported.*
+
+
+## Installing
+
+- [Arduino IDE](https://www.arduino.cc/en/software)
+- Open preferences / settings
+    - On Windows or Linux `File > Preferences`
+    - On macOS `Arduino IDE > Settings`
+- Add the following in the "Additional boards manager URLs" section
 
 ```
 https://raw.githubusercontent.com/MB3hel/Arduino-Core-MSP430/main/arduino_core_msp430.json
 ```
 
-- Install the MSP430 boards package from the board manager
+- Open the boards manager (`Tools > Boards > Boards Manager`) and search for "MSP430" and install the package.
 
 
-*Note: Currently support is provided for 64-bit Windows, macOS, and Linux systems (x86-64).*
+## Supported Host Systems
+
+The following host systems are supported (toolchain and debug server packages are provided)
+
+- Linux x86_64 (64-bit)
+- Windows x86_64 (64-bit)
+- macOS x86_64 (Intel processors)
 
 
+The following host systems could be supported, but I lack hardware to generate toolchain and debug server packages for them (open an issue if you have said hardware and want to generate packages)
+
+- macOS arm64 (Apple Silicon)&ast;
 
 
-## Building
+The following host systems will not be supported (TI does not provide required tools for these platforms)
+
+- Windows x86 (32-bit)
+- Windows arm64&ast;
+- Linux x86 (32-bit)
+- Linux arm64
 
 
-### Core Package
-
-Run `./package.sh`
-
-
-### Compiler (MPS430-GCC-OPENSOURCE) Tool Package
-
-Install the compiler on the same OS (can't extract installer, must install then make archive from installed folder).
-
-```
-cd /path/to/msp430-gcc/..
-tar --exclude="msp430-gcc/uninstall*" --exclude=msp430-gcc/install_logs --exclude=msp430-gcc/examples --exclude=msp430-gcc/common --exclude=msp430-gcc/reidist --exclude=msp430-gcc/emulation --exclude=msp430-gcc/docs --exclude=msp430-gcc/install_scripts --exclude=msp430-gcc/include/gdb --create --bzip2 -f ~/tool.tar.bz2 msp430-gcc/
-```
-
-On windows, use 7zip to make the archive. Manually exclude the folders listed as excludes above.
-
-
-### Debug Server (UniFlash) Tool Package
-
-Note: Version numbers match UniFlash version, not DSLite or mspdebug version.
-
-Install UniFlash on the same OS (can't extract installer, must install then make archive from installed folder).
-
-```
-cd /path/to/uniflash/deskdb/content/TICloudAgent
-cd linux   # Change to match host os
-cp -r ccs_base/ DebugServer/
-cp ../../../../docs/licenses/license.txt DebugServer
-tar --create --bzip2 -f ~/tool.tar.bz2 DebugServer
-rm -r DebugServer/
-```
-
-On windows, use 7zip to make the archive. Manually exclude the folders listed as excludes above. This is best done by duplicating the msp430-gcc directory and deleting the excluded files (since the archive needs to have a top level directory named `msp430-gcc`)
-
-### Updating index file
-
-Add entries in same form. Need hashsum (use `sha256sum`) and size in bytes (`wc -c`).
-
-
-## References
-
-[Platform Spec](https://arduino.github.io/arduino-cli/0.31/platform-specification/)
-
-[Package Index Spec](https://arduino.github.io/arduino-cli/0.31/package_index_json-specification/)
+&ast;Translation layers may allow the software to work on these platforms. I have not tested though.
