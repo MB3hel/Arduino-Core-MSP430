@@ -27,9 +27,98 @@ Installing the boards package:
  
 
 
-## Pinout Diagrams
+## Usage & Documentation
+
+### Port Selection & Uploading
+
+Most launchpad boards&ast; use an ez-FET debugger (onboard). This will show up as two serial ports. One serial port is used to communicate with the debugger itself (this is the "upload" port). The second port is used to communicate with the target chip, where your program is actually running (this is the "target" port).
+
+When uploading a sketch, you will need to select the upload port in the `Tools > Ports` menu. To communicate with the device using `Serial` and the Serial Monitor, you will need to select the target port. Note that if you attempt to upload with the target selected the upload will fail. However, opening the serial monitor with the upload port selected, will result in no data being received from the board.
+
+*Note that the information below is provided in case you want to figure out how to identify ports, however in practice there are usually only two. Just try uploading to both to figure out which works. This is the upload port. The other is the target port.*
+
+*If more than one launchpad is in use, it is advised to connect one then the other to determine which sets of ports are associated with each.*
+
+<details>
+    <summary>Identifying Ports on Windows</summary>
+  
+    Open device manager and go to the "Ports (COM and LPT)" section and expand it.
+
+    The upload port is listed as `MSP Debug Interface (COMx)` where `x` is the number.
+
+    The target port is listed as `MSP Application UART1 (COMx)` where `x` is the number.
+
+    Note that there is not really an easy way to determine which sets of ports are on the same launchpad. It is possible by going to `Properties > Details`. Compare the "Siblings" property to other port's "Device Instance Path" property. Siblings of a device are the same physical launchpad.
+    
+</details>
+
+<details>
+    <summary>Identifying Ports on macOS</summary>
+  
+    On macOS, the ez-FET will show up as `/dev/cu.usbmodem[num]` devices where `[num]` is the port number. The upload port is enumerated first, so generally has a lower number than the target port. 
+
+    *Note: I'm not 100% certain the following information is always correct, but it seems to be on my system.*
+
+    To identify actual port numbers run the following command
+
+    ```sh
+    ioreg -p IOUSB
+    ```
+
+    Look for "MSP Tools Driver" entries and note the number after the `@` symbol (eg `MSP Tools Driver@14200000`). Note the first four digits of this number (in this example `1420`). This number is referred to as `id`.
+
+    The upload port will be `/dev/cu.usbmodem[id]1` and the target port will be `/dev/cu.usbmodem[id]3`.
+
+    If you want the serial number of the board for a certain id, run the following and look for the "USB Serial Number" entry under the device entry
+
+    ```
+    ioreg -p IOUSB -l -b
+    ```
+
+</details>
+
+<details>
+    <summary>Identifying Ports on Linux</summary>
+  
+    On Linux, the ez-FET will show up as `/dev/ttyACMx` devices where `x` is the port number. The upload port is enumerated first, so generally has a lower number than the target port. To identify actual port numbers run the following in a terminal
+
+    ```sh
+    $ ls /dev/serial/by-id
+    ```
+
+    You will see output like the following where SERIAL is replaced by your board's serial number.
+
+    ```
+    usb-Texas_Instruments_MSP_Tools_Driver_SERIAL-if00
+    usb-Texas_Instruments_MSP_Tools_Driver_SERIAL-if02
+    ```
+
+    The one ending in `if00` is the upload port and `if02` the target port. Use the following command to identify which `/dev/ttyACM` ports they correspond to (the port numbers will be printed).
+
+    ```sh
+    $ realpath usb-Texas_Instruments_MSP_Tools_Driver_SERIAL-if00
+    /dev/ttyACM0
+
+    $ realpath usb-Texas_Instruments_MSP_Tools_Driver_SERIAL-if02
+    /dev/ttyACM1
+    ```
+
+</details>
+
+
+&ast;*I don't have any older launchpads with the ez430 debuggers, but it seems that the same general information applies. One upload port and one target port.*
+
+
+### Libraries
+
+For specific library documentation, refer to the "Core Libraries" section of [Energia's docs](https://energia.nu/guide/libraries/).
+
+These libraries are generally compatible with the [Arduino Libraries](https://www.arduino.cc/reference/en/libraries/) by the same names.
+
+### Pinout Diagrams
 
 Some boards have diagrams in `extras/pinmaps`. Others may not. There is typically a comment in the `pins_energia.h` file for each variant with an ASCII pinout diagram.
+
 
 
 ## Purpose & Scope of this Fork
@@ -42,10 +131,9 @@ The main purpose of this repo is to package the MSP430 core with newer tools and
 
 Note that this is a fork of the Energia **MSP430** core. Other boards (MSP432, etc) are not supported by this core.
 
-## Major Changes
+### Changes
 
-Completed Changes:
-
+**Completed Changes:**  
 - Packaged newer MSP430-GCC
     - Fixed bugs with compiling for various boards using newer gcc
     - Enabled link time optimizations
@@ -57,9 +145,9 @@ Completed Changes:
     - Verbose upload setting
     - Verify after upload setting
     - Warning level setting
+    - Support `Tools > Port` menu selection
 
-Planned changes:
-
+**Planned changes:**  
 - `mspdebug` with readline on non-linux platforms
 - Support for [UniFlash](https://www.ti.com/tool/UNIFLASH) CLI as an alternate upload tool
 - More options exposed via menus in the Arduino IDE (similar to what other cores do)
