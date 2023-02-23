@@ -39,70 +39,76 @@ When uploading a sketch, you will need to select the upload port in the `Tools >
 
 *If more than one launchpad is in use, it is advised to connect one then the other to determine which sets of ports are associated with each.*
 
-<details>
-    <summary>Identifying Ports on Windows</summary>
-  
-    Open device manager and go to the "Ports (COM and LPT)" section and expand it.
 
-    The upload port is listed as `MSP Debug Interface (COMx)` where `x` is the number.
+<details><summary>Identifying Ports on Windows</summary>
+<p>
 
-    The target port is listed as `MSP Application UART1 (COMx)` where `x` is the number.
+Open device manager and go to the "Ports (COM and LPT)" section and expand it.
 
-    Note that there is not really an easy way to determine which sets of ports are on the same launchpad. It is possible by going to `Properties > Details`. Compare the "Siblings" property to other port's "Device Instance Path" property. Siblings of a device are the same physical launchpad.
-    
+The upload port is listed as `MSP Debug Interface (COMx)` where `x` is the number.
+
+The target port is listed as `MSP Application UART1 (COMx)` where `x` is the number.
+
+Note that there is not really an easy way to determine which sets of ports are on the same launchpad. It is possible by going to `Properties > Details`. Compare the "Siblings" property to other port's "Device Instance Path" property. Siblings of a device are the same physical launchpad.
+
+</p>
 </details>
 
-<details>
-    <summary>Identifying Ports on macOS</summary>
-  
-    On macOS, the ez-FET will show up as `/dev/cu.usbmodem[num]` devices where `[num]` is the port number. The upload port is enumerated first, so generally has a lower number than the target port. 
+<details><summary>Identifying Ports on macOS</summary>
+<p>
 
-    *Note: I'm not 100% certain the following information is always correct, but it seems to be on my system.*
+On macOS, the ez-FET will show up as `/dev/cu.usbmodem[num]` devices where `[num]` is the port number. The upload port is enumerated first, so generally has a lower number than the target port. 
 
-    To identify actual port numbers run the following command
+*Note: I'm not 100% certain the following information is always correct, but it seems to be on my system.*
 
-    ```sh
-    ioreg -p IOUSB
-    ```
+To identify actual port numbers run the following command
 
-    Look for "MSP Tools Driver" entries and note the number after the `@` symbol (eg `MSP Tools Driver@14200000`). Note the first four digits of this number (in this example `1420`). This number is referred to as `id`.
+```sh
+ioreg -p IOUSB
+```
 
-    The upload port will be `/dev/cu.usbmodem[id]1` and the target port will be `/dev/cu.usbmodem[id]3`.
+Look for "MSP Tools Driver" entries and note the number after the `@` symbol (eg `MSP Tools Driver@14200000`). Note the first four digits of this number (in this example `1420`). This number is referred to as `id`.
 
-    If you want the serial number of the board for a certain id, run the following and look for the "USB Serial Number" entry under the device entry
+The upload port will be `/dev/cu.usbmodem[id]1` and the target port will be `/dev/cu.usbmodem[id]3`.
 
-    ```
-    ioreg -p IOUSB -l -b
-    ```
+If you want the serial number of the board for a certain id, run the following and look for the "USB Serial Number" entry under the device entry
 
+```
+ioreg -p IOUSB -l -b
+```
+
+</p>
 </details>
 
-<details>
-    <summary>Identifying Ports on Linux</summary>
-  
-    On Linux, the ez-FET will show up as `/dev/ttyACMx` devices where `x` is the port number. The upload port is enumerated first, so generally has a lower number than the target port. To identify actual port numbers run the following in a terminal
 
-    ```sh
-    $ ls /dev/serial/by-id
-    ```
 
-    You will see output like the following where SERIAL is replaced by your board's serial number.
+<details><summary>Identifying Ports on Linux</summary>
+<p>
 
-    ```
-    usb-Texas_Instruments_MSP_Tools_Driver_SERIAL-if00
-    usb-Texas_Instruments_MSP_Tools_Driver_SERIAL-if02
-    ```
+On Linux, the ez-FET will show up as `/dev/ttyACMx` devices where `x` is the port number. The upload port is enumerated first, so generally has a lower number than the target port. To identify actual port numbers run the following in a terminal
 
-    The one ending in `if00` is the upload port and `if02` the target port. Use the following command to identify which `/dev/ttyACM` ports they correspond to (the port numbers will be printed).
+```sh
+$ ls /dev/serial/by-id
+```
 
-    ```sh
-    $ realpath usb-Texas_Instruments_MSP_Tools_Driver_SERIAL-if00
-    /dev/ttyACM0
+You will see output like the following where SERIAL is replaced by your board's serial number.
 
-    $ realpath usb-Texas_Instruments_MSP_Tools_Driver_SERIAL-if02
-    /dev/ttyACM1
-    ```
+```
+usb-Texas_Instruments_MSP_Tools_Driver_SERIAL-if00
+usb-Texas_Instruments_MSP_Tools_Driver_SERIAL-if02
+```
 
+The one ending in `if00` is the upload port and `if02` the target port. Use the following command to identify which `/dev/ttyACM` ports they correspond to (the port numbers will be printed).
+
+```sh
+$ realpath usb-Texas_Instruments_MSP_Tools_Driver_SERIAL-if00
+/dev/ttyACM0
+
+$ realpath usb-Texas_Instruments_MSP_Tools_Driver_SERIAL-if02
+/dev/ttyACM1
+```
+
+</p>
 </details>
 
 
