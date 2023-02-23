@@ -54,7 +54,7 @@
             {
               "packager": "mb3hel-msp430", 
               "name": "msp430gcc", 
-              "version": "9.3.1.1"
+              "version": "9.3.1.11"
             }, 
             {
               "packager": "mb3hel-msp430", 
