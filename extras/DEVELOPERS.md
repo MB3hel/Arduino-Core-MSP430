@@ -14,15 +14,7 @@ Also, be aware of [this bug](https://github.com/arduino/arduino-ide/issues/1030)
 
 ## MSP430-GCC Tool Package
 
-Install the compiler on the same OS (can't extract installer, must install then make archive from installed folder). This unfortunately means a computer of each OS and architecture combination is required to package the debug server.
-
-```
-cd /path/to/msp430-gcc/..
-tar --exclude="msp430-gcc/uninstall*" --exclude=msp430-gcc/install_logs --exclude=msp430-gcc/examples --exclude=msp430-gcc/common --exclude=msp430-gcc/reidist --exclude=msp430-gcc/emulation --exclude=msp430-gcc/docs --exclude=msp430-gcc/install_scripts --exclude=msp430-gcc/include/gdb --create --bzip2 -f ~/tool.tar.bz2 msp430-gcc/
-```
-
-On windows, use 7zip to make the archive. Manually exclude the folders listed as excludes above. This is best done by duplicating the msp430-gcc directory and deleting the excluded files (since the archive needs to have a top level directory named `msp430-gcc`)
-
+[Download](https://www.ti.com/tool/MSP430-GCC-OPENSOURCE) the "toolchain only" archives for each platform. Also download the support files. Extract each archive and merge the support file `include/` with the toolchain `include`. Then recompress the file. 
 
 
 ## mspdebug Tool Package
