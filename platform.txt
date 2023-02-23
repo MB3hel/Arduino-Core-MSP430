@@ -107,7 +107,6 @@ tools.mspdebug.upload.params.verify="verify {build.path}/{build.project_name}.he
 tools.mspdebug.upload.params.noverify=
 tools.mspdebug.path={runtime.tools.mspdebug.path}
 tools.mspdebug.cmd.path={path}/mspdebug
-tools.mspdebug.upload.pattern={cmd.path} {upload.verbose} --allow-fw-update {upload.protocol} --force-reset "prog {build.path}/{build.project_name}.hex" {upload.verify}
-# tools.mspdebug.upload.pattern={cmd.path} {upload.verbose} -d {upload.port.address} --allow-fw-update {upload.protocol} --force-reset "prog {build.path}/{build.project_name}.hex" {upload.verify}
+tools.mspdebug.upload.pattern={cmd.path} {upload.verbose} -d {serial.port} --allow-fw-update {upload.protocol} --force-reset "prog {build.path}/{build.project_name}.hex" {upload.verify}
 
 # ------------------------------------------------------------------------------
