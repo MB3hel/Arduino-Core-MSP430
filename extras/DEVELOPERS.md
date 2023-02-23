@@ -22,13 +22,33 @@ Also, be aware of [this bug](https://github.com/arduino/arduino-ide/issues/1030)
 
 ## mspdebug Tool Package
 
+For all platforms, download [TI's MSP Debug Stack](https://www.ti.com/tool/MSPDS) DLLs (not source code). For platforms without a prebuilt library, the source code can be downloaded and built according the the instructions provided in the archive.
+
 ### Windows
 
-Install [MSYS2](https://www.msys2.org/). Run in `mingw32` or `mingw64` for `i686` and `amd64` builds respectively.
+- Install [MSYS2](https://www.msys2.org/).
+- Run in `mingw32` or `mingw64` environments (i686 or amd64 builds respectively)
+    ```sh
+    # For mingw32
+    pacman -S mingw-w64-i686-libusb-win32
 
-```sh
-# TODO
-```
+    # For mingw64
+    pacman -S mingw-w64-x86_64-libusb-win32
+
+    # For both
+    cd mspdebug-version
+    make WITHOUT_READLINE=1
+    mkdir mspdebug
+    cp mspdebug.exe mspdebug/
+    cd mspdebug/
+    ```
+- Run [Dependencies](https://github.com/lucasg/Dependencies) and open `mspdebug.exe`
+- Check through the list of dependency dlls and copy them from `/mingw32/bin` or `/mingw64/bin` to the same folder as `mspdebug.exe`. Make sure to expand the tree and copy dependencies of the dependencies themselves too. There is no need to copy builtin windows dlls (in `C:\Windows\System32`).
+    - Note that `/mingw32` or `/mingw64` are relative to where msys2 is installed.
+- Next, copy the `MSP430.dll` file from TI's MSPDS (use the 64-bit version for 64 bit builds, but remove `_64`). For some versions of `mspdebug` you may need to rename it to end with `.so` instead. 
+- Test the setup by running `.\mspdebug.exe tilib`. Make sure there are not errors loading `MSP430.dll`.
+- Compress the `mspdebug` directory using 7zip (archive as tar, then compress that tar as bzip2).
+
 
 ### macOS
 
@@ -45,18 +65,19 @@ Install [MSYS2](https://www.msys2.org/). Run in `mingw32` or `mingw64` for `i686
     ```
 - Then run `otool -L mspdebug.bin`. Copy each non-builtin library (probably all in `/usr/local`) to the same directory as `mspdebug.bin`.
 - Then, run `otool -L` on each of the copied libraries and copy anything they depend on. Repeat this until all libraries are collected in the current directory.
+- Next, copy the `libmsp430.dylib` file from TI's MSPDS. For some versions of `mspdebug` you may need to rename it to end with `.so` instead. 
 - Then, create a launch wrapper called `mspdebug`. Make it executable by running `chmod a+x mspdebug`
     ```sh
     #!/usr/bin/env bash
     DIR=$(dirname "$0")
     DYLD_LIBRARY_PATH="$DIR":$DYLD_LIBRARY_PATH "$DIR"/mspdebug.bin "$@"
     ```
-- Compress the archive (note that the root directory of the archive must be `msp430gcc`)
+- Test the setup by running `./mspdebug tilib`. Make sure there are not errors loading `libmsp430`.
+- Compress the archive (note that the root directory of the archive must be `mspdebug`)
     ```sh
     cd ..
     tar --create --bzip2 -f mspdebug-VERSION-mac-ARCH.tar.bz2 mspdebug/
     ```
-
 
 
 ### Linux
@@ -72,34 +93,20 @@ Install [MSYS2](https://www.msys2.org/). Run in `mingw32` or `mingw64` for `i686
     cp mspdebug.bin mspdebug/
     cd mspdebug/
     ```
-- Then run `ldd mspdebug.bin`. Copy each non-builtin library to the same directory as `mspdebug.bin`. There is no need to copy libc, libdl, or libpthread.
+- Then run `ldd mspdebug.bin`. Copy each non-builtin library to the same directory as `mspdebug.bin`. There is no need to copy `libc`, `libdl`, or `libpthread`.
+- Next, copy the `libmsp430.so` file from TI's MSPDS. Make sure to remove the `_64` suffix.
 - Then, create a launch wrapper called `mspdebug`. Make it executable by running `chmod a+x mspdebug`
     ```sh
     #!/usr/bin/env bash
     DIR=$(dirname "$0")
     LD_LIBRARY_PATH="$DIR":$LD_LIBRARY_PATH "$DIR"/mspdebug.bin "$@"
     ```
-- Compress the archive (note that the root directory of the archive must be `msp430gcc`)
+- Test the setup by running `./mspdebug tilib`. Make sure there are not errors loading `libmsp430`.
+- Compress the archive (note that the root directory of the archive must be `mspdebug`)
     ```sh
     cd ..
     tar --create --bzip2 -f mspdebug-VERSION-linux-ARCH.tar.bz2 mspdebug/
     ```
-
-
-
-### Old
-
-- Build [mspdebug](https://github.com/dlbeer/mspdebug). Note that libusb and libreadline are required. Use msys2 on windows. Use brew on macos. Copy the resulting binary to an empty directory name `mspdebug`. 
-    - On windows, build without readline (make WITHOUT_READLINE=1)
-    - If using msys2, libusb 0.1 is libusb-win32 and change -lusb to -lusb0 in the makefile
-    - For macos, use libusb and libusb-compat and WITHOUT_READLINE=1. Will also need hidapi from brew. Make sure pkg-config is installed first.
-- Download [TI's MSP Debug Stack](https://www.ti.com/tool/MSPDS) DLLs (not source code) and grab the dll (windows), so (linux), or dynlib (macos) required. Could build from source too, but that is more involved (follow instructions in the source package's readme if attempting).
-- Place the libmsp430 dynamic library in the same directory as the built mspdebug tool. Remove the "_64" suffix if one exists. Note for windows it is not libmsp430, but MSP430.dll. Note that on macos, the library may need to be given `.so` suffix instead of `dylib` for mspdebug to find it.
-- Use `ldd` (linux) or `otool -L` (macos), or [Dependencies](https://github.com/lucasg/Dependencies) (windows) to determine what dynamic libraries also need to be copied. Libraries every system will have can be skipped.
-- If linux or macos, rename `mspdebug` to `mspdebug.bin`
-- Add the wrapper script named `mspdebug` to launch `mspdebug.bin` and make it executable (linux and macos only)
-- Run `./mspdebug tilib` and make sure it works (no errors about libmsp430).
-- tar bz2 the directory (`tar --create --bzip2 -f mspdebug.tar.bz2 mspdebug`). It is important that the top level directory of the tar be named mspdebug.
 
 
 
