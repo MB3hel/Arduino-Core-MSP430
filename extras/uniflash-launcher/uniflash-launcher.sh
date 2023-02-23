@@ -2,6 +2,7 @@
 # Finds UniFlash installed in standard locations
 # Linux: /opt/ti/uniflash_VERSION or ~/ti/uniflash_VERSION
 # macOS: /Applications/ti/uniflash_VERSION
+# Windows C:/ti/uniflash_VERSION
 # Picks the version with the highest version number
 # If dslite.sh is in the PATH, it will be used instead
 
@@ -16,7 +17,7 @@ if [ "$UNAMEO" = "Darwin" ]; then
         uniflash_dir=$(dirname "$dslite_script")
         uniflash_ver=$(echo "$uniflash_dir" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
     elif [ -d "/Applications/ti/uniflash_${uniflash_ver}" ]; then
-        uniflash_dir="/opt/ti/uniflash_${uniflash_ver}/"
+        uniflash_dir="/Applications/ti/uniflash_${uniflash_ver}/"
         dslite_script="$uniflash_dir/dslite.sh" 
     else
         echo "[ERROR]: Unable to find UniFlash." >&2
@@ -39,6 +40,20 @@ elif [ "$UNAMEO" = "GNU/Linux" ]; then
         echo "[ERROR]: Unable to find UniFlash." >&2
         exit 1
     fi
+elif [ "$UNAMEO" = "MS/Windows" ]; then
+    uniflash_ver=$(ls c:/ti 2> /dev/null | grep uniflash | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | sort -t. -k 1,1n -k 2,2n -k 3,3n | tail -n 1)
+    if command -v dslite.bat > /dev/null; then
+        echo "[INFO]: dslite.sh found in path."
+        dslite_script="$(command -v dslite.sh)"
+        uniflash_dir=$(dirname "$dslite_script")
+        uniflash_ver=$(echo "$uniflash_dir" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+    elif [ -d "c:/ti/uniflash_${uniflash_ver}" ]; then
+        uniflash_dir="c:/ti/uniflash_${uniflash_ver}/"
+        dslite_script="$uniflash_dir/dslite.bat" 
+    else
+        echo "[ERROR]: Unable to find UniFlash." >&2
+        exit 1
+    fi
 else
     echo "[ERROR]: Unknown operating system. UniFlash Launcher will not work." >&2
     exit 1
@@ -48,4 +63,8 @@ echo "[INFO]: UniFlash version: $uniflash_ver"
 echo "[INFO]: UniFlash directory: $uniflash_dir"
 echo "[INFO]: dslite.sh script: $dslite_script"
 
-"$dslite_script" "$@"
+if [ "$UNAMEO" = "MS/Windows" ]; then
+    cmd /c "$dslite_script" "$@"
+else
+    "$dslite_script" "$@"
+fi
