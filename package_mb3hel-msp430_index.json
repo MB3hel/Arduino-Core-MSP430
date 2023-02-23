@@ -10,6 +10,62 @@
         {
           "name": "MSP430 Boards", 
           "architecture": "msp430", 
+          "version": "3.1.0-rc1", 
+          "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc1/msp430-core-3.1.0-rc1.tar.bz2", 
+          "archiveFileName": "msp430-core-3.1.0-rc1.tar.bz2", 
+          "checksum": "SHA-256:d1ab4ff6eb75c5725d6e92a5a92f5268b6282030f19e98f857f0f63ca7b3b1e8", 
+          "size": "2249439", 
+          "boards": [
+            {
+              "name": "MSP-EXP430F5529"
+            }, 
+            {
+              "name": "MSP-EXP430FR2433"
+            }, 
+            {
+              "name": "MSP-EXP430FR4133"
+            }, 
+            {
+              "name": "MSP-EXP430FR5969"
+            }, 
+            {
+              "name": "MSP-EXP430FR6989"
+            }, 
+            {
+              "name": "MSP-EXP430FR5739"
+            }, 
+            {
+              "name": "MSP-EXP430FR2355"
+            }, 
+            {
+              "name": "MSP-EXP430FR2231"
+            }, 
+            {
+              "name": "MSP-EXP430G2"
+            }, 
+            {
+              "name": "MSP-EXP430G2ET"
+            }, 
+            {
+              "name": "MSP-EXP430FR5994"
+            }
+          ], 
+          "toolsDependencies": [
+            {
+              "packager": "mb3hel-msp430", 
+              "name": "msp430gcc", 
+              "version": "9.3.1.1"
+            }, 
+            {
+              "packager": "mb3hel-msp430", 
+              "name": "mspdebug", 
+              "version": "0.25"
+            }
+          ]
+        },
+        {
+          "name": "MSP430 Boards", 
+          "architecture": "msp430", 
           "version": "3.0.1", 
           "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.0.1/msp430-core-3.0.1.tar.bz2", 
           "archiveFileName": "msp430-core-3.0.1.tar.bz2", 
@@ -121,6 +177,74 @@
         }
       ],
       "tools": [
+        {
+          "name": "msp430gcc", 
+          "version": "9.3.1.11", 
+          "systems": [
+            {
+              "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc1/msp430gcc-9.3.1.11-win-i686.tar.bz2", 
+              "checksum": "SHA-256:70f73ba55c489cde8dc53aa77156bf5a7c26c0fd19cdb4631e0261f087e91d89", 
+              "host": "i686-mingw32", 
+              "archiveFileName": "msp430gcc-9.3.1.11-win-i686.tar.bz2", 
+              "size": "81468663"
+            }, 
+            {
+              "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc1/msp430gcc-9.3.1.11-win-amd64.tar.bz2", 
+              "checksum": "SHA-256:3818e90647c348cffc3ea1d2d18af856706a427cc9c3ccd59f5af1922bccd9d6", 
+              "host": "x86_64-mingw32", 
+              "archiveFileName": "msp430gcc-9.3.1.11-win-amd64.tar.bz2", 
+              "size": "84932855"
+            }, 
+            {
+              "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc1/msp430gcc-9.3.1.11-mac-amd64.tar.bz2", 
+              "checksum": "SHA-256:6a990356260e52b3fda4985322fcc2ca37628b35e62cb647d2502c8647743036", 
+              "host": "x86_64-apple-darwin", 
+              "archiveFileName": "msp430gcc-9.3.1.11-mac-amd64.tar.bz2", 
+              "size": "92697179"
+            }, 
+            {
+              "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc1/msp430gcc-9.3.1.11-linux-amd64.tar.bz2", 
+              "checksum": "SHA-256:b6baeceb0cc20f9ed85ffb4ae8c6de43a4f8137c6aabaa8bd6dc40e0824196d4", 
+              "host": "x86_64-pc-linux-gnu", 
+              "archiveFileName": "msp430gcc-9.3.1.11-linux-amd64.tar.bz2", 
+              "size": "77473415"
+            }
+          ]
+        },
+        {
+          "name": "mspdebug", 
+          "version": "0.25", 
+          "systems": [
+            {
+              "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc1/mspdebug-0.25-win-i686.tar.bz2", 
+              "checksum": "SHA-256:fedd588abfe7dd83ff991dde0a18bc6ebce3928d44abae6e5740d63083c2310d", 
+              "host": "i686-mingw32", 
+              "archiveFileName": "mspdebug-0.25-win-i686.tar.bz2", 
+              "size": "2127448"
+            }, 
+            {
+              "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc1/mspdebug-0.25-win-amd64.tar.bz2", 
+              "checksum": "SHA-256:18ebc320536b4ca855de06a94288a09420654815d797a6c7058b2522cb180402", 
+              "host": "x86_64-mingw32", 
+              "archiveFileName": "mspdebug-0.25-win-amd64.tar.bz2", 
+              "size": "2158772"
+            }, 
+            {
+              "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc1/mspdebug-0.25-mac-amd64.tar.bz2", 
+              "checksum": "SHA-256:b0be0bd5fb9b2526b06148486cf7a725b022c1b3af432cd87b7a6af5a4c7096d", 
+              "host": "x86_64-apple-darwin", 
+              "archiveFileName": "mspdebug-0.25-mac-amd64.tar.bz2", 
+              "size": "880995"
+            }, 
+            {
+              "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc1/mspdebug-0.25-linux-amd64.tar.bz2", 
+              "checksum": "SHA-256:0af296ad205a972ce969d2db5579bffc21df8d6049174a678fc87b965a464bc4", 
+              "host": "x86_64-pc-linux-gnu", 
+              "archiveFileName": "mspdebug-0.25-linux-amd64.tar.bz2", 
+              "size": "1167761"
+            }
+          ]
+        },
         {
           "name": "msp430-gcc", 
           "version": "9.3.1.2", 
