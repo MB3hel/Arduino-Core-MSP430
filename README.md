@@ -36,7 +36,7 @@ Some boards have diagrams in `extras/pinmaps`. Others may not. There is typicall
 
 Energia is officially unmaintained as of November 2022 and the last Release was in December 2019.
 
-This last Energia release packages significantly older tools (compiler, uploader, etc) than what are available and though some work was done to update Energia to newer tools, the only such releases were beta and not widely tested.
+The last Energia release uses significantly older tools (compiler, uploader, etc) and though some work was done to update Energia to newer tools, the only such releases were beta and not widely tested / easily available (and will not be worked on further).
 
 The main purpose of this repo is to package the MSP430 core with newer tools and to fix bugs that are found. I do intend to fix any bugs I find (PRs are also welcome if anyone else finds a bug). I also plan to investigate any reported issues (though I only have a limited number of launchpad boards).
 
