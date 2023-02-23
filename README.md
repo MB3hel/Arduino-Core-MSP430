@@ -53,6 +53,10 @@ Completed Changes:
 - Switched to using `mspdebug` instead of the TI proprietary `DSLite` to upload programs
     - This tool is easier to package and is open source
     - Additionally, since CCSv8 support for some architectures (such as 32-bit windows) are not supported
+- Added support for various Arduino IDE settings
+    - Verbose upload setting
+    - Verify after upload setting
+    - Warning level setting
 
 Planned changes:
 
@@ -61,7 +65,6 @@ Planned changes:
 - More options exposed via menus in the Arduino IDE (similar to what other cores do)
     - Upload tool (if UniFlash support is implemented)
     - Debug info
-    - Warnings
     - Optimization Level
     - CPU Frequency
 - Map file generation
