@@ -1,11 +1,18 @@
-# See: http://code.google.com/p/arduino/wiki/Platforms
 
-menu.cpu=Processor
+# ------------------------------------------------------------------------------
+# Menus
+# ------------------------------------------------------------------------------
 
-##############################################################
+# Used to set upload.tool and upload.protocol
+menu.upload_tool=Upload Tool
 
-#MSP-EXP430F5529LP
+# ------------------------------------------------------------------------------
 
+
+
+# ------------------------------------------------------------------------------
+# MSP-EXP430F5529LP
+# ------------------------------------------------------------------------------
 MSP-EXP430F5529LP.vid.0=0x2341
 MSP-EXP430F5529LP.pid.0=0x0c9f
 
@@ -19,11 +26,16 @@ MSP-EXP430F5529LP.build.board=MSP_EXP430F5529LP
 
 MSP-EXP430F5529LP.upload.tool=mspdebug
 MSP-EXP430F5529LP.upload.protocol=tilib
+
 MSP-EXP430F5529LP.upload.maximum_size=48128
 MSP-EXP430F5529LP.upload.maximum_data_size=8192
+# ------------------------------------------------------------------------------
 
-#MSP-EXP430FR2433
 
+
+# ------------------------------------------------------------------------------
+# MSP-EXP430FR2433
+# ------------------------------------------------------------------------------
 MSP-EXP430FR2433LP.vid.0=0x2341
 MSP-EXP430FR2433LP.pid.0=0x0c9f
 
@@ -38,11 +50,16 @@ MSP-EXP430FR2433LP.build.extra_flags=-msmall -mhwmult=auto
 
 MSP-EXP430FR2433LP.upload.tool=mspdebug
 MSP-EXP430FR2433LP.upload.protocol=tilib
+
 MSP-EXP430FR2433LP.upload.maximum_size=15360
 MSP-EXP430FR2433LP.upload.maximum_data_size=4096
+# ------------------------------------------------------------------------------
 
-#MSP-EXP430FR4133
 
+
+# ------------------------------------------------------------------------------
+# MSP-EXP430FR4133
+# ------------------------------------------------------------------------------
 MSP-EXP430FR4133LP.vid.0=0x2341
 MSP-EXP430FR4133LP.pid.0=0x0c9f
 
@@ -57,11 +74,16 @@ MSP-EXP430FR4133LP.build.extra_flags=-msmall -mhwmult=auto
 
 MSP-EXP430FR4133LP.upload.tool=mspdebug
 MSP-EXP430FR4133LP.upload.protocol=tilib
+
 MSP-EXP430FR4133LP.upload.maximum_size=15360
 MSP-EXP430FR4133LP.upload.maximum_data_size=2048
+# ------------------------------------------------------------------------------
 
-#MSP-EXP430FR5969
 
+
+# ------------------------------------------------------------------------------
+# MSP-EXP430FR5969
+# ------------------------------------------------------------------------------
 MSP-EXP430FR5969LP.vid.0=0x2341
 MSP-EXP430FR5969LP.pid.0=0x0c9f
 
@@ -75,11 +97,16 @@ MSP-EXP430FR5969LP.build.board=MSP_EXP430FR5969LP
 
 MSP-EXP430FR5969LP.upload.tool=mspdebug
 MSP-EXP430FR5969LP.upload.protocol=tilib
+
 MSP-EXP430FR5969LP.upload.maximum_size=48128
 MSP-EXP430FR5969LP.upload.maximum_data_size=2048
+# ------------------------------------------------------------------------------
 
-#MSP-EXP430FR6989
 
+
+# ------------------------------------------------------------------------------
+# MSP-EXP430FR6989
+# ------------------------------------------------------------------------------
 MSP-EXP430FR6989LP.vid.0=0x2341
 MSP-EXP430FR6989LP.pid.0=0x0c9f
 
@@ -93,12 +120,16 @@ MSP-EXP430FR6989LP.build.board=MSP_EXP430FR6989LP
 
 MSP-EXP430FR6989LP.upload.tool=mspdebug
 MSP-EXP430FR6989LP.upload.protocol=tilib
+
 MSP-EXP430FR6989LP.upload.maximum_size=48128
 MSP-EXP430FR6989LP.upload.maximum_data_size=2048
+# ------------------------------------------------------------------------------
 
 
-#MSP-EXP430G2231
 
+# ------------------------------------------------------------------------------
+# MSP-EXP430G2231
+# ------------------------------------------------------------------------------
 MSP-EXP430G2231LP.vid.0=0x2341
 MSP-EXP430G2231LP.pid.0=0x0c9f
 
@@ -113,11 +144,16 @@ MSP-EXP430G2231LP.build.extra_flags=
 
 MSP-EXP430G2231LP.upload.tool=mspdebug
 MSP-EXP430G2231LP.upload.protocol=rf2500
+
 MSP-EXP430G2231LP.upload.maximum_size=2048
 MSP-EXP430G2231LP.upload.maximum_data_size=256
+# ------------------------------------------------------------------------------
 
-#MSP-EXP430G2452
 
+
+# ------------------------------------------------------------------------------
+# MSP-EXP430G2452
+# ------------------------------------------------------------------------------
 MSP-EXP430G2452LP.vid.0=0x2341
 MSP-EXP430G2452LP.pid.0=0x0c9f
 
@@ -132,12 +168,16 @@ MSP-EXP430G2452LP.build.extra_flags=
 
 MSP-EXP430G2452LP.upload.tool=mspdebug
 MSP-EXP430G2452LP.upload.protocol=rf2500
+
 MSP-EXP430G2452LP.upload.maximum_size=8192
 MSP-EXP430G2452LP.upload.maximum_data_size=256
+# ------------------------------------------------------------------------------
 
 
-#MSP-EXP430G2553
 
+# ------------------------------------------------------------------------------
+# MSP-EXP430G2553
+# ------------------------------------------------------------------------------
 MSP-EXP430G2553LP.vid.0=0x2341
 MSP-EXP430G2553LP.pid.0=0x0c9f
 
@@ -154,10 +194,13 @@ MSP-EXP430G2553LP.upload.tool=mspdebug
 MSP-EXP430G2553LP.upload.protocol=rf2500
 MSP-EXP430G2553LP.upload.maximum_size=16384
 MSP-EXP430G2553LP.upload.maximum_data_size=512
+# ------------------------------------------------------------------------------
 
 
-#MSP-EXP430G2ET2553
 
+# ------------------------------------------------------------------------------
+# MSP-EXP430G2ET2553
+# ------------------------------------------------------------------------------
 MSP-EXP430G2ET2553LP.vid.0=0x2341
 MSP-EXP430G2ET2553LP.pid.0=0x0c9f
 
@@ -172,11 +215,16 @@ MSP-EXP430G2ET2553LP.build.extra_flags=
 
 MSP-EXP430G2ET2553LP.upload.tool=mspdebug
 MSP-EXP430G2ET2553LP.upload.protocol=tilib
+
 MSP-EXP430G2ET2553LP.upload.maximum_size=16384
 MSP-EXP430G2ET2553LP.upload.maximum_data_size=512
+# ------------------------------------------------------------------------------
 
-#MSP-EXP430FR5739
 
+
+# ------------------------------------------------------------------------------
+# MSP-EXP430FR5739
+# ------------------------------------------------------------------------------
 MSP-EXP430FR5739LP.vid.0=0x2341
 MSP-EXP430FR5739LP.pid.0=0x0c9f
 
@@ -191,11 +239,16 @@ MSP-EXP430FR5739LP.build.extra_flags=-msmall -mhwmult=f5series
 
 MSP-EXP430FR5739LP.upload.tool=mspdebug
 MSP-EXP430FR5739LP.upload.protocol=rf2500
+
 MSP-EXP430FR5739LP.upload.maximum_size=15743
 MSP-EXP430FR5739LP.upload.maximum_data_size=1024
+# ------------------------------------------------------------------------------
 
-#MSP-EXP430FR2355LP
 
+
+# ------------------------------------------------------------------------------
+# MSP-EXP430FR2355LP
+# ------------------------------------------------------------------------------
 MSP-EXP430FR2355LP.vid.0=0x2341
 MSP-EXP430FR2355LP.pid.0=0x0c9f
 
@@ -210,12 +263,16 @@ MSP-EXP430FR2355LP.build.extra_flags=-msmall -mhwmult=auto
 
 MSP-EXP430FR2355LP.upload.tool=mspdebug
 MSP-EXP430FR2355LP.upload.protocol=tilib
+
 MSP-EXP430FR2355LP.upload.maximum_size=32768
 MSP-EXP430FR2355LP.upload.maximum_data_size=4096
+# ------------------------------------------------------------------------------
 
 
-#MSP-EXP430FR5994
 
+# ------------------------------------------------------------------------------
+# MSP-EXP430FR5994
+# ------------------------------------------------------------------------------
 MSP-EXP430FR5994LP.vid.0=0x2341
 MSP-EXP430FR5994LP.pid.0=0x0c9f
 
@@ -229,12 +286,16 @@ MSP-EXP430FR5994LP.build.board=MSP_EXP430FR5994LP
 
 MSP-EXP430FR5994LP.upload.tool=mspdebug
 MSP-EXP430FR5994LP.upload.protocol=tilib
+
 MSP-EXP430FR5994LP.upload.maximum_size=262144
 MSP-EXP430FR5994LP.upload.maximum_data_size=4096
+# ------------------------------------------------------------------------------
 
 
-#MSP-EXP430FR2311
 
+# ------------------------------------------------------------------------------
+# MSP-EXP430FR2311
+# ------------------------------------------------------------------------------
 MSP-EXP430FR2311LP.vid.0=0x2341
 MSP-EXP430FR2311LP.pid.0=0x0c9f
 
@@ -249,12 +310,16 @@ MSP-EXP430FR2311LP.build.extra_flags=-msmall -mhwmult=auto
 
 MSP-EXP430FR2311LP.upload.tool=mspdebug
 MSP-EXP430FR2311LP.upload.protocol=tilib
+
 MSP-EXP430FR2311LP.upload.maximum_size=3840
 MSP-EXP430FR2311LP.upload.maximum_data_size=1024
+# ------------------------------------------------------------------------------
 
 
-#MSP-EXP430FR2476LP
 
+# ------------------------------------------------------------------------------
+# MSP-EXP430FR2476LP
+# ------------------------------------------------------------------------------
 MSP-EXP430FR2476LP.vid.0=0x2341
 MSP-EXP430FR2476LP.pid.0=0x0c9f
 
@@ -269,5 +334,7 @@ MSP-EXP430FR2476LP.build.extra_flags=
 
 MSP-EXP430FR2476LP.upload.tool=mspdebug
 MSP-EXP430FR2476LP.upload.protocol=tilib
+
 MSP-EXP430FR2476LP.upload.maximum_size=65536
 MSP-EXP430FR2476LP.upload.maximum_data_size=8192
+# ------------------------------------------------------------------------------
