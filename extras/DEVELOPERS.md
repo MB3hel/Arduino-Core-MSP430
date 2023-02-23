@@ -27,10 +27,13 @@ On windows, use 7zip to make the archive. Manually exclude the folders listed as
 
 ## mspdebug Tool Package
 
-- Build [mspdebug](https://github.com/dlbeer/mspdebug). Note that libusb and libreadline are required. Use msys2 on windows. Use brew on macos. Copy the resulting binary to an empty directory name `mspdebug`.
+- Build [mspdebug](https://github.com/dlbeer/mspdebug). Note that libusb and libreadline are required. Use msys2 on windows. Use brew on macos. Copy the resulting binary to an empty directory name `mspdebug`. 
+    - On windows, build without readline (make WITHOUT_READLINE=1)
+    - If using msys2, libusb 0.1 is libusb-win32 and change -lusb to -lusb0 in the makefile
+    - For macos, use libusb and libusb-compat and WITHOUT_READLINE=1. Will also need hidapi from brew. Make sure pkg-config is installed first.
 - Download [TI's MSP Debug Stack](https://www.ti.com/tool/MSPDS) DLLs (not source code) and grab the dll (windows), so (linux), or dynlib (macos) required. Could build from source too, but that is more involved (follow instructions in the source package's readme if attempting).
-- Place the libmsp430 dynamic library in the same directory as the built mspdebug tool. Remove the "_64" suffix if one exists. Note for windows it is not libmsp430, but MSP430.dll
-- Use `ldd` (linux / msys2) or `otool -L` (macos) to determine what dynamic libraries also need to be copied. Libraries every system will have can be skipped.
+- Place the libmsp430 dynamic library in the same directory as the built mspdebug tool. Remove the "_64" suffix if one exists. Note for windows it is not libmsp430, but MSP430.dll. Note that on macos, the library may need to be given `.so` suffix instead of `dylib` for mspdebug to find it.
+- Use `ldd` (linux) or `otool -L` (macos), or [Dependencies](https://github.com/lucasg/Dependencies) (windows) to determine what dynamic libraries also need to be copied. Libraries every system will have can be skipped.
 - If linux or macos, rename `mspdebug` to `mspdebug.bin`
 - Add the wrapper script named `mspdebug` to launch `mspdebug.bin` and make it executable (linux and macos only)
 - Run `./mspdebug tilib` and make sure it works (no errors about libmsp430).
@@ -47,7 +50,7 @@ LD_LIBRARY_PATH="$DIR":$LD_LIBRARY_PATH "$DIR"/mspdebug.bin "$@"
 macOS script:
 
 ```sh
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 DIR=$(dirname "$0")
 DYLD_LIBRARY_PATH="$DIR":$DYLD_LIBRARY_PATH "$DIR"/mspdebug.bin "$@"
 ```
