@@ -18,10 +18,10 @@ compiler.warning_flags=-w
 # compiler.warning_flags.all=-Wall -Wextra
 
 
-compiler.path={runtime.tools.msp430-gcc.path}/bin/
+compiler.path={runtime.tools.msp430gcc.path}/bin/
 compiler.c.cmd=msp430-elf-gcc
 compiler.c.flags=-c -Os {compiler.warning_flags} -ffunction-sections -fdata-sections -MMD -flto
-compiler.c.elf.flags=-flto {compiler.warning_flags} -Os -fno-rtti -fno-exceptions -Wl,--gc-sections,-u,main -Wl,--start-group -Wl,--end-group -I"{runtime.tools.msp430-gcc.path}/include" -T "{build.mcu}.ld"
+compiler.c.elf.flags=-flto {compiler.warning_flags} -Os -fno-rtti -fno-exceptions -Wl,--gc-sections,-u,main -Wl,--start-group -Wl,--end-group -I"{runtime.tools.msp430gcc.path}/include" -T "{build.mcu}.ld"
 compiler.c.elf.cmd=msp430-elf-gcc
 compiler.S.flags=-c -x assembler-with-cpp
 compiler.cpp.cmd=msp430-elf-g++
@@ -40,10 +40,10 @@ build.extra_flags=-mlarge -mcode-region=either -mdata-region=either -mhwmult=aut
 
 
 # These can be overridden in platform.local.txt
-compiler.c.extra_flags="-I{runtime.tools.msp430-gcc.path}/include" "-I{runtime.tools.msp430-gcc.path}/msp430-elf/include"
-compiler.c.elf.extra_flags="-L{runtime.tools.msp430-gcc.path}/include"
+compiler.c.extra_flags="-I{runtime.tools.msp430gcc.path}/include" "-I{runtime.tools.msp430gcc.path}/msp430-elf/include"
+compiler.c.elf.extra_flags="-L{runtime.tools.msp430gcc.path}/include"
 compiler.S.extra_flags=
-compiler.cpp.extra_flags="-I{runtime.tools.msp430-gcc.path}/include" "-I{runtime.tools.msp430-gcc.path}/msp430-elf/include"
+compiler.cpp.extra_flags="-I{runtime.tools.msp430gcc.path}/include" "-I{runtime.tools.msp430gcc.path}/msp430-elf/include"
 compiler.ar.extra_flags=
 compiler.objcopy.eep.extra_flags=
 compiler.elf2hex.extra_flags=
