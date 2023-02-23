@@ -102,7 +102,7 @@ recipe.preproc.macros="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {
 
 # mspdebug
 tools.mspdebug.upload.params.verbose=
-tools.mspdebug.upload.params.quiet=
+tools.mspdebug.upload.params.quiet=-q
 tools.mspdebug.upload.params.verify="verify {build.path}/{build.project_name}.hex"
 tools.mspdebug.upload.params.noverify=
 tools.mspdebug.path={runtime.tools.mspdebug.path}
