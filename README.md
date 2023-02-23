@@ -37,24 +37,7 @@ Some boards have diagrams in `extras/pinmaps`. Others may not. There is typicall
 
 ## Supported Host Systems
 
-The following host systems are supported (toolchain and debug server packages are provided)
-
 - Linux x86_64 (64-bit)
 - Windows x86_64 (64-bit)
+- Windows i686 (32-bit)
 - macOS x86_64 (Intel processors)
-
-
-The following host systems could be supported, but I lack hardware to generate toolchain and debug server packages for them (open an issue if you have said hardware and want to generate packages)
-
-- macOS arm64 (Apple Silicon)&ast;
-
-
-The following host systems will not be supported (TI does not provide required tools for these platforms)
-
-- Windows x86 (32-bit)
-- Windows arm64&ast;
-- Linux x86 (32-bit)
-- Linux arm64
-
-
-&ast;Translation layers may allow the software to work on these platforms. I have not tested though.
