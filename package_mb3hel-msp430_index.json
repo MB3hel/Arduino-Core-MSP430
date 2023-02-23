@@ -231,10 +231,10 @@
             }, 
             {
               "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc1/mspdebug-0.25-mac-amd64.tar.bz2", 
-              "checksum": "SHA-256:b0be0bd5fb9b2526b06148486cf7a725b022c1b3af432cd87b7a6af5a4c7096d", 
+              "checksum": "SHA-256:6dd623e1e3e0b558c9ba7e1a6f4b28f3702a2fd6ac6a195d8cc827cfcc44f086", 
               "host": "x86_64-apple-darwin", 
               "archiveFileName": "mspdebug-0.25-mac-amd64.tar.bz2", 
-              "size": "880995"
+              "size": "929052"
             }, 
             {
               "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc1/mspdebug-0.25-linux-amd64.tar.bz2", 
