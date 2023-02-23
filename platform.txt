@@ -117,6 +117,6 @@ tools.uniflash-launcher.upload.params.noverify=
 tools.uniflash-launcher.path={runtime.tools.uniflash-launcher.path}
 tools.uniflash-launcher.cmd.path={path}/uniflash-launcher.sh
 tools.uniflash-launcher.cmd.path.windows={path}/uniflash-launcher.bat
-tools.uniflash-launcher.upload.pattern={cmd.path} -c "{runtime.platform.path}/variants/{build.variant}/{build.variant}.ccxml" {upload.verbose} {upload.verify} -f "{build.path}/{build.project_name}.elf"
+tools.uniflash-launcher.upload.pattern={cmd.path} -c "{runtime.platform.path}/variants/{build.variant}/{build.variant}.ccxml" {upload.verbose} -u {upload.verify} -f "{build.path}/{build.project_name}.elf"
 
 # ------------------------------------------------------------------------------
