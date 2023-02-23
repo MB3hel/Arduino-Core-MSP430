@@ -41,6 +41,7 @@ When uploading a sketch, you will need to select the upload port in the `Tools >
 
 
 <details><summary>Identifying Ports on Windows</summary>
+<hr />
 <p>
 
 Open device manager and go to the "Ports (COM and LPT)" section and expand it.
@@ -52,9 +53,11 @@ The target port is listed as `MSP Application UART1 (COMx)` where `x` is the num
 Note that there is not really an easy way to determine which sets of ports are on the same launchpad. It is possible by going to `Properties > Details`. Compare the "Siblings" property to other port's "Device Instance Path" property. Siblings of a device are the same physical launchpad.
 
 </p>
+<hr />
 </details>
 
 <details><summary>Identifying Ports on macOS</summary>
+<hr />
 <p>
 
 On macOS, the ez-FET will show up as `/dev/cu.usbmodem[num]` devices where `[num]` is the port number. The upload port is enumerated first, so generally has a lower number than the target port. 
@@ -78,11 +81,13 @@ ioreg -p IOUSB -l -b
 ```
 
 </p>
+<hr />
 </details>
 
 
 
 <details><summary>Identifying Ports on Linux</summary>
+<hr />
 <p>
 
 On Linux, the ez-FET will show up as `/dev/ttyACMx` devices where `x` is the port number. The upload port is enumerated first, so generally has a lower number than the target port. To identify actual port numbers run the following in a terminal
@@ -109,6 +114,7 @@ $ realpath usb-Texas_Instruments_MSP_Tools_Driver_SERIAL-if02
 ```
 
 </p>
+<hr />
 </details>
 
 
