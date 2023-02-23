@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 # Finds UniFlash installed in standard locations
 # Linux: /opt/ti/uniflash_VERSION or ~/ti/uniflash_VERSION
 # macOS: /Applications/ti/uniflash_VERSION
@@ -8,10 +8,10 @@
 UNAMEO="$(uname -o)"
 
 
-if [ "$UNAMEO" == "Darwin" ]; then
+if [ "$UNAMEO" = "Darwin" ]; then
     ehco "[ERROR]: UniFlash Launcher NYI for macos." >&2
     exit 1
-elif [ "$UNAMEO" == "GNU/Linux" ]; then
+elif [ "$UNAMEO" = "GNU/Linux" ]; then
     uniflash_ver=$({ ls ~/ti 2> /dev/null & ls /opt/ti 2> /dev/null; } | grep uniflash | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | sort --version-sort --field-separator=. | tail -n 1)
     if command -v dslite.sh > /dev/null; then
         echo "[INFO]: dslite.sh found in path."
