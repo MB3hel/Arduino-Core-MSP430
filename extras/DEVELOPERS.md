@@ -8,8 +8,6 @@ Run `extras/package.sh` and enter the version number. The tarball will be create
 
 Note that while developing the core, clone to `SKETCHBOOK/hardware/mb3hel-msp430/msp430` and restart the Arduino IDE after making changes for them to take effect.
 
-Tool packages should be able to be manually installed to `SKETCHBOOK/hardware/mb3hel-msp430/TOOL_NAME`.
-
 Also, be aware of [this bug](https://github.com/arduino/arduino-ide/issues/1030) where the IDE won't pickup changes to files that it should. Make sure to delete the folder indicated if editing installed files.
 
 
@@ -110,12 +108,6 @@ For all platforms, download [TI's MSP Debug Stack](https://www.ti.com/tool/MSPDS
     ```
 
 
-
-## Index File
-
-The index file is manually updated. Copy / paste an existing entry of the same type and add new URL, hashsum (`sha256sum filename` command), and size in bytes (`wc -c filename` command). 
-
-
 ## UniFlash Launcher Tool Package
 
 ```sh
@@ -123,6 +115,11 @@ cd extras
 mkdir -p ../build
 tar --create --bzip2 -f ../build/uniflash-launcher-VERSION.tar.bz2 uniflash-launcher
 ```
+
+
+## Index File
+
+The index file is manually updated. Copy / paste an existing entry of the same type and add new URL, hashsum (`sha256sum filename` command), and size in bytes (`wc -c filename` command). 
 
 
 
