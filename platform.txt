@@ -108,7 +108,6 @@ tools.mspdebug.upload.params.noverify=
 tools.mspdebug.path={runtime.tools.mspdebug.path}
 tools.mspdebug.cmd.path={path}/mspdebug
 tools.mspdebug.upload.pattern={cmd.path} {upload.verbose} --allow-fw-update {upload.protocol} --force-reset "prog {build.path}/{build.project_name}.hex" {upload.verify}
-
-# TODO: Use upload.port.address with -d argument
+# tools.mspdebug.upload.pattern={cmd.path} {upload.verbose} -d {upload.port.address} --allow-fw-update {upload.protocol} --force-reset "prog {build.path}/{build.project_name}.hex" {upload.verify}
 
 # ------------------------------------------------------------------------------
