@@ -116,6 +116,15 @@ For all platforms, download [TI's MSP Debug Stack](https://www.ti.com/tool/MSPDS
 The index file is manually updated. Copy / paste an existing entry of the same type and add new URL, hashsum (`sha256sum filename` command), and size in bytes (`wc -c filename` command). 
 
 
+## UniFlash Launcher Tool Package
+
+```sh
+cd extras
+mkdir -p ../build
+tar --create --bzip2 -f ../build/uniflash-launcher-VERSION.tar.bz2 uniflash-launcher
+```
+
+
 
 ## Useful References
 

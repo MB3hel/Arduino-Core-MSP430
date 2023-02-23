@@ -109,4 +109,14 @@ tools.mspdebug.path={runtime.tools.mspdebug.path}
 tools.mspdebug.cmd.path={path}/mspdebug
 tools.mspdebug.upload.pattern={cmd.path} {upload.verbose} -d {serial.port} --allow-fw-update {upload.protocol} --force-reset "prog {build.path}/{build.project_name}.hex" {upload.verify}
 
+# uniflash-launcher
+tools.uniflash-launcher.upload.params.verbose=-e
+tools.uniflash-launcher.upload.params.quiet=
+tools.uniflash-launcher.upload.params.verify=-v
+tools.uniflash-launcher.upload.params.noverify=
+tools.uniflash-launcher.path={runtime.tools.uniflash-launcher.path}
+tools.uniflash-launcher.cmd.path={path}/uniflash-launcher.sh
+tools.uniflash-launcher.cmd.path.windows={path}/uniflash-launcher.bat
+tools.uniflash-launcher.upload.pattern={cmd.path} -c "{runtime.platform.path}/variants/{build.variant}/{build.variant}.ccxml" {upload.verbose} {upload.verify} -f "{build.path}/{build.project_name}.elf"
+
 # ------------------------------------------------------------------------------
