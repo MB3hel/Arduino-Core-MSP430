@@ -56,6 +56,7 @@ Completed Changes:
 
 Planned changes:
 
+- `mspdebug` with readline on non-linux platforms
 - Support for [UniFlash](https://www.ti.com/tool/UNIFLASH) CLI as an alternate upload tool
 - More options exposed via menus in the Arduino IDE (similar to what other cores do)
     - Upload tool (if UniFlash support is implemented)
@@ -65,3 +66,4 @@ Planned changes:
     - CPU Frequency
 - Map file generation
 - Pinmaps diagrams for additional boards (specifically MSP-EXP430FR2355LP)
+- Maybe eventually debug support in Arduino IDE 2.0
