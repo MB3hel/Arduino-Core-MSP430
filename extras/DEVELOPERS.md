@@ -37,6 +37,7 @@ For all platforms, download [TI's MSP Debug Stack](https://www.ti.com/tool/MSPDS
 
     # For both
     cd mspdebug-version
+    sed 's/-lusb/-lusb0/g' Makefile
     make WITHOUT_READLINE=1
     mkdir mspdebug
     cp mspdebug.exe mspdebug/
