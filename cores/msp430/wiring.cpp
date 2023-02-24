@@ -35,35 +35,31 @@ void initClocks(){
     // https://www.ti.com/lit/ug/slau144k/slau144k.pdf
     // Page 275
 
-    // Get calibration values for BC1 and DCO
+    // Set frequency for DCO (used for MCLK and SMCLK)
+    // Reset state has MCLK = DCO / 1
+    // and SMCLK = DOC / 1
+    DCOCTL = 0;
 #if defined(CAL_BC1_16MHZ) && (F_CPU == 16000000L)
-    BCSCTL1 = CAL_BC1_16MHZ;
-    DCOCTL = CAL_DCO_16MHZ;
+    BCSCTL1 = CALBC1_16MHZ;
+    DCOCTL = CALDCO_16MHZ;
 #elif defined(CAL_BC1_12MHZ) && (F_CPU == 12000000L)
-    BCSCTL1 = CAL_BC1_12MHZ;
-    DCOCTL = CAL_DCO_12MHZ;
+    BCSCTL1 = CALBC1_12MHZ;
+    DCOCTL = CALDCO_12MHZ;
 #elif defined(CAL_BC1_8MHZ) && (F_CPU == 8000000L)
-    BCSCTL1 = CAL_BC1_8MHZ;
-    DCOCTL = CAL_DCO_8MHZ;
+    BCSCTL1 = CALBC1_8MHZ;
+    DCOCTL = CALDCO_8MHZ;
 #elif defined(CAL_BC1_1MHZ) && (F_CPU == 1000000L)
-    BCSCTL1 = CAL_BC1_1MHZ;
-    DCOCTL = CAL_DCO_1MHZ;
+    BCSCTL1 = CALBC1_1MHZ;
+    DCOCTL = CALDCO_1MHZ;
 #else
     #error Invalid CPU frequency for this chip!
 #endif
 
-    BCSCTL1 |= XT2OFF;                          // Disable XT2
-    BCSCTL2 &= ~(SELM0 | SELM1);                // Clear MCLK select bits
-    BCSCTL2 |= SELM_0;                          // MCLK from DCO
-    BCSCTL2 &= ~SELS;                           // SCLK from DCO
-    BCSCTL2 |= DIVM_0;                          // MCLK div 1
-    BCSCTL2 |= DIVS_0;                          // SCLK div 1
-
     // Wait up to 2 seconds for 32768 LXFT1 oscillator to start
     // Started when fault flag does not get set
-    P2SEL |= (BIT6 | BIT7);                     // P2.6 and P2.7 for LXFT1
-    BCSCTL3 &= ~(LFXT1S0 | LFXT1S1);            // Clear LXFT1S field
-    BCSCTL3 |= LFXT1S_0;                        // Source LXFT from external crystal
+    // Reset state has P2.6 and P2.7 used for LXFT1
+    // Reset state has LXFT1 in normal mode (LXFT1S = 0b00)
+#ifndef NOLXFT1
     unsigned int timeout = 4;
     do{
         timeout--;
@@ -73,6 +69,9 @@ void initClocks(){
                         (F_CPU/1000000L));      // Delay 500ms
         if(timeout == 0) break;                 // Timed out
     }while(IFG1 & OFIFG);
+#else
+    unsigned int timeout = 0;
+#endif
     if(timeout == 0){
         // Timed out. LXFT did not start.
         // Fall back on VLO
