@@ -162,8 +162,8 @@ Note that this is a fork of the Energia **MSP430** core. Other boards (MSP432, e
 - Replaced use of floating point capable printf calls in core and libraries
 - Switched to using `mspdebug` instead of the TI proprietary `DSLite` to upload programs
     - This tool is easier to package and is open source
-    - Additionally, since CCSv8 support for some architectures (such as 32-bit windows) are not supported
-- Support using UniFlash as an alternate uploader
+    - Additionally, since CCSv8 there is no support for some architectures (such as 32-bit windows)
+- Support using UniFlash (DSLite internally) as an alternate uploader
 - Added support for various Arduino IDE settings
     - Verbose upload setting
     - Verify after upload setting
