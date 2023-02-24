@@ -27,7 +27,7 @@
 - Clock configuration
     - Support multiple CPU frequencies (through tool menu in IDE). Options depend on board.
     - SMCLK will match MCLK
-    - ACLK will be external oscillator or REF
+    - ACLK will be external oscillator with VLO as fallback
 - Analog Inputs
     - TODO: Supported references
     - All boards default to same resolution (10-bit?)
@@ -81,3 +81,31 @@ The following will not be included (possibly moved as zips to a separate locatio
     - FR2433
     - G2553 (G2ET launchpad)
 - Porting the others after (port = make sure they compile)
+
+
+## Core Implementation TODO List (kindof in order)
+
+- Chip initialization and clock configuration (focus on chips I have first then port for other chips based on energia code)
+
+<br />
+
+- Digital input and output (with pullup and puldown resistors)
+- Digital pin interrupts (all pins / ports)
+
+<br />
+
+- Analog inputs with "normal" reference in 10-bit mode
+- Analog input support for other resolutions
+- Analog input support for other references
+
+<br />
+
+- HardwareSerial implemented with USCI_A or eUSCI_A
+ 
+<br />
+
+- HardwareSPI and Hardware_I2C implementation with USCI_B
+
+<br />
+
+- Add / port other libraries
