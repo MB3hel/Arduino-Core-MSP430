@@ -68,8 +68,14 @@ For all platforms, download [TI's MSP Debug Stack](https://www.ti.com/tool/MSPDS
 - Then, create a launch wrapper called `mspdebug`. Make it executable by running `chmod a+x mspdebug`
     ```sh
     #!/usr/bin/env bash
+    args=("$@")
+    for i in "${!args[@]}"; do
+        if [[ ${args[$i]} == /dev/cu.usbmodem* ]]; then
+            args[$i]=${args[$i]#"/dev/cu."}
+        fi
+    done
     DIR=$(dirname "$0")
-    DYLD_LIBRARY_PATH="$DIR":$DYLD_LIBRARY_PATH "$DIR"/mspdebug.bin "$@"
+    DYLD_LIBRARY_PATH="$DIR":$DYLD_LIBRARY_PATH "$DIR"/mspdebug.bin "${args[@]}"
     ```
 - Test the setup by running `./mspdebug tilib`. Make sure there are not errors loading `libmsp430`.
 - Compress the archive (note that the root directory of the archive must be `mspdebug`)
