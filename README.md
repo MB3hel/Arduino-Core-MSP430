@@ -1,5 +1,8 @@
 # Arduino Core MSP430
 
+
+# WARNING: THE `rewrite` BRANCH IS HIGHLY EXPERIMENTAL, WILL NOT WORK, AND PROBABLY WILL NEVER BE COMPLETED!!!
+
 A fork of the now unmaintained [Energia MSP430 Core](https://github.com/energia/msp430-lg-core).
 
 
