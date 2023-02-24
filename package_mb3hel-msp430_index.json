@@ -10,6 +10,67 @@
         {
           "name": "MSP430 Boards", 
           "architecture": "msp430", 
+          "version": "3.1.0-rc2", 
+          "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc2/msp430-core-3.1.0-rc2.tar.bz2", 
+          "archiveFileName": "msp430-core-3.1.0-rc2.tar.bz2", 
+          "checksum": "SHA-256:15eea60f2d8e369bf125113268faed2451091360ad222c1e77225896e50f80d6", 
+          "size": "2249388", 
+          "boards": [
+            {
+              "name": "MSP-EXP430F5529"
+            }, 
+            {
+              "name": "MSP-EXP430FR2433"
+            }, 
+            {
+              "name": "MSP-EXP430FR4133"
+            }, 
+            {
+              "name": "MSP-EXP430FR5969"
+            }, 
+            {
+              "name": "MSP-EXP430FR6989"
+            }, 
+            {
+              "name": "MSP-EXP430FR5739"
+            }, 
+            {
+              "name": "MSP-EXP430FR2355"
+            }, 
+            {
+              "name": "MSP-EXP430FR2231"
+            }, 
+            {
+              "name": "MSP-EXP430G2"
+            }, 
+            {
+              "name": "MSP-EXP430G2ET"
+            }, 
+            {
+              "name": "MSP-EXP430FR5994"
+            }
+          ], 
+          "toolsDependencies": [
+            {
+              "packager": "mb3hel-msp430", 
+              "name": "msp430gcc", 
+              "version": "9.3.1.11"
+            }, 
+            {
+              "packager": "mb3hel-msp430", 
+              "name": "mspdebug", 
+              "version": "0.25"
+            },
+            {
+              "packager": "mb3hel-msp430", 
+              "name": "uniflash-launcher", 
+              "version": "1.0.0"
+            }
+          ]
+        },
+        {
+          "name": "MSP430 Boards", 
+          "architecture": "msp430", 
           "version": "3.1.0-rc1", 
           "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc1/msp430-core-3.1.0-rc1.tar.bz2", 
           "archiveFileName": "msp430-core-3.1.0-rc1.tar.bz2", 
@@ -177,6 +238,40 @@
         }
       ],
       "tools": [
+        {
+          "name": "uniflash-launcher", 
+          "version": "9.3.1.11", 
+          "systems": [
+            {
+              "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc2/uniflash-launcher-1.0.0.tar.bz2", 
+              "checksum": "SHA-256:932eec7e19a0c450f1e243ef9207a02a5fed83906f599e57affe8058bbbb5b9e", 
+              "host": "i686-mingw32", 
+              "archiveFileName": "uniflash-launcher-1.0.0.tar.bz2", 
+              "size": "352573"
+            },
+            {
+              "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc2/uniflash-launcher-1.0.0.tar.bz2", 
+              "checksum": "SHA-256:932eec7e19a0c450f1e243ef9207a02a5fed83906f599e57affe8058bbbb5b9e", 
+              "host": "x86_64-mingw32", 
+              "archiveFileName": "uniflash-launcher-1.0.0.tar.bz2", 
+              "size": "352573"
+            },
+            {
+              "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc2/uniflash-launcher-1.0.0.tar.bz2", 
+              "checksum": "SHA-256:932eec7e19a0c450f1e243ef9207a02a5fed83906f599e57affe8058bbbb5b9e", 
+              "host": "x86_64-apple-darwin", 
+              "archiveFileName": "uniflash-launcher-1.0.0.tar.bz2", 
+              "size": "352573"
+            },
+            {
+              "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc2/uniflash-launcher-1.0.0.tar.bz2", 
+              "checksum": "SHA-256:932eec7e19a0c450f1e243ef9207a02a5fed83906f599e57affe8058bbbb5b9e", 
+              "host": "x86_64-pc-linux-gnu", 
+              "archiveFileName": "uniflash-launcher-1.0.0.tar.bz2", 
+              "size": "352573"
+            }
+          ]
+        },
         {
           "name": "msp430gcc", 
           "version": "9.3.1.11", 

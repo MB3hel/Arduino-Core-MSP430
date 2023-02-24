@@ -163,6 +163,7 @@ Note that this is a fork of the Energia **MSP430** core. Other boards (MSP432, e
 - Switched to using `mspdebug` instead of the TI proprietary `DSLite` to upload programs
     - This tool is easier to package and is open source
     - Additionally, since CCSv8 support for some architectures (such as 32-bit windows) are not supported
+- Support using UniFlash as an alternate uploader
 - Added support for various Arduino IDE settings
     - Verbose upload setting
     - Verify after upload setting
@@ -171,9 +172,7 @@ Note that this is a fork of the Energia **MSP430** core. Other boards (MSP432, e
 
 **Planned changes:**  
 - `mspdebug` with readline on non-linux platforms
-- Support for [UniFlash](https://www.ti.com/tool/UNIFLASH) CLI as an alternate upload tool
 - More options exposed via menus in the Arduino IDE (similar to what other cores do)
-    - Upload tool (if UniFlash support is implemented)
     - Debug info
     - Optimization Level
     - CPU Frequency
