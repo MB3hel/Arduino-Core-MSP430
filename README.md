@@ -179,3 +179,4 @@ Note that this is a fork of the Energia **MSP430** core. Other boards (MSP432, e
 - Map file generation
 - Pinmaps diagrams for additional boards (specifically MSP-EXP430FR2355LP)
 - Maybe eventually debug support in Arduino IDE 2.0
+- Maybe eventually adapt / cleanup the core using [ArduinoCore-API](https://github.com/arduino/ArduinoCore-API)
