@@ -86,11 +86,13 @@ The following will not be included (possibly moved as zips to a separate locatio
 ## Core Implementation TODO List (kindof in order)
 
 - Chip initialization and clock configuration (focus on chips I have first then port for other chips based on energia code)
+- Delay and timing support (millis, delay, micros, delayMicros)
 
 <br />
 
 - Digital input and output (with pullup and puldown resistors)
 - Digital pin interrupts (all pins / ports)
+- Implement shift and pulse stuff
 
 <br />
 
