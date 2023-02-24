@@ -21,13 +21,32 @@
 
 #include <Arduino.h>
 
-volatile unsigned int aclk_freq = 0;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Globals
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Clock initialization for MSP430 chips with a "Basic Clock Module+"
- * See page 275: https://www.ti.com/lit/ug/slau144k/slau144k.pdf
- */
-static inline __attribute__ ((__always_inline__)) void initClocksBC2(){
+volatile unsigned int aclk_freq = 0;                                // Frequency of ACLK
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Clock initialization
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Initialize MCLK to frequency F_CPU
+// Initialize SMCLK to frequency F_CPU
+// Initialize ACLK to external 32.768kHz oscillator
+//   fallback to VLO if fails (VLO freq depends on chip)
+//   Note that NOLXFT1 can be defined to use the VLO without attempting
+//   to use an external crystal first.
+
+
+#if defined(__MSP430_HAS_BC2__)
+// ---------------------------------------------------------------------------------------------------------------------
+// Clock initialization for MSP430 chips with a Basic Clock module
+// ---------------------------------------------------------------------------------------------------------------------
+// Includes G2553
+static void initClocks(){
     // Set frequency for DCO (used for MCLK and SMCLK)
     // Reset state has MCLK = DCO / 1
     // and SMCLK = DOC / 1
@@ -72,32 +91,129 @@ static inline __attribute__ ((__always_inline__)) void initClocksBC2(){
         P2SEL &= ~(BIT6 | BIT7);                // P2.6 and P2.7 for GPIO
         BCSCTL3 &= ~(LFXT1S0 | LFXT1S1);        // Clear LXFT1S field
         BCSCTL3 |= LFXT1S_2;                    // Source LXFT from VLO
+    }else{
+        aclk_freq = 32768;
     }
 }
+// ---------------------------------------------------------------------------------------------------------------------
+#elif (defined(__MSP430_HAS_CS__) || defined(__MSP430_HAS_CS_A__)) && (defined(__MSP430_HAS_FRAM__) || defined(__MSP430_HAS_FRCTL_A__) || defined(__MSP430_HAS_FRAM_FR5XX__)) && defined(__MSP430FR2XX_4XX_FAMILY__)
+// ---------------------------------------------------------------------------------------------------------------------
+// Clock initialization for MSP430 FR2XX and FR4XX family chips
+// ---------------------------------------------------------------------------------------------------------------------
+// Includes FR2355, FR2433
+static void initClocks(){
 
-/**
- * Clock initialization for MSP430 chips with a "Clock System module"
- * See page 98: https://www.ti.com/lit/ug/slau445i/slau445i.pdf
- */
-static inline __attribute__ ((__always_inline__)) void initClocksCS(){
-    // NYI
-}
-
-/**
- * Initialize MCLK to frequency F_CPU
- * Initialize SMCLK to frequency F_CPU
- * Initialize ACLK to external 32.768kHz oscillator
- *   fallback to VLO if fails (VLO freq depends on chip)
- * Note that NOLXFT1 can be defined to use the VLO directly
- */
-void initClocks(){
-#if defined(__MSP430_HAS_BC2__)
-    initClocksBC2();
-#elif defined(__MSP430_HAS_CS__)
-    #error CS support NYI!
-    // initClocksCS();
+    // These names were changed at some point. Not consistent between chips.
+#if !defined(NACCESS_0)
+#define NACCESS_0  NWAITS_0
+#define NACCESS_1  NWAITS_1
+#define NACCESS_2  NWAITS_2
 #endif
+
+    // Add FRAM wait states
+#if F_CPU >= 8000000L
+    FRCTL0 = FWPW | NACCESS_1;
+#endif
+
+    CSCTL0 = 0;                                 // Configure lowest frequency
+
+    // Note n is defined by FLLREFDIV bits
+    // Here, n is 1
+    // Here f_REF = f_REFO = 32.768kHz
+    // f_DCO = 2^{FLLD} * (FLLN + 1) * (f_REF / n)
+    // f_DCODIV = (FLLN + 1) * (f_REF / n)
+    // MCLK and SMCLK from f_DCODIV
+    // See section 3.2.5 https://www.ti.com/lit/ug/slau445i/slau445i.pdf
+    // FLLN and FLLD in the CSCTL2 register
+    // FLLN is lower 10 bits. FLLD is bits 12, 13, and 14
+    // Note that FLLD is 1, 2, 4, 8, 16, or 32 (not 0-8)
+#if F_CPU== 16000000L
+    CSCTL1 = DCORSEL_5;                         // Range 5
+    CSCTL2 = 0x01E7;                            // Loop control setting
+#elif F_CPU == 12000000L
+    CSCTL1 = DCORSEL_4;                         // Range 4
+    CSCTL2 = 0x016D;                            // Loop control setting
+#elif F_CPU == 8000000L
+    CSCTL1 = DCORSEL_3;                         // Range 3
+    CSCTL2 = 0x00F3;                            // Loop control setting
+#elif F_CPU == 4000000L
+    CSCTL1 = DCORSEL_2;                         // Range 2
+    CSCTL2 = 0x007A;                            // Loop control setting
+#elif F_CPU == 2000000L
+    CSCTL1 = DCORSEL_1;                         // Range 1
+    CSCTL2 = 0x003D;                            // Loop control setting
+#elif F_CPU == 1000000L
+    CSCTL1 = DCORSEL_0;                         // Range 0
+    CSCTL2 = 0x001D;                            // Loop control settings
+#else
+    #error Invalid CPU frequency for this chip!
+#endif
+
+    CSCTL3 = SELREF__REFOCLK;                   // REFO for FLL
+    CSCTL4 = SELA__XT1CLK |                     // XT1CLK for ACLK
+             SELMS__DCOCLKDIV;                  // DCODIV for MCLK and SMCLK
+
+    // Setup pins for LXFT if needed (shared on some devices, internal on others)
+#if (defined(INIT_LFXTAL_PINS))
+    // Defined in pins_arduino.h for different variants
+	INIT_LFXTAL_PINS;
+ #elif (defined(__MSP430_HAS_PORTJ_R__))
+	PJDIR = 0xFF;                               // All pins output
+	PJOUT = 0;                                  // All pins low
+	PJSEL0 = BIT4 | BIT5;                       // PJ.4 and PJ.5 as XTAL
+ #endif	
+
+    // Wait up to 2 seconds for 32768 LXFT1 oscillator to start
+    // Started when fault flag does not get set
+#ifndef NOLXFT1
+    unsigned int timeout = 4;
+    do{
+        timeout--;
+        CSCTL7 &= ~(DCOFFG|XT1OFFG|FLLULIFG);   // Clear oscillator fault flag
+        SFRIFG1 &= ~OFIFG;                      // Clear fault interrupt flag
+        __delay_cycles(500000L * 
+                        (F_CPU/1000000L));      // Delay 500ms
+        if(timeout == 0) break;                 // Timed out
+    }while(SFRIFG1 & OFIFG);
+#else
+    unsigned int timeout = 0;
+#endif
+    if(timeout == 0){
+        aclk_freq = 32768;                      // ACLK = REFO = 32768
+        CSCTL4 |= SELA__REFOCLK;                // ACLK from REFO
+        CSCTL3 |= SELREF__REFOCLK;              // FLL REF from REFO
+        CSCTL7 &= ~(DCOFFG|XT1OFFG|FLLULIFG);   // Clear flags
+        SFRIFG1 &= !OFIFG;                      // Clear flag
+    }else{
+        CSCTL4 &= ~SELA__REFOCLK;               // ACLK from LXFT
+        CSCTL3 &= ~SELREF__REFOCLK;             // FLL REF from LXFT
+    }
 }
+// ---------------------------------------------------------------------------------------------------------------------
+#elif (defined(__MSP430_HAS_CS__) || defined(__MSP430_HAS_CS_A__)) && (defined(__MSP430_HAS_FRAM__) || defined(__MSP430_HAS_FRCTL_A__) || defined(__MSP430_HAS_FRAM_FR5XX__))
+// ---------------------------------------------------------------------------------------------------------------------
+// Clock initialization for MSP430 FRAM chips other than FR2XX and FR4XX family
+// ---------------------------------------------------------------------------------------------------------------------
+// Includes FR5969
+static void initClocks(){
+
+}
+// ---------------------------------------------------------------------------------------------------------------------
+#else
+
+static void initClocks(){
+    #error Clock configuration unknown for this chip!
+}
+
+#endif
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// General initialization
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Initialize MSP430 chip
@@ -106,3 +222,5 @@ void init(){
     WDTCTL = WDTPW | WDTHOLD;               // Disable watchdog timer
     initClocks();                           // Initialize clocks
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
