@@ -24,17 +24,10 @@
 volatile unsigned int aclk_freq = 0;
 
 /**
- * Initialize MCLK to frequency F_CPU
- * Initialize SMCLK to frequency F_CPU
- * Initialize ACLK to external 32.768kHz oscillator
- *   fallback to VLO if fails (VLO freq depends on chip)
+ * Clock initialization for MSP430 chips with a "Basic Clock Module+"
+ * See page 275: https://www.ti.com/lit/ug/slau144k/slau144k.pdf
  */
-void initClocks(){
-#if defined(__MSP430_HAS_BC2__)
-    // MSP430 chips with a "Basic Clock Module+"
-    // https://www.ti.com/lit/ug/slau144k/slau144k.pdf
-    // Page 275
-
+static inline __attribute__ ((__always_inline__)) void initClocksBC2(){
     // Set frequency for DCO (used for MCLK and SMCLK)
     // Reset state has MCLK = DCO / 1
     // and SMCLK = DOC / 1
@@ -80,13 +73,29 @@ void initClocks(){
         BCSCTL3 &= ~(LFXT1S0 | LFXT1S1);        // Clear LXFT1S field
         BCSCTL3 |= LFXT1S_2;                    // Source LXFT from VLO
     }
-    
+}
 
+/**
+ * Clock initialization for MSP430 chips with a "Clock System module"
+ * See page 98: https://www.ti.com/lit/ug/slau445i/slau445i.pdf
+ */
+static inline __attribute__ ((__always_inline__)) void initClocksCS(){
+    // NYI
+}
+
+/**
+ * Initialize MCLK to frequency F_CPU
+ * Initialize SMCLK to frequency F_CPU
+ * Initialize ACLK to external 32.768kHz oscillator
+ *   fallback to VLO if fails (VLO freq depends on chip)
+ * Note that NOLXFT1 can be defined to use the VLO directly
+ */
+void initClocks(){
+#if defined(__MSP430_HAS_BC2__)
+    initClocksBC2();
 #elif defined(__MSP430_HAS_CS__)
-    // MSP430 chips with a "Clock System module"
-    // https://www.ti.com/lit/ug/slau445i/slau445i.pdf
-    // Page 98
-    # error CS support NYI!
+    #error CS support NYI!
+    // initClocksCS();
 #endif
 }
 
