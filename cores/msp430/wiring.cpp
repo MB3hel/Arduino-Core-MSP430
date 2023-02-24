@@ -64,7 +64,7 @@ static void initClocks(){
     BCSCTL1 = CALBC1_1MHZ;
     DCOCTL = CALDCO_1MHZ;
 #else
-    #error Invalid CPU frequency for this chip!
+#error Invalid CPU frequency for this chip!
 #endif
 
     // Wait up to 2 seconds for 32768 LXFT1 oscillator to start
@@ -146,7 +146,7 @@ static void initClocks(){
     CSCTL1 = DCORSEL_0;                         // Range 0
     CSCTL2 = 0x001D;                            // Loop control settings
 #else
-    #error Invalid CPU frequency for this chip!
+#error Invalid CPU frequency for this chip!
 #endif
 
     CSCTL3 = SELREF__REFOCLK;                   // REFO for FLL
@@ -187,24 +187,274 @@ static void initClocks(){
     }else{
         CSCTL4 &= ~SELA__REFOCLK;               // ACLK from LXFT
         CSCTL3 &= ~SELREF__REFOCLK;             // FLL REF from LXFT
+        aclk = 32768;
     }
 }
 // ---------------------------------------------------------------------------------------------------------------------
-#elif (defined(__MSP430_HAS_CS__) || defined(__MSP430_HAS_CS_A__)) && (defined(__MSP430_HAS_FRAM__) || defined(__MSP430_HAS_FRCTL_A__) || defined(__MSP430_HAS_FRAM_FR5XX__))
+#elif (defined(__MSP430_HAS_CS__) || defined(__MSP430_HAS_CS_A__)) && (defined(__MSP430_HAS_FRAM__) || defined(__MSP430_HAS_FRCTL_A__))
 // ---------------------------------------------------------------------------------------------------------------------
 // Clock initialization for MSP430 FRAM chips other than FR2XX and FR4XX family
 // ---------------------------------------------------------------------------------------------------------------------
 // Includes FR5969
 static void initClocks(){
 
+    // These names were changed at some point. Not consistent between chips.
+#if !defined(NACCESS_0)
+#define NACCESS_0  NWAITS_0
+#define NACCESS_1  NWAITS_1
+#define NACCESS_2  NWAITS_2
+#endif
+
+    CSCTL0 = 0;                                 // Enable access to CS registers
+    CSCTL2 &= ~SELM_7;                          // Clear MCLK source
+    CSCTL2 |= SELM__DCOCLK;                     // Use DCO for MCLK
+    CSCTL3 &= ~(DIVM_3 | DIVS_3);               // Clear division bits
+
+#if F_CPU == 24000000L
+    FRCTL0 = FWPW | NACCESS_2;                  // 2 wait states
+    CSCTL1 = DCOFSEL_6 | DCORSEL;               // Level 6 / Range 1: 24.0 MHz
+#elif F_CPU == 16000000L
+    FRCTL0 = FWPW | NACCESS_1;                  // 1 wait state
+    CSCTL1 = DCOFSEL_4 | DCORSEL;               // Level 4 / Range 1: 16.0 MHz
+#elif F_CPU == 12000000L
+    FRCTL0 = FWPW | NACCESS_1;                  // 1 wait state
+    CSCTL1 = DCOFSEL_6 | DCORSEL;               // Level 6 / Ragne 1: 24.0 MHz
+    CSCTL3 |= DIVM_1;                           // Divide by 2
+#elif F_CPU == 8000000L
+    CSCTL1 = DCOFSEL_3 | DCORSEL;               // Level 3 / Range 1: 8.0MHz
+#elif F_CPU == 4000000L
+    CSCTL1 = DCOFSEL_3 | DCORSEL;               // Level 3 / Range 1: 8.0MHz
+    CSCTL3 |= DIVM_1;                           // Divide by 2 = 4.0 MHz
+#elif F_CPU == 2000000L
+    CSCTL1 = DCOFSEL_3 | DCORSEL;               // Level 3 / Range 1: 8.0MHz
+    CSCTL3 |= DIVM_2;                           // Divide by 4 = 2.0 Mhz
+#elif F_CPU == 1000000L
+    CSCTL1 = DCOFSEL_3 | DCORSEL;               // Level 3 / Range 1: 8.0MHz
+    CSCTL3 |= DIVM_3;                           // Divide by 8 = 1.0 MHz
+#else
+#error Invalid CPU frequency for this chip!
+#endif
+
+    // Setup pins for ACLK setup
+    PJOUT = 0xFF;                               // All pins output
+    PJOUT = 0;                                  // All pins low
+    PJSEL0 = BIT4 | BIT5;                       // PJ.4 and PJ.5 as XTAL
+    CSCTL4 &= ~LFXTOFF;                         // Enable LXFT
+
+    // Wait up to 2 seconds for 32768 LXFT oscillator to start
+    // Started when fault flag does not get set
+#ifndef NOLXFT1
+    unsigned int timeout = 4;
+    do{
+        timeout--;
+        CSCTL5 &= ~LFXTOFFG;                    // Clear oscillator fault flag
+        SFRIFG1 &= ~OFIFG;                      // Clear fault interrupt flag
+        __delay_cycles(500000L * 
+                        (F_CPU/1000000L));      // Delay 500ms
+        if(timeout == 0) break;                 // Timed out
+    }while(SFRIFG1 & OFIFG);
+#else
+    unsigned int timeout = 0;
+#endif
+    if(timeout == 0){
+        // Exact frequency varies between devices and have a large range
+        // 8kHz seems to be a reasonable middle ground...
+        // Probably not that imporant what this is set to. Not really any reason
+        // to disable LXFT on these devices. There are dedicated pins for it.
+        // Usually, devices operate without LXFT because the pins are shared
+        // with GPIO. That is not the case here.
+        aclk_freq = 8000;                       // ACLK = VLO.
+        CSCTL2 |= SELA__VLOCLK;                 // ACLK from VLO  
+        CSCTL4 |= LFXTOFF;                      // Disable LXFT 
+    }else{
+        aclk_freq = 32768;
+    }
 }
 // ---------------------------------------------------------------------------------------------------------------------
-#else
-
+#elif defined(__MSP430_HAS_CS__) && defined(__MSP430_HAS_FRAM_FR5XX__)
+// ---------------------------------------------------------------------------------------------------------------------
+// Clock initialization for MSP430 FRAM with FRAM_FR5XX
+// ---------------------------------------------------------------------------------------------------------------------
+// Includes FR5739
+// Note: Untested as I have no boards that use this
 static void initClocks(){
-    #error Clock configuration unknown for this chip!
-}
+    CSCTL0 = CSKEY;                             // Enable Access to CS Registers
+  
+    CSCTL2 &= ~SELM_7;                          // Clear selected Main CLK Source
+    CSCTL2 |= SELM__DCOCLK;                     // Use DCO as Main Clock Source
+    CSCTL3 &= ~(DIVM_3 | DIVS_3);               // clear DIVM Bits
+#if F_CPU == 24000000L
+    CSCTL1 = DCOFSEL0 | DCOFSEL1 | DCORSEL;     // Level 2 / Range 1 : 24.0MHz
+#elif F_CPU == 16000000L
+    CSCTL1 = DCORSEL;                           // Level 0 / Range 1 : 16.0MHz
+#elif F_CPU == 12000000L
+    CSCTL1 = DCOFSEL0 | DCOFSEL1 | DCORSEL;     // Level 2 / Range 1 : 24.0MHz
+    CSCTL3 |= DIVM_1;                           // Div = 2
+#elif F_CPU == 8000000L
+    CSCTL1 = DCOFSEL0 | DCOFSEL1;               // Level 2 / Range 0 : 8.0MHz
+#elif F_CPU == 4000000L
+    CSCTL1 = DCOFSEL0 | DCOFSEL1;               // Level 2 / Range 0 : 8.0MHz
+    CSCTL3 |= DIVM_1;                           // Div = 2
+#elif F_CPU == 2000000L
+    CSCTL1 = DCOFSEL0 | DCOFSEL1;               // Level 2 / Range 0 : 8.0MHz
+    CSCTL3 |= DIVM_2;                           // Div = 4
+#elif F_CPU == 1000000L
+    CSCTL1 = DCOFSEL0 | DCOFSEL1;               // Level 2 / Range 0 : 8.0MHz
+    CSCTL3 |= DIVM_3;                           // Div = 8
+#else
+#error Invalid CPU frequency for this chip!
+#endif
 
+    // Setup pins for ACLK setup
+    PJOUT = 0xFF;                               // All pins output
+    PJOUT = 0;                                  // All pins low
+    PJSEL0 = BIT4 | BIT5;                       // PJ.4 and PJ.5 as XTAL
+    CSCTL4 &= ~XT1OFF;                          // Enable LXFT (XT1)
+
+    // Wait up to 2 seconds for 32768 LXFT oscillator to start
+    // Started when fault flag does not get set
+#ifndef NOLXFT1
+    unsigned int timeout = 4;
+    do{
+        timeout--;
+        CSCTL5 &= ~XT1OFFG;                     // Clear oscillator fault flag
+        SFRIFG1 &= ~OFIFG;                      // Clear fault interrupt flag
+        __delay_cycles(500000L * 
+                        (F_CPU/1000000L));      // Delay 500ms
+        if(timeout == 0) break;                 // Timed out
+    }while(SFRIFG1 & OFIFG);
+#else
+    unsigned int timeout = 0;
+#endif
+    if(timeout == 0){
+        // Exact frequency varies between devices and have a large range
+        // 8kHz seems to be a reasonable middle ground...
+        // Probably not that imporant what this is set to. Not really any reason
+        // to disable LXFT on these devices. There are dedicated pins for it.
+        // Usually, devices operate without LXFT because the pins are shared
+        // with GPIO. That is not the case here.
+        aclk_freq = 8000;                       // ACLK = VLO.
+        CSCTL2 |= SELA__VLOCLK;                 // ACLK from VLO
+        CSCTL4 |= XT1OFF;                       // Disable LXFT (XT1)     
+    }else{
+        aclk_freq = 32768;
+    }
+}
+// ---------------------------------------------------------------------------------------------------------------------
+#elif defined(__MSP430_HAS_UCS__)
+// ---------------------------------------------------------------------------------------------------------------------
+// Clock initialization for MSP430 chips with universal clock system
+// ---------------------------------------------------------------------------------------------------------------------
+// Includes F5529
+// Note: Untested as I have no boards that use this
+static void initClocks(){
+    PMMCTL0_H = PMMPW_H;             // open PMM
+    SVSMLCTL &= ~SVSMLRRL_7;         // reset
+    PMMCTL0_L = PMMCOREV_0;          //
+    
+    PMMIFG &= ~(SVSMLDLYIFG|SVMLVLRIFG|SVMLIFG);  // clear flags
+    SVSMLCTL = (SVSMLCTL & ~SVSMLRRL_7) | SVSMLRRL_1;
+    while ((PMMIFG & SVSMLDLYIFG) == 0); // wait till settled
+    while ((PMMIFG & SVMLIFG) == 0); // wait for flag
+    PMMCTL0_L = (PMMCTL0_L & ~PMMCOREV_3) | PMMCOREV_1; // set VCore for lext Speed
+    while ((PMMIFG & SVMLVLRIFG) == 0);  // wait till level reached
+
+    PMMIFG &= ~(SVSMLDLYIFG|SVMLVLRIFG|SVMLIFG);  // clear flags
+    SVSMLCTL = (SVSMLCTL & ~SVSMLRRL_7) | SVSMLRRL_2;
+    while ((PMMIFG & SVSMLDLYIFG) == 0); // wait till settled
+    while ((PMMIFG & SVMLIFG) == 0); // wait for flag
+    PMMCTL0_L = (PMMCTL0_L & ~PMMCOREV_3) | PMMCOREV_2; // set VCore for lext Speed
+    while ((PMMIFG & SVMLVLRIFG) == 0);  // wait till level reached
+
+    PMMIFG &= ~(SVSMLDLYIFG|SVMLVLRIFG|SVMLIFG);  // clear flags
+    SVSMLCTL = (SVSMLCTL & ~SVSMLRRL_7) | SVSMLRRL_3;
+    while ((PMMIFG & SVSMLDLYIFG) == 0); // wait till settled
+    while ((PMMIFG & SVMLIFG) == 0); // wait for flag
+    PMMCTL0_L = (PMMCTL0_L & ~PMMCOREV_3) | PMMCOREV_3; // set VCore for lext Speed
+    while ((PMMIFG & SVMLVLRIFG) == 0);  // wait till level reached
+    SVSMHCTL &= ~(SVMHE+SVSHE);         // Disable High side SVS 
+    SVSMLCTL &= ~(SVMLE+SVSLE);         // Disable Low side SVS
+
+    PMMCTL0_H = 0;                   // lock PMM
+
+    UCSCTL0 = 0;                     // set lowest Frequency
+#if F_CPU == 25000000L
+    UCSCTL1 = DCORSEL_6;             //Range 6
+    UCSCTL2 = 0x1176;                //Loop Control Setting
+    UCSCTL3 = SELREF__REFOCLK;       //REFO for FLL
+    UCSCTL4 = SELA__XT1CLK|SELM__DCOCLK|SELS__DCOCLK;  //Select clock sources
+    UCSCTL7 &= ~(0x07);               //Clear Fault flags
+#elif F_CPU == 24000000L
+    UCSCTL1 = DCORSEL_6;             //Range 6
+    UCSCTL2 = 0x116D;                //Loop Control Setting
+    UCSCTL3 = SELREF__REFOCLK;       //REFO for FLL
+    UCSCTL4 = SELA__XT1CLK|SELM__DCOCLK|SELS__DCOCLK;  //Select clock sources
+    UCSCTL7 &= ~(0x07);               //Clear Fault flags
+#elif F_CPU == 16000000L
+    UCSCTL1 = DCORSEL_6;             //Range 6
+    UCSCTL2 = 0x11E7;                //Loop Control Setting
+    UCSCTL3 = SELREF__REFOCLK;       //REFO for FLL
+    UCSCTL4 = SELA__XT1CLK|SELM__DCOCLKDIV|SELS__DCOCLKDIV;  //Select clock sources
+    UCSCTL7 &= ~(0x07);               //Clear Fault flags
+#elif F_CPU == 12000000L
+    UCSCTL1 = DCORSEL_6;             //Range 6
+    UCSCTL2 = 0x116D;                //Loop Control Setting
+    UCSCTL3 = SELREF__REFOCLK;       //REFO for FLL
+    UCSCTL4 = SELA__XT1CLK|SELM__DCOCLKDIV|SELS__DCOCLKDIV;  //Select clock sources
+    UCSCTL7 &= ~(0x07);               //Clear Fault flags
+#elif F_CPU == 8000000L
+    UCSCTL1 = DCORSEL_5;             //Range 6
+    UCSCTL2 = 0x10F3;                //Loop Control Setting
+    UCSCTL3 = SELREF__REFOCLK;       //REFO for FLL
+    UCSCTL4 = SELA__XT1CLK|SELM__DCOCLKDIV|SELS__DCOCLKDIV;  //Select clock sources
+    UCSCTL7 &= ~(0x07);               //Clear Fault flags
+#elif F_CPU == 1000000L
+    UCSCTL1 = DCORSEL_2;             //Range 6
+    UCSCTL2 = 0x101D;                //Loop Control Setting
+    UCSCTL3 = SELREF__REFOCLK;       //REFO for FLL
+    UCSCTL4 = SELA__XT1CLK|SELM__DCOCLKDIV|SELS__DCOCLKDIV;  //Select clock sources
+    UCSCTL7 &= ~(0x07);               //Clear Fault flags
+#else
+#error Invalid CPU frequency for this chip!
+#endif
+
+    // ACLK configuration
+
+    P5SEL |= BIT4 + BIT5;
+	P5DIR |= BIT2 + BIT3;
+	UCSCTL6 &= ~(XT1OFF);
+	UCSCTL6 |= XCAP_3;
+
+#ifndef NOLXFT1
+    unsigned int timeout = 4;
+    do{
+        timeout--;
+        UCSCTL7 &= ~(XT2OFFG + XT1LFOFFG + DCOFFG);
+		SFRIFG1 &= ~OFIFG;
+        __delay_cycles(500000L * 
+                        (F_CPU/1000000L));      // Delay 500ms
+        if(timeout == 0) break;                 // Timed out
+    }while(SFRIFG1 & OFIFG);
+#else
+    unsigned int timeout = 0;
+#endif
+    if(timeout == 0){
+        UCSCTL4 &= ~SELA_7;                     // Clear ACLK selection bits
+        UCSCTL4 |= SELA__REFOCLK;               // Source from REFO
+        aclk_freq = 32768;
+    }else{
+        UCSCTL4 &= ~SELA_7;                     // Clear ACLK selection bits
+        UCSCTL4 |= SELA__XT1CLK;                // Source from LFXT1
+        aclk_freq = 32768;
+    }
+    UCSCTL6 &= ~(XT1DRIVE_3);
+}
+// ---------------------------------------------------------------------------------------------------------------------
+
+#else
+static void initClocks(){
+#error Clock configuration unknown for this chip!
+}
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
