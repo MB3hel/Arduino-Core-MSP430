@@ -110,6 +110,10 @@ tools.mspdebug.cmd.path={path}/mspdebug
 tools.mspdebug.upload.pattern={cmd.path} {upload.verbose} -d {serial.port} --allow-fw-update {upload.protocol} --force-reset "prog {build.path}/{build.project_name}.hex" {upload.verify}
 
 # uniflash-launcher
+# Note that there is no way to set a serial port because dslite / uniflsah / ccs
+# support "TI MSP430 USB1", "TI MSP430 USB2", and "TI MSP430 USB3" hard coded in 
+# ccxml file. The ccxml files in this repo use USB1, thus the first FET
+# connected is used.
 tools.uniflash-launcher.upload.params.verbose=-e
 tools.uniflash-launcher.upload.params.quiet=
 tools.uniflash-launcher.upload.params.verify=-v

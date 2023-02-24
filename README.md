@@ -121,6 +121,16 @@ $ realpath usb-Texas_Instruments_MSP_Tools_Driver_SERIAL-if02
 &ast;*I don't have any older launchpads with the ez430 debuggers, but it seems that the same general information applies. One upload port and one target port.*
 
 
+### UniFlash Uploader
+
+As an alternative to the included `mspdebug` TI's [UniFlash](https://www.ti.com/tool/UNIFLASH) can be used to upload a program to the board. *UniFlash must be installed on your computer manually.* It will not be automatically installed by the Arduino IDE when using this core.
+
+UniFlash is invoked using a wrapper that searches for the newest version installed on your computer. Note that you can put the UniFlash directory in the PATH (so that `dslite.sh` or `dslite.bat` is in the path) to override what version is used.
+
+Note that when using UniFlash, it will always attempt to upload the the first device that was connected to your computer. Thus, **the Port setting has no effect on uploading**. You must still select the target port to use the Serial Monitor though.
+
+To use UniFlash as an uploader, select "UniFlash" under `Tools > Upload Tool`. Note that this is not supported for older launchpads using the ez430 debugger.
+
 ### Libraries
 
 For specific library documentation, refer to the "Core Libraries" section of [Energia's docs](https://energia.nu/guide/libraries/).
