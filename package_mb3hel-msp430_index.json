@@ -240,7 +240,7 @@
       "tools": [
         {
           "name": "uniflash-launcher", 
-          "version": "9.3.1.11", 
+          "version": "1.0.0", 
           "systems": [
             {
               "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc2/uniflash-launcher-1.0.0.tar.bz2", 
