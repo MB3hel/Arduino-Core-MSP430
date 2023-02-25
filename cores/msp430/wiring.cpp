@@ -37,7 +37,7 @@ volatile unsigned int aclk_freq = 0;                                // Frequency
 // Initialize SMCLK to frequency F_CPU
 // Initialize ACLK to external 32.768kHz oscillator
 //   fallback to VLO if fails (VLO freq depends on chip)
-//   Note that NOLXFT1 can be defined to use the VLO without attempting
+//   Note that NOLFXT1 can be defined to use the VLO without attempting
 //   to use an external crystal first.
 
 
@@ -71,7 +71,7 @@ static void initClocks(){
     // Started when fault flag does not get set
     // Reset state has P2.6 and P2.7 used for LXFT1
     // Reset state has LXFT1 in normal mode (LXFT1S = 0b00)
-#ifndef NOLXFT1
+#ifndef NOLFXT1
     unsigned int timeout = 4;
     do{
         timeout--;
@@ -111,8 +111,10 @@ static void initClocks(){
 #endif
 
     // Add FRAM wait states
-#if F_CPU >= 8000000L
-    FRCTL0 = FWPW | NACCESS_1;
+#if F_CPU >= 16000000L
+    FRCTL0 = FWPW | NACCESS_2;                  // two wait states
+#elif F_CPU >= 8000000L
+    FRCTL0 = FWPW | NACCESS_1;                  // one wait state
 #endif
 
     CSCTL0 = 0;                                 // Configure lowest frequency
@@ -127,7 +129,13 @@ static void initClocks(){
     // FLLN and FLLD in the CSCTL2 register
     // FLLN is lower 10 bits. FLLD is bits 12, 13, and 14
     // Note that FLLD is 1, 2, 4, 8, 16, or 32 (not 0-8)
-#if F_CPU== 16000000L
+#if F_CPU == 24000000L
+    CSCTL1 = DCORSEL_7;                         // Range 7
+    CSCTL2 = 0x02DC;                            // Loop control setting
+#elif F_CPU == 20000000L
+    CSCTL1 = DCORSEL_6;                         // Range 6
+    CSCTL2 = 0x0262;                            // Loop control setting
+#elif F_CPU == 16000000L
     CSCTL1 = DCORSEL_5;                         // Range 5
     CSCTL2 = 0x01E7;                            // Loop control setting
 #elif F_CPU == 12000000L
@@ -152,20 +160,21 @@ static void initClocks(){
     CSCTL3 = SELREF__REFOCLK;                   // REFO for FLL
     CSCTL4 = SELA__XT1CLK |                     // XT1CLK for ACLK
              SELMS__DCOCLKDIV;                  // DCODIV for MCLK and SMCLK
+    CSCTL7 &= ~(0x07);                          // Clear all fault flags
 
     // Setup pins for LXFT if needed (shared on some devices, internal on others)
 #if (defined(INIT_LFXTAL_PINS))
     // Defined in pins_arduino.h for different variants
 	INIT_LFXTAL_PINS;
- #elif (defined(__MSP430_HAS_PORTJ_R__))
+#elif (defined(__MSP430_HAS_PORTJ_R__))
 	PJDIR = 0xFF;                               // All pins output
 	PJOUT = 0;                                  // All pins low
 	PJSEL0 = BIT4 | BIT5;                       // PJ.4 and PJ.5 as XTAL
- #endif	
+#endif	
 
     // Wait up to 2 seconds for 32768 LXFT1 oscillator to start
     // Started when fault flag does not get set
-#ifndef NOLXFT1
+#ifndef NOLFXT1
     unsigned int timeout = 4;
     do{
         timeout--;
@@ -180,14 +189,18 @@ static void initClocks(){
 #endif
     if(timeout == 0){
         aclk_freq = 32768;                      // ACLK = REFO = 32768
+        CSCTL4 &= ~SELA;                        // Clear ACLK select bits
         CSCTL4 |= SELA__REFOCLK;                // ACLK from REFO
-        CSCTL3 |= SELREF__REFOCLK;              // FLL REF from REFO
+        CSCTL3 &= ~SELREF;                      // Clear SELREF bits
+        CSCTL3 |= SELREF__REFOCLK;              // FLL ref from REFO
         CSCTL7 &= ~(DCOFFG|XT1OFFG|FLLULIFG);   // Clear flags
-        SFRIFG1 &= !OFIFG;                      // Clear flag
+        SFRIFG1 &= ~OFIFG;                      // Clear flag
     }else{
-        CSCTL4 &= ~SELA__REFOCLK;               // ACLK from LXFT
-        CSCTL3 &= ~SELREF__REFOCLK;             // FLL REF from LXFT
-        aclk = 32768;
+        CSCTL4 &= ~SELA;                        // Clear ACLK select bits
+        CSCTL4 |= SELA__XT1CLK;                 // ACLK from LFXT1
+        CSCTL3 &= ~SELREF;                      // Clear SELREF bits
+        CSCTL3 |= SELREF__XT1CLK;               // FLL ref from LFXT1
+        aclk_freq = 32768;
     }
 }
 // ---------------------------------------------------------------------------------------------------------------------
@@ -243,7 +256,7 @@ static void initClocks(){
 
     // Wait up to 2 seconds for 32768 LXFT oscillator to start
     // Started when fault flag does not get set
-#ifndef NOLXFT1
+#ifndef NOLFXT1
     unsigned int timeout = 4;
     do{
         timeout--;
@@ -313,7 +326,7 @@ static void initClocks(){
 
     // Wait up to 2 seconds for 32768 LXFT oscillator to start
     // Started when fault flag does not get set
-#ifndef NOLXFT1
+#ifndef NOLFXT1
     unsigned int timeout = 4;
     do{
         timeout--;
@@ -425,7 +438,7 @@ static void initClocks(){
 	UCSCTL6 &= ~(XT1OFF);
 	UCSCTL6 |= XCAP_3;
 
-#ifndef NOLXFT1
+#ifndef NOLFXT1
     unsigned int timeout = 4;
     do{
         timeout--;
