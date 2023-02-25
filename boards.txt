@@ -6,6 +6,9 @@
 # Used to set .menu.upload_tool.mspdebug.upload.tool and .menu.upload_tool.mspdebug.upload.protocol
 menu.upload_tool=Upload Tool
 
+# Used to set .build.lto_flags
+menu.lto=Link Time Optimization
+
 # ------------------------------------------------------------------------------
 
 
@@ -27,10 +30,14 @@ MSP-EXP430F5529LP.build.board=MSP_EXP430F5529LP
 MSP-EXP430F5529LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430F5529LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430F5529LP.menu.upload_tool.mspdebug.upload.protocol=tilib
-
 MSP-EXP430F5529LP.menu.upload_tool.uniflash=UniFlash
 MSP-EXP430F5529LP.menu.upload_tool.uniflash.upload.tool=uniflash-launcher
 MSP-EXP430F5529LP.menu.upload_tool.uniflash.upload.protocol=
+
+MSP-EXP430F5529LP.menu.lto.disabled=Disabled
+MSP-EXP430F5529LP.menu.lto.disabled.build.lto_flags=
+MSP-EXP430F5529LP.menu.lto.enabled=Enabled
+MSP-EXP430F5529LP.menu.lto.enabled.build.lto_flags=-flto
 
 MSP-EXP430F5529LP.upload.maximum_size=48128
 MSP-EXP430F5529LP.upload.maximum_data_size=8192
@@ -56,10 +63,14 @@ MSP-EXP430FR2433LP.build.extra_flags=-msmall -mhwmult=auto
 MSP-EXP430FR2433LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430FR2433LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430FR2433LP.menu.upload_tool.mspdebug.upload.protocol=tilib
-
 MSP-EXP430FR2433LP.menu.upload_tool.uniflash=UniFlash
 MSP-EXP430FR2433LP.menu.upload_tool.uniflash.upload.tool=uniflash-launcher
 MSP-EXP430FR2433LP.menu.upload_tool.uniflash.upload.protocol=
+
+MSP-EXP430FR2433LP.menu.lto.disabled=Disabled
+MSP-EXP430FR2433LP.menu.lto.disabled.build.lto_flags=
+MSP-EXP430FR2433LP.menu.lto.enabled=Enabled
+MSP-EXP430FR2433LP.menu.lto.enabled.build.lto_flags=-flto
 
 MSP-EXP430FR2433LP.upload.maximum_size=15360
 MSP-EXP430FR2433LP.upload.maximum_data_size=4096
@@ -85,10 +96,14 @@ MSP-EXP430FR4133LP.build.extra_flags=-msmall -mhwmult=auto
 MSP-EXP430FR4133LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430FR4133LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430FR4133LP.menu.upload_tool.mspdebug.upload.protocol=tilib
-
 MSP-EXP430FR4133LP.menu.upload_tool.uniflash=UniFlash
 MSP-EXP430FR4133LP.menu.upload_tool.uniflash.upload.tool=uniflash-launcher
 MSP-EXP430FR4133LP.menu.upload_tool.uniflash.upload.protocol=
+
+MSP-EXP430FR4133LP.menu.lto.disabled=Disabled
+MSP-EXP430FR4133LP.menu.lto.disabled.build.lto_flags=
+MSP-EXP430FR4133LP.menu.lto.enabled=Enabled
+MSP-EXP430FR4133LP.menu.lto.enabled.build.lto_flags=-flto
 
 MSP-EXP430FR4133LP.upload.maximum_size=15360
 MSP-EXP430FR4133LP.upload.maximum_data_size=2048
@@ -113,10 +128,14 @@ MSP-EXP430FR5969LP.build.board=MSP_EXP430FR5969LP
 MSP-EXP430FR5969LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430FR5969LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430FR5969LP.menu.upload_tool.mspdebug.upload.protocol=tilib
-
 MSP-EXP430FR5969LP.menu.upload_tool.uniflash=UniFlash
 MSP-EXP430FR5969LP.menu.upload_tool.uniflash.upload.tool=uniflash-launcher
 MSP-EXP430FR5969LP.menu.upload_tool.uniflash.upload.protocol=
+
+MSP-EXP430FR5969LP.menu.lto.disabled=Disabled
+MSP-EXP430FR5969LP.menu.lto.disabled.build.lto_flags=
+MSP-EXP430FR5969LP.menu.lto.enabled=Enabled
+MSP-EXP430FR5969LP.menu.lto.enabled.build.lto_flags=-flto
 
 MSP-EXP430FR5969LP.upload.maximum_size=48128
 MSP-EXP430FR5969LP.upload.maximum_data_size=2048
@@ -141,10 +160,14 @@ MSP-EXP430FR6989LP.build.board=MSP_EXP430FR6989LP
 MSP-EXP430FR6989LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430FR6989LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430FR6989LP.menu.upload_tool.mspdebug.upload.protocol=tilib
-
 MSP-EXP430FR6989LP.menu.upload_tool.uniflash=UniFlash
 MSP-EXP430FR6989LP.menu.upload_tool.uniflash.upload.tool=uniflash-launcher
 MSP-EXP430FR6989LP.menu.upload_tool.uniflash.upload.protocol=
+
+MSP-EXP430FR6989LP.menu.lto.disabled=Disabled
+MSP-EXP430FR6989LP.menu.lto.disabled.build.lto_flags=
+MSP-EXP430FR6989LP.menu.lto.enabled=Enabled
+MSP-EXP430FR6989LP.menu.lto.enabled.build.lto_flags=-flto
 
 MSP-EXP430FR6989LP.upload.maximum_size=48128
 MSP-EXP430FR6989LP.upload.maximum_data_size=2048
@@ -171,6 +194,11 @@ MSP-EXP430G2231LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430G2231LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430G2231LP.menu.upload_tool.mspdebug.upload.protocol=rf2500
 
+MSP-EXP430G2231LP.menu.lto.disabled=Disabled
+MSP-EXP430G2231LP.menu.lto.disabled.build.lto_flags=
+MSP-EXP430G2231LP.menu.lto.enabled=Enabled
+MSP-EXP430G2231LP.menu.lto.enabled.build.lto_flags=-flto
+
 MSP-EXP430G2231LP.upload.maximum_size=2048
 MSP-EXP430G2231LP.upload.maximum_data_size=256
 # ------------------------------------------------------------------------------
@@ -195,6 +223,11 @@ MSP-EXP430G2452LP.build.extra_flags=
 MSP-EXP430G2452LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430G2452LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430G2452LP.menu.upload_tool.mspdebug.upload.protocol=rf2500
+
+MSP-EXP430G2452LP.menu.lto.disabled=Disabled
+MSP-EXP430G2452LP.menu.lto.disabled.build.lto_flags=
+MSP-EXP430G2452LP.menu.lto.enabled=Enabled
+MSP-EXP430G2452LP.menu.lto.enabled.build.lto_flags=-flto
 
 MSP-EXP430G2452LP.upload.maximum_size=8192
 MSP-EXP430G2452LP.upload.maximum_data_size=256
@@ -221,6 +254,11 @@ MSP-EXP430G2553LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430G2553LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430G2553LP.menu.upload_tool.mspdebug.upload.protocol=rf2500
 
+MSP-EXP430G2553LP.menu.lto.disabled=Disabled
+MSP-EXP430G2553LP.menu.lto.disabled.build.lto_flags=
+MSP-EXP430G2553LP.menu.lto.enabled=Enabled
+MSP-EXP430G2553LP.menu.lto.enabled.build.lto_flags=-flto
+
 MSP-EXP430G2553LP.upload.maximum_size=16384
 MSP-EXP430G2553LP.upload.maximum_data_size=512
 # ------------------------------------------------------------------------------
@@ -245,10 +283,14 @@ MSP-EXP430G2ET2553LP.build.extra_flags=
 MSP-EXP430G2ET2553LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430G2ET2553LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430G2ET2553LP.menu.upload_tool.mspdebug.upload.protocol=tilib
-
 MSP-EXP430G2ET2553LP.menu.upload_tool.uniflash=UniFlash
 MSP-EXP430G2ET2553LP.menu.upload_tool.uniflash.upload.tool=uniflash-launcher
 MSP-EXP430G2ET2553LP.menu.upload_tool.uniflash.upload.protocol=
+
+MSP-EXP430G2ET2553LP.menu.lto.disabled=Disabled
+MSP-EXP430G2ET2553LP.menu.lto.disabled.build.lto_flags=
+MSP-EXP430G2ET2553LP.menu.lto.enabled=Enabled
+MSP-EXP430G2ET2553LP.menu.lto.enabled.build.lto_flags=-flto
 
 MSP-EXP430G2ET2553LP.upload.maximum_size=16384
 MSP-EXP430G2ET2553LP.upload.maximum_data_size=512
@@ -275,6 +317,11 @@ MSP-EXP430FR5739LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430FR5739LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430FR5739LP.menu.upload_tool.mspdebug.upload.protocol=rf2500
 
+MSP-EXP430FR5739LP.menu.lto.disabled=Disabled
+MSP-EXP430FR5739LP.menu.lto.disabled.build.lto_flags=
+MSP-EXP430FR5739LP.menu.lto.enabled=Enabled
+MSP-EXP430FR5739LP.menu.lto.enabled.build.lto_flags=-flto
+
 MSP-EXP430FR5739LP.upload.maximum_size=15743
 MSP-EXP430FR5739LP.upload.maximum_data_size=1024
 # ------------------------------------------------------------------------------
@@ -299,10 +346,14 @@ MSP-EXP430FR2355LP.build.extra_flags=-msmall -mhwmult=auto
 MSP-EXP430FR2355LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430FR2355LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430FR2355LP.menu.upload_tool.mspdebug.upload.protocol=tilib
-
 MSP-EXP430FR2355LP.menu.upload_tool.uniflash=UniFlash
 MSP-EXP430FR2355LP.menu.upload_tool.uniflash.upload.tool=uniflash-launcher
 MSP-EXP430FR2355LP.menu.upload_tool.uniflash.upload.protocol=
+
+MSP-EXP430FR2355LP.menu.lto.disabled=Disabled
+MSP-EXP430FR2355LP.menu.lto.disabled.build.lto_flags=
+MSP-EXP430FR2355LP.menu.lto.enabled=Enabled
+MSP-EXP430FR2355LP.menu.lto.enabled.build.lto_flags=-flto
 
 MSP-EXP430FR2355LP.upload.maximum_size=32768
 MSP-EXP430FR2355LP.upload.maximum_data_size=4096
@@ -327,10 +378,14 @@ MSP-EXP430FR5994LP.build.board=MSP_EXP430FR5994LP
 MSP-EXP430FR5994LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430FR5994LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430FR5994LP.menu.upload_tool.mspdebug.upload.protocol=tilib
-
 MSP-EXP430FR5994LP.menu.upload_tool.uniflash=UniFlash
 MSP-EXP430FR5994LP.menu.upload_tool.uniflash.upload.tool=uniflash-launcher
 MSP-EXP430FR5994LP.menu.upload_tool.uniflash.upload.protocol=
+
+MSP-EXP430FR5994LP.menu.lto.disabled=Disabled
+MSP-EXP430FR5994LP.menu.lto.disabled.build.lto_flags=
+MSP-EXP430FR5994LP.menu.lto.enabled=Enabled
+MSP-EXP430FR5994LP.menu.lto.enabled.build.lto_flags=-flto
 
 MSP-EXP430FR5994LP.upload.maximum_size=262144
 MSP-EXP430FR5994LP.upload.maximum_data_size=4096
@@ -356,10 +411,14 @@ MSP-EXP430FR2311LP.build.extra_flags=-msmall -mhwmult=auto
 MSP-EXP430FR2311LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430FR2311LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430FR2311LP.menu.upload_tool.mspdebug.upload.protocol=tilib
-
 MSP-EXP430FR2311LP.menu.upload_tool.uniflash=UniFlash
 MSP-EXP430FR2311LP.menu.upload_tool.uniflash.upload.tool=uniflash-launcher
 MSP-EXP430FR2311LP.menu.upload_tool.uniflash.upload.protocol=
+
+MSP-EXP430FR2311LP.menu.lto.disabled=Disabled
+MSP-EXP430FR2311LP.menu.lto.disabled.build.lto_flags=
+MSP-EXP430FR2311LP.menu.lto.enabled=Enabled
+MSP-EXP430FR2311LP.menu.lto.enabled.build.lto_flags=-flto
 
 MSP-EXP430FR2311LP.upload.maximum_size=3840
 MSP-EXP430FR2311LP.upload.maximum_data_size=1024
@@ -385,10 +444,14 @@ MSP-EXP430FR2476LP.build.extra_flags=
 MSP-EXP430FR2476LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430FR2476LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430FR2476LP.menu.upload_tool.mspdebug.upload.protocol=tilib
-
 MSP-EXP430FR2476LP.menu.upload_tool.uniflash=UniFlash
 MSP-EXP430FR2476LP.menu.upload_tool.uniflash.upload.tool=uniflash-launcher
 MSP-EXP430FR2476LP.menu.upload_tool.uniflash.upload.protocol=
+
+MSP-EXP430FR2476LP.menu.lto.disabled=Disabled
+MSP-EXP430FR2476LP.menu.lto.disabled.build.lto_flags=
+MSP-EXP430FR2476LP.menu.lto.enabled=Enabled
+MSP-EXP430FR2476LP.menu.lto.enabled.build.lto_flags=-flto
 
 MSP-EXP430FR2476LP.upload.maximum_size=65536
 MSP-EXP430FR2476LP.upload.maximum_data_size=8192
