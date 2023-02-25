@@ -1,11 +1,12 @@
 #include <Arduino.h>
+#include "api/HardwareSerial.h"
 
 int main(void){
     init();
     setup();
     while(1){
         loop();
-        // TODO: Serial stuff
+        if (arduino::serialEventRun) arduino::serialEventRun();
     }
     return 0;
 }

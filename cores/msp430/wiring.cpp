@@ -165,12 +165,12 @@ static void initClocks(){
     // Setup pins for LXFT if needed (shared on some devices, internal on others)
 #if (defined(INIT_LFXTAL_PINS))
     // Defined in pins_arduino.h for different variants
-	INIT_LFXTAL_PINS;
+    INIT_LFXTAL_PINS;
 #elif (defined(__MSP430_HAS_PORTJ_R__))
-	PJDIR = 0xFF;                               // All pins output
-	PJOUT = 0;                                  // All pins low
-	PJSEL0 = BIT4 | BIT5;                       // PJ.4 and PJ.5 as XTAL
-#endif	
+    PJDIR = 0xFF;                               // All pins output
+    PJOUT = 0;                                  // All pins low
+    PJSEL0 = BIT4 | BIT5;                       // PJ.4 and PJ.5 as XTAL
+#endif    
 
     // Wait up to 2 seconds for 32768 LXFT1 oscillator to start
     // Started when fault flag does not get set
@@ -434,16 +434,16 @@ static void initClocks(){
     // ACLK configuration
 
     P5SEL |= BIT4 + BIT5;
-	P5DIR |= BIT2 + BIT3;
-	UCSCTL6 &= ~(XT1OFF);
-	UCSCTL6 |= XCAP_3;
+    P5DIR |= BIT2 + BIT3;
+    UCSCTL6 &= ~(XT1OFF);
+    UCSCTL6 |= XCAP_3;
 
 #ifndef NOLFXT1
     unsigned int timeout = 4;
     do{
         timeout--;
         UCSCTL7 &= ~(XT2OFFG + XT1LFOFFG + DCOFFG);
-		SFRIFG1 &= ~OFIFG;
+        SFRIFG1 &= ~OFIFG;
         __delay_cycles(500000L * 
                         (F_CPU/1000000L));      // Delay 500ms
         if(timeout == 0) break;                 // Timed out
@@ -473,6 +473,256 @@ static void initClocks(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Watchdog (interval) timer & timing
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Note: This formula is fine as long as F_CPU is at least 1MHz
+//       If lower, this will be zero
+#define CYCLES_PER_US           (F_CPU / (1000000L))
+
+unsigned long millis(void){
+    // TODO: Implement this
+}
+
+unsigned long micros(void){
+    // TODO: Implement this
+}
+
+void delay(unsigned long ms){
+    // TODO: Implement this
+}
+
+void delayMicroseconds(unsigned int us){
+    // Note: Function call overhead determined from comments in energia code pertaining
+    //       to 20 MHz clock
+    // It states that 2 cycles more than function call overhead are exactly 1us delay
+    // Since 20 cycles would be required for a 1us delay, this means the funciton call
+    // overhead is 18 cycles. This makes sense given the other numbers in the comments
+    //
+    // Reference: https://www.ti.com/sc/docs/products/micro/msp430/userguid/as_5.pdf
+    //
+    // This is also consistent with the following (which is generated for a call to this function using CCS w/ MSPGCC)
+    // calling function
+    //      MOV.W    @R1, R12
+    //      CALL    #delayMicroseconds
+    //
+    // callee function
+    //      function_operations
+    //      RET
+    //
+    // CALL: 1xADD, 1xSUB, 3xMOV
+    //      Add 2 to PC (one ADD instruction)
+    //      Push to stack (one push instruction)
+    //          Subtract 2 from PC (one SUB)
+    //          Store in SP (one MOV)
+    //          Store src at SP (one MOV)
+    //      Move func_addr to PC (one MOV instruction)
+    // RET: 2xADD, 3xMOV
+    //      Store top of stack value (frame pointer) to PC (one POP)
+    //          MOV to dest (one MOV)
+    //          ADD 2 to SP (one ADD)
+    //          MOV to SP (one MOV)
+    //      Add 2 to SP (one ADD)
+    //      Store in SP (one MOV)
+    // 
+    // TOTAL:
+    //      3xADD * 1 cycle  = 3 cycles
+    //      6xMOV * 2 cycles = 12 cycles
+    //      1xSUB * 1 cycle  = 1 cycle
+    //                         16 cycles
+    // But some MOVs not to registers (so two cycles)
+    // These are PUSH and POP data moves
+    // So total is actually 18 cycles
+    
+
+#if F_CPU == 24000000L
+    // 24 MHz clock
+    // Function call overhead is 6 cycles short of 1us
+    __asm__ __volatile__ (
+        "nop" "\n\t"
+        "nop" "\n\t"
+        "nop" "\n\t"
+        "nop" "\n\t"
+        "nop" "\n\t"
+        "nop"
+    );
+    if(--us == 0)
+        return;
+    
+    // Following loop is 4 cycles per iteration (4/24 = 1/6us)
+    // So multiply us by 6 -> loop iterations
+    us = (us << 2) + (us << 1);
+
+    // Account for time taken in above operations
+    us -= 3;
+#elif F_CPU == 20000000L
+    // 20 MHz clock
+    // Function call overhead is 2 cycles short of 1us
+    __asm__ __volatile__ (
+        "nop" "\n\t"
+        "nop"
+    );
+    if(--us == 0)
+        return;
+    
+    // Following loop is 4 cycles per iteration (4/20 = 1/5us)
+    // So multiply us by 6 -> loop iterations
+    us = (us << 2) + us;
+
+    // Account for time taken in above operations
+    us -= 2;
+#elif F_CPU == 16000000L
+    // 16 MHz clock
+    // Function call overhead is 1.125us, so just return
+    if(--us == 0)
+        return;
+    
+    // Loop takes 4 cycles (0.25us) per iteration
+    us <<= 2;
+
+    // Account for time in previous commands
+    us -= 1;
+#elif F_CPU == 12000000L
+    // 12 MHz clock
+    // Function call overhead is 1.5us, so just return if sub 2
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    
+    // Loop takes 4 cycles (1/3 us) per iteration
+    us = (us << 1) + us;
+
+    // Account for time in previous commands
+    us -= 1;
+#elif F_CPU == 8000000L
+    // 8 MHz clock
+    // Function call overhead is 2.25us, so just return if 1 or 2
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    
+    // Loop takes 4 cycles (0.5us) per iteration
+    us <<= 1;
+
+    // Account for time in previous commands
+    us -= 1;
+#elif F_CPU == 4000000L
+    // 4 MHz clock
+    // Function call overhead is 4.5us (so return if 5us or less)
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+
+    // Loop takes 4 cycles (1us) per iteration
+    // us >>= 0;
+
+    // Account for time in previous commands
+    us -= 1;
+#elif F_CPU == 2000000L
+    // 2MHz clock
+    // Function call overhead is 9us (so return if 9us or less)
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+
+    // Loop takes 4 cycles (2us) per iteration
+    us >>= 1;
+
+    // Can't account for time of previous commands b/c us may be zero
+#elif F_CPU == 1000000L
+    // 1MHz clock
+    // 2MHz clock
+    // Function call overhead is 9us (so return if 18us or less)
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+    if(--us == 0)
+        return;
+
+    // Loop takes 4 cycles (4us) per iteration
+    us >>= 2;
+
+    // Can't account for time of previous commands b/c us may be zero
+#else
+#error Unsupported clock frequency!
+#endif
+
+    // Loop takes 4 cycles per iteration
+    asm volatile (
+            "L1: nop \n\t"   
+            "dec.w %[us] \n\t"
+            "jnz L1 \n\t"
+            : [us] "=r" (us) : "[us]" (us)
+    );
+}
+
+/**
+ * Configure WDT in interval mode
+ * This mode will not reset the chip when it expires. It is used to generate
+ * a periodic interrupt used for system timing.
+ */
+static void enableWdtInterval(){
+    
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// General initialization
@@ -485,7 +735,7 @@ void init(){
     WDTCTL = WDTPW | WDTHOLD;               // Disable watchdog timer
 #if defined(LOCKLPM5)
      PMMCTL0_H = PMMPW_H;                   // Open PMM
-	 PM5CTL0 &= ~LOCKLPM5;                  // Unlock IO ports (FR59xx)
+     PM5CTL0 &= ~LOCKLPM5;                  // Unlock IO ports (FR59xx)
      PMMCTL0_H = 0;                         // Lock PMM
 #endif
     initClocks();                           // Initialize clocks
