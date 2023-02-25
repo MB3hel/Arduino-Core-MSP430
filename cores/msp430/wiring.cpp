@@ -27,6 +27,13 @@
 
 volatile unsigned int aclk_freq = 0;                                // Frequency of ACLK
 
+// Time in milliseconds tracked by watchdog timer
+volatile unsigned long wdt_millis;
+volatile unsigned long wdt_frac;
+
+// Used for micros()
+volatile unsigned long wdt_overflow_count;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -481,18 +488,67 @@ static void initClocks(){
 //       If lower, this will be zero
 #define CYCLES_PER_US           (F_CPU / (1000000L))
 
+// Used for WDT interval timer
+#if F_CPU < 8000000L
+#define TICKS_PER_WDT_OVERFLOW 512
+#else
+#define TICKS_PER_WDT_OVERFLOW 8192
+#endif
+
+// us per WDT overflow (integer)
+#define MICROSECONDS_PER_WDT_OVERFLOW (TICKS_PER_WDT_OVERFLOW / CYCLES_PER_US)
+
+// Milliseconds (integer and fractional part of 1000) per WDT interrupt
+#define MILLIS_INC (MICROSECONDS_PER_WDT_OVERFLOW / 1000)                                           
+#define FRACT_INC (MICROSECONDS_PER_WDT_OVERFLOW % 1000)
+
 unsigned long millis(void){
-    // TODO: Implement this
+    unsigned long m;
+    uint16_t state = __get_interrupt_state();
+	__disable_interrupt();
+    m = wdt_millis;
+    __set_interrupt_state(state);
+    return m;
 }
 
 unsigned long micros(void){
-    // TODO: Implement this
+    unsigned long m;
+    uint16_t state = __get_interrupt_state();
+	__disable_interrupt();
+    m = wdt_overflow_count;
+    __set_interrupt_state(state);
+    return m * MICROSECONDS_PER_WDT_OVERFLOW;
 }
 
 void delay(unsigned long ms){
-    // TODO: Implement this
+    unsigned long start = micros();
+    uint16_t state = __get_interrupt_state();       // Will need to enable during delay
+    while(ms > 0){
+        if(micros() - start >= 1000){
+            ms--;
+            start += 1000;
+        }
+        __bis_SR_register(LPM0_bits+GIE);           // GIE enables interrupts
+    }
+    __set_interrupt_state(state);                   // Restore interrupt state
 }
 
+// Note: Not acurate for large values. As indicated in arduino language reference
+//       this is not to be used for delays more than a few thousand microseconds.
+//       If too large a value is used, a very short delay will result
+//       The max working value depends on clock speed
+//       Likewise, there is a minimum dealy and a resolution limit
+//       Min delay is due to function call overhead
+//         F_CPU | Max Delay | Min Delay | Resolution
+//       ----------------------------------------------
+//         24MHz | 10922us   | 1us       | 1us
+//         20MHz | 13107us   | 1us       | 1us
+//         16MHz | 16383us   | 1us       | 1us
+//         12MHz | 21845us   | 1us       | 1us
+//          8MHz | 32767us   | 2us       | 1us
+//          4MHz | 65535us   | 4us       | 1us
+//          2MHz | 65535us   | 9us       | 2us
+//          1MHz | 65535us   | 18us      | 4us
 void delayMicroseconds(unsigned int us){
     // Note: Function call overhead determined from comments in energia code pertaining
     //       to 20 MHz clock
@@ -539,7 +595,7 @@ void delayMicroseconds(unsigned int us){
 #if F_CPU == 24000000L
     // 24 MHz clock
     // Function call overhead is 6 cycles short of 1us
-    __asm__ __volatile__ (
+    asm volatile (
         "nop" "\n\t"
         "nop" "\n\t"
         "nop" "\n\t"
@@ -559,7 +615,7 @@ void delayMicroseconds(unsigned int us){
 #elif F_CPU == 20000000L
     // 20 MHz clock
     // Function call overhead is 2 cycles short of 1us
-    __asm__ __volatile__ (
+    asm volatile (
         "nop" "\n\t"
         "nop"
     );
@@ -656,7 +712,6 @@ void delayMicroseconds(unsigned int us){
     // Can't account for time of previous commands b/c us may be zero
 #elif F_CPU == 1000000L
     // 1MHz clock
-    // 2MHz clock
     // Function call overhead is 9us (so return if 18us or less)
     if(--us == 0)
         return;
@@ -718,7 +773,41 @@ void delayMicroseconds(unsigned int us){
  * a periodic interrupt used for system timing.
  */
 static void enableWdtInterval(){
-    
+    // For F_CPU < 8MHz use MCLK / 512
+    // For F_CPU >= 8MHz use MCLK / 8192
+#if F_CPU < 8000000L
+    WDTCTL = WDTPW | WDTTMSEL | WDTCNTCL | WDT_MDLY_0_5;
+#else
+    WDTCTL = WDTPW | WDTTMSEL | WDTCNTCL | WDT_MDLY_8;
+#endif
+
+    // Enable WDT interrupt
+#ifdef __MSP430_HAS_SFR__
+    SFRIE1 |= WDTIE;
+#else
+    IE1 |= WDTIE;
+#endif
+}
+
+__interrupt_vec(WDT_VECTOR) void watchdog_isr (void){
+    // copy these to local variables so they can be stored in registers
+    // (volatile variables must be read from memory on every access)
+    unsigned long m = wdt_millis;
+    unsigned int f = wdt_frac;
+
+    m += MILLIS_INC;
+    f += FRACT_INC;
+    if (f >= 1000) {
+        f -= 1000;
+        m += 1;
+    }
+
+    wdt_frac = f;
+    wdt_millis = m;
+    wdt_overflow_count++;
+
+    // Exit from any low power mode
+    __bic_SR_register_on_exit(LPM3_bits);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -739,6 +828,8 @@ void init(){
      PMMCTL0_H = 0;                         // Lock PMM
 #endif
     initClocks();                           // Initialize clocks
+    enableWdtInterval();                    // Enable WDT (used as interval timer for ms timing)
+    __enable_interrupt();                   // Enable interrupts
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -89,6 +89,9 @@ The following will not be included (possibly moved as zips to a separate locatio
     - Note that most launchpads have an (LF)XT1 32786Hz crystal, however on some they are not connected by default. On such launchpads, the external crystal is disabled by default, however it can be enabled in the Tools menu of the IDE.
     - All boards default to a clock speed of 16MHz. Higher values (if supported) and lower values are available in a tools menu.
 - Delay and timing support (millis, delay, micros, delayMicros)
+    - WDT is used as an interval timer
+    - delayMicroseconds fixed for various frequencies
+    - More clock frequencies supported for delayMicroseconds
 
 <br />
 
