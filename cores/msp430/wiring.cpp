@@ -205,7 +205,7 @@ static void initClocks(){
 #define NACCESS_2  NWAITS_2
 #endif
 
-    CSCTL0 = 0;                                 // Enable access to CS registers
+    CSCTL0 = CSKEY;                             // Enable access to CS registers
     CSCTL2 &= ~SELM_7;                          // Clear MCLK source
     CSCTL2 |= SELM__DCOCLK;                     // Use DCO for MCLK
     CSCTL3 &= ~(DIVM_3 | DIVS_3);               // Clear division bits
@@ -470,6 +470,11 @@ static void initClocks(){
  */
 void init(){
     WDTCTL = WDTPW | WDTHOLD;               // Disable watchdog timer
+#if defined(LOCKLPM5)
+     PMMCTL0_H = PMMPW_H;                   // Open PMM
+	 PM5CTL0 &= ~LOCKLPM5;                  // Unlock IO ports (FR59xx)
+     PMMCTL0_H = 0;                         // Lock PMM
+#endif
     initClocks();                           // Initialize clocks
 }
 
