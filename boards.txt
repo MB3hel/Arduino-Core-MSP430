@@ -191,8 +191,8 @@ MSP-EXP430FR2355LP.menu.cpu_freq.2m.build.f_cpu=2000000L
 MSP-EXP430FR2355LP.menu.cpu_freq.1m=1 MHz
 MSP-EXP430FR2355LP.menu.cpu_freq.1m.build.f_cpu=1000000L
 
-MSP-EXP430FR2355LP.menu.aclk.default=Default (Disabled)
-MSP-EXP430FR2355LP.menu.aclk.default.build.aclk_flags=-DNOLFXT1
+MSP-EXP430FR2355LP.menu.aclk.default=Default (Enabled)
+MSP-EXP430FR2355LP.menu.aclk.default.build.aclk_flags=
 MSP-EXP430FR2355LP.menu.aclk.disable=Disabled
 MSP-EXP430FR2355LP.menu.aclk.disable.build.aclk_flags=-DNOLFXT1
 MSP-EXP430FR2355LP.menu.aclk.enable=Enabled

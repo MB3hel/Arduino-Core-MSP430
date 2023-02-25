@@ -86,6 +86,8 @@ The following will not be included (possibly moved as zips to a separate locatio
 ## Core Implementation TODO List (kindof in order)
 
 - Chip initialization and clock configuration (focus on chips I have first then port for other chips based on energia code)
+    - Note that most launchpads have an (LF)XT1 32786Hz crystal, however on some they are not connected by default. On such launchpads, the external crystal is disabled by default, however it can be enabled in the Tools menu of the IDE.
+    - All boards default to a clock speed of 16MHz. Higher values (if supported) and lower values are available in a tools menu.
 - Delay and timing support (millis, delay, micros, delayMicros)
 
 <br />
