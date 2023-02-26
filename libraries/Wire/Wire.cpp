@@ -56,6 +56,7 @@ void (*TwoWire::user_onReceive)(int);
 
 TwoWire::TwoWire()
 {
+  twi_init_base_address();
 }
 
 TwoWire::TwoWire(uint8_t module)

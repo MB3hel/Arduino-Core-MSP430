@@ -88,7 +88,7 @@
 #define TWI_ERROR_OTHER 4
 
 
-
+void twi_init_base_address(void);
 void twi_setModule(int8_t _i2cModule);
 void twi_init(void);
 void twi_disable(void);
