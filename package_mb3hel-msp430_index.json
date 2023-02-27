@@ -10,6 +10,67 @@
         {
           "name": "MSP430 Boards", 
           "architecture": "msp430", 
+          "version": "3.1.0-rc5", 
+          "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc5/msp430-core-3.1.0-rc5.tar.bz2", 
+          "archiveFileName": "msp430-core-3.1.0-rc5.tar.bz2", 
+          "checksum": "SHA-256:c570bb3ae72ac27b9fd04232dcd993f620212eae64cf7722eeff7631ce237acc", 
+          "size": "2305906", 
+          "boards": [
+            {
+              "name": "MSP-EXP430F5529"
+            }, 
+            {
+              "name": "MSP-EXP430FR2433"
+            }, 
+            {
+              "name": "MSP-EXP430FR4133"
+            }, 
+            {
+              "name": "MSP-EXP430FR5969"
+            }, 
+            {
+              "name": "MSP-EXP430FR6989"
+            }, 
+            {
+              "name": "MSP-EXP430FR5739"
+            }, 
+            {
+              "name": "MSP-EXP430FR2355"
+            }, 
+            {
+              "name": "MSP-EXP430FR2231"
+            }, 
+            {
+              "name": "MSP-EXP430G2"
+            }, 
+            {
+              "name": "MSP-EXP430G2ET"
+            }, 
+            {
+              "name": "MSP-EXP430FR5994"
+            }
+          ], 
+          "toolsDependencies": [
+            {
+              "packager": "mb3hel-msp430", 
+              "name": "msp430gcc", 
+              "version": "9.3.1.11"
+            }, 
+            {
+              "packager": "mb3hel-msp430", 
+              "name": "mspdebug", 
+              "version": "0.25"
+            },
+            {
+              "packager": "mb3hel-msp430", 
+              "name": "uniflash-launcher", 
+              "version": "1.0.0"
+            }
+          ]
+        },
+        {
+          "name": "MSP430 Boards", 
+          "architecture": "msp430", 
           "version": "3.1.0-rc4", 
           "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0-rc4/msp430-core-3.1.0-rc4.tar.bz2", 
           "archiveFileName": "msp430-core-3.1.0-rc4.tar.bz2", 
