@@ -507,7 +507,7 @@ unsigned long millis()
 }
 
 /* Delay for the given number of microseconds.  Assumes a 1, 8 or 16 MHz clock. */
-void delayMicroseconds(unsigned int us)
+void __attribute__ ((noinline)) delayMicroseconds(unsigned int us)
 {
 #if F_CPU >= 20000000L
 	/* For a one-microsecond delay, simply wait 2 cycle and return. The overhead
