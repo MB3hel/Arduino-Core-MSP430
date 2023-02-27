@@ -176,25 +176,21 @@ static uint8_t twi_my_addr;
 #endif // #if defined(__MSP430_HAS_USCI_B0__) || defined(__MSP430_HAS_EUSCI_B0__) || defined(__MSP430_HAS_USCI_B1__) || defined(__MSP430_HAS_EUSCI_B1__) || defined(__MSP430_HAS_EUSCI_B2__) || defined(__MSP430_HAS_EUSCI_B3__)
 
 
-int16_t I2C_baseAddress;
-
-void twi_init_base_address(void){
 #if DEFAULT_I2C == -1 // SW I2C implementation on default port
-     I2C_baseAddress = -1;
+int16_t I2C_baseAddress = -1;
 #endif
 #if DEFAULT_I2C == 0
-     I2C_baseAddress = UCB0_BASE;
+int16_t I2C_baseAddress = UCB0_BASE;
 #endif
 #if DEFAULT_I2C == 1
-     I2C_baseAddress = UCB1_BASE;
+int16_t I2C_baseAddress = UCB1_BASE;
 #endif
 #if DEFAULT_I2C == 2
-     I2C_baseAddress = UCB2_BASE;
+int16_t I2C_baseAddress = UCB2_BASE;
 #endif
 #if DEFAULT_I2C == 3
-     I2C_baseAddress = UCB3_BASE;
+int16_t I2C_baseAddress = UCB3_BASE;
 #endif
-}
 
 
 /*
