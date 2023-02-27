@@ -60,6 +60,10 @@
     uint8_t spiModule = 0;
 #endif
 
+void spi_init_baseaddress(void){
+	
+}
+
 void spi_initialize(void)
 {
 	UCB0CTL1 = UCSWRST | UCSSEL_2;      // Put USCI in reset mode, source USCI clock from SMCLK

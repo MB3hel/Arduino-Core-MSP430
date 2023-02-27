@@ -43,6 +43,7 @@
 extern uint16_t SPI_baseAddress;  
 extern uint8_t spiModule;
 
+void spi_init_baseaddress(void);
 void spi_initialize(void);
 void spi_disable(void);
 uint8_t spi_send(const uint8_t);
