@@ -36,10 +36,6 @@
 #endif
 
 
-void spi_init_baseaddress(void){
-    
-}
-
 /* deal with USI5 errata see: document slaz061b */
 void USI5_workaround()
 {

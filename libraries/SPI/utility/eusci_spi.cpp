@@ -49,38 +49,34 @@
 #endif
 
 
-uint16_t SPI_baseAddress;
-
-void spi_init_baseaddress(void){
 #if defined(DEFAULT_SPI)
 #if (DEFAULT_SPI == 0)
-    SPI_baseAddress = UCB0_BASE;
+uint16_t SPI_baseAddress = UCB0_BASE;
 #endif    
 #if (DEFAULT_SPI == 1)
-    SPI_baseAddress = UCB1_BASE;
+uint16_t SPI_baseAddress = UCB1_BASE;
 #endif    
 #if (DEFAULT_SPI == 2)
-    SPI_baseAddress = UCB2_BASE;
+uint16_t SPI_baseAddress = UCB2_BASE;
 #endif    
 #if (DEFAULT_SPI == 3)
-    SPI_baseAddress = UCB3_BASE;
+uint16_t SPI_baseAddress = UCB3_BASE;
 #endif    
 #if (DEFAULT_SPI == 10)
-    SPI_baseAddress = UCA0_BASE;
+uint16_t SPI_baseAddress = UCA0_BASE;
 #endif    
 #if (DEFAULT_SPI == 11)
-    SPI_baseAddress = UCA1_BASE;
+uint16_t SPI_baseAddress = UCA1_BASE;
 #endif    
 #if (DEFAULT_SPI == 12)
-    SPI_baseAddress = UCA2_BASE;
+uint16_t SPI_baseAddress = UCA2_BASE;
 #endif    1
 #if (DEFAULT_SPI == 13)
-    SPI_baseAddress = UCA3_BASE;
+uint16_t SPI_baseAddress = UCA3_BASE;
 #endif    
 #else
-    SPI_baseAddress = UCB0_BASE;
+uint16_t SPI_baseAddress = UCB0_BASE;
 #endif
-}
 
 
 #define UCzCTLW0     (*((volatile uint16_t *)((uint16_t)(OFS_UCBxCTLW0  + SPI_baseAddress))))

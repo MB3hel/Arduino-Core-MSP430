@@ -16,8 +16,6 @@
 #include "SPI.h"
 
 SPIClass::SPIClass(void) {
-   spi_init_baseaddress();
-
 #if defined(DEFAULT_SPI)
    setModule(DEFAULT_SPI);
 #else
