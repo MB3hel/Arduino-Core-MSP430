@@ -17,15 +17,18 @@ compiler.warning_flags.default=
 compiler.warning_flags.more=-Wall
 compiler.warning_flags.all=-Wall -Wextra
 
+compiler.optimization_flags=-Os
+compiler.optimization_flags.release=-Os
+compiler.optimization_flags.debug=-Og -g3 -gdwarf-3 -gstrict-dwarf
 
 compiler.path={runtime.tools.msp430gcc.path}/bin/
 compiler.c.cmd=msp430-elf-gcc
-compiler.c.flags=-c -Os {build.menu_flags} {compiler.warning_flags} -ffunction-sections -fdata-sections -MMD
-compiler.c.elf.flags={build.menu_flags} {compiler.warning_flags} -Os -fno-rtti -fno-exceptions -Wl,--gc-sections,-u,main -Wl,--start-group -Wl,--end-group -I"{runtime.tools.msp430gcc.path}/include" -T "{runtime.platform.path}/variants/{build.variant}/{build.mcu}.ld"
+compiler.c.flags=-c {build.menu_flags} {compiler.warning_flags} {compiler.optimization_flags} -ffunction-sections -fdata-sections -MMD
+compiler.c.elf.flags={build.menu_flags} {compiler.warning_flags} {compiler.optimization_flags} -fno-rtti -fno-exceptions -Wl,--gc-sections,-u,main -Wl,--start-group -Wl,--end-group -I"{runtime.tools.msp430gcc.path}/include" -T "{runtime.platform.path}/variants/{build.variant}/{build.mcu}.ld"
 compiler.c.elf.cmd=msp430-elf-gcc
 compiler.S.flags=-c -x assembler-with-cpp
 compiler.cpp.cmd=msp430-elf-g++
-compiler.cpp.flags=-c -Os {build.menu_flags} {compiler.warning_flags} -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -MMD -fno-rtti
+compiler.cpp.flags=-c {build.menu_flags} {compiler.warning_flags} {compiler.optimization_flags} -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -MMD -fno-rtti
 compiler.ar.cmd=msp430-elf-gcc-ar
 compiler.ar.flags=rcs
 compiler.objcopy.cmd=msp430-elf-objcopy
