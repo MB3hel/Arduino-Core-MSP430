@@ -28,15 +28,15 @@ For all platforms, download [TI's MSP Debug Stack](https://www.ti.com/tool/MSPDS
 - Run in `mingw32` or `mingw64` environments (i686 or amd64 builds respectively)
     ```sh
     # For mingw32
-    pacman -S mingw-w64-i686-libusb-win32
+    pacman -S mingw-w64-i686-libusb-win32 mingw-w64-i686-readline
 
     # For mingw64
-    pacman -S mingw-w64-x86_64-libusb-win32
+    pacman -S mingw-w64-x86_64-libusb-win32 mingw-w64-x86_64-readline
 
     # For both
     cd mspdebug-version
-    sed 's/-lusb/-lusb0/g' Makefile
-    make WITHOUT_READLINE=1
+    sed -i 's/-lusb/-lusb0/g' Makefile
+    make
     mkdir mspdebug
     cp mspdebug.exe mspdebug/
     cd mspdebug/
