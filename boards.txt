@@ -12,22 +12,30 @@ menu.cpu_freq=CPU Frequency
 # Used to set build.aclk_flags
 menu.aclk=External 32kHz Crystal
 
+# Used to set build.lto_flags
+menu.lto=Link Time Optimization
+
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # MSP-EXP430G2ET2553
 # ------------------------------------------------------------------------------
-MSP-EXP430G2ET2553LP.vid.0=0x2341
-MSP-EXP430G2ET2553LP.pid.0=0x0c9f
-
 MSP-EXP430G2ET2553LP.name=MSP-EXP430G2ET w/ MSP430G2553
-
 MSP-EXP430G2ET2553LP.build.mcu=msp430g2553
 MSP-EXP430G2ET2553LP.build.core=msp430
 MSP-EXP430G2ET2553LP.build.variant=MSP-EXP430G2ET2553LP
 MSP-EXP430G2ET2553LP.build.board=MSP_EXP430G2ET2553LP
-MSP-EXP430G2ET2553LP.build.extra_flags={build.aclk_flags}
+MSP-EXP430G2ET2553LP.build.extra_flags=
+MSP-EXP430G2ET2553LP.upload.maximum_size=16384
+MSP-EXP430G2ET2553LP.upload.maximum_data_size=512
 
+# Link Time Optimization Menu
+MSP-EXP430G2ET2553LP.menu.lto.enabled=Enabled
+MSP-EXP430G2ET2553LP.menu.lto.enabled.build.lto_flags=-flto
+MSP-EXP430G2ET2553LP.menu.lto.disabled=Disabled
+MSP-EXP430G2ET2553LP.menu.lto.disabled.board.lto_flags=
+
+# CPU Frequency Menu
 MSP-EXP430G2ET2553LP.menu.cpu_freq.default=Default (16 MHz)
 MSP-EXP430G2ET2553LP.menu.cpu_freq.default.build.f_cpu=16000000L
 MSP-EXP430G2ET2553LP.menu.cpu_freq.16m=16 MHz
@@ -39,6 +47,7 @@ MSP-EXP430G2ET2553LP.menu.cpu_freq.8m.build.f_cpu=8000000L
 MSP-EXP430G2ET2553LP.menu.cpu_freq.1m=1 MHz
 MSP-EXP430G2ET2553LP.menu.cpu_freq.1m.build.f_cpu=1000000L
 
+# External Crystal Menu
 MSP-EXP430G2ET2553LP.menu.aclk.default=Default (Disabled)
 MSP-EXP430G2ET2553LP.menu.aclk.default.build.aclk_flags=-DNOLFXT1
 MSP-EXP430G2ET2553LP.menu.aclk.disable=Disabled
@@ -46,32 +55,35 @@ MSP-EXP430G2ET2553LP.menu.aclk.disable.build.aclk_flags=-DNOLFXT1
 MSP-EXP430G2ET2553LP.menu.aclk.enable=Enabled
 MSP-EXP430G2ET2553LP.menu.aclk.enable.build.aclk_flags=
 
+# Upload Tool Menu
 MSP-EXP430G2ET2553LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430G2ET2553LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430G2ET2553LP.menu.upload_tool.mspdebug.upload.protocol=tilib
 MSP-EXP430G2ET2553LP.menu.upload_tool.uniflash=UniFlash
 MSP-EXP430G2ET2553LP.menu.upload_tool.uniflash.upload.tool=uniflash-launcher
 MSP-EXP430G2ET2553LP.menu.upload_tool.uniflash.upload.protocol=
-
-MSP-EXP430G2ET2553LP.upload.maximum_size=16384
-MSP-EXP430G2ET2553LP.upload.maximum_data_size=512
 # ------------------------------------------------------------------------------
 
 
 # ------------------------------------------------------------------------------
 # MSP-EXP430FR2433
 # ------------------------------------------------------------------------------
-MSP-EXP430FR2433LP.vid.0=0x2341
-MSP-EXP430FR2433LP.pid.0=0x0c9f
-
 MSP-EXP430FR2433LP.name=MSP-EXP430FR2433LP
-
 MSP-EXP430FR2433LP.build.mcu=msp430fr2433
 MSP-EXP430FR2433LP.build.core=msp430
 MSP-EXP430FR2433LP.build.variant=MSP-EXP430FR2433LP
 MSP-EXP430FR2433LP.build.board=MSP_EXP430FR2433LP
-MSP-EXP430FR2433LP.build.extra_flags={build.aclk_flags} -msmall -mhwmult=auto
+MSP-EXP430FR2433LP.build.extra_flags=-msmall -mhwmult=auto
+MSP-EXP430FR2433LP.upload.maximum_size=15360
+MSP-EXP430FR2433LP.upload.maximum_data_size=4096
 
+# Link Time Optimization Menu
+MSP-EXP430FR2433LP.menu.lto.enabled=Enabled
+MSP-EXP430FR2433LP.menu.lto.enabled.build.lto_flags=-flto
+MSP-EXP430FR2433LP.menu.lto.disabled=Disabled
+MSP-EXP430FR2433LP.menu.lto.disabled.board.lto_flags=
+
+# CPU Frequency Menu
 MSP-EXP430FR2433LP.menu.cpu_freq.default=Default (16 MHz)
 MSP-EXP430FR2433LP.menu.cpu_freq.default.build.f_cpu=16000000L
 MSP-EXP430FR2433LP.menu.cpu_freq.16m=16 MHz
@@ -87,6 +99,7 @@ MSP-EXP430FR2433LP.menu.cpu_freq.2m.build.f_cpu=2000000L
 MSP-EXP430FR2433LP.menu.cpu_freq.1m=1 MHz
 MSP-EXP430FR2433LP.menu.cpu_freq.1m.build.f_cpu=1000000L
 
+# External Crystal Menu
 MSP-EXP430FR2433LP.menu.aclk.default=Default (Disabled)
 MSP-EXP430FR2433LP.menu.aclk.default.build.aclk_flags=-DNOLFXT1
 MSP-EXP430FR2433LP.menu.aclk.disable=Disabled
@@ -94,33 +107,35 @@ MSP-EXP430FR2433LP.menu.aclk.disable.build.aclk_flags=-DNOLFXT1
 MSP-EXP430FR2433LP.menu.aclk.enable=Enabled
 MSP-EXP430FR2433LP.menu.aclk.enable.build.aclk_flags=
 
+# Upload Tool Menu
 MSP-EXP430FR2433LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430FR2433LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430FR2433LP.menu.upload_tool.mspdebug.upload.protocol=tilib
 MSP-EXP430FR2433LP.menu.upload_tool.uniflash=UniFlash
 MSP-EXP430FR2433LP.menu.upload_tool.uniflash.upload.tool=uniflash-launcher
 MSP-EXP430FR2433LP.menu.upload_tool.uniflash.upload.protocol=
-
-MSP-EXP430FR2433LP.upload.maximum_size=15360
-MSP-EXP430FR2433LP.upload.maximum_data_size=4096
 # ------------------------------------------------------------------------------
 
 
 # ------------------------------------------------------------------------------
 # MSP-EXP430FR5969
 # ------------------------------------------------------------------------------
-MSP-EXP430FR5969LP.vid.0=0x2341
-MSP-EXP430FR5969LP.pid.0=0x0c9f
-
 MSP-EXP430FR5969LP.name=MSP-EXP430FR5969LP
-
 MSP-EXP430FR5969LP.build.mcu=msp430fr5969
 MSP-EXP430FR5969LP.build.core=msp430
 MSP-EXP430FR5969LP.build.variant=MSP-EXP430FR5969LP
 MSP-EXP430FR5969LP.build.board=MSP_EXP430FR5969LP
-MSP-EXP430FR5969LP.build.extra_flags={build.aclk_flags}
+MSP-EXP430FR5969LP.build.extra_flags=
+MSP-EXP430FR5969LP.upload.maximum_size=48128
+MSP-EXP430FR5969LP.upload.maximum_data_size=2048
 
+# Link Time Optimization Menu
+MSP-EXP430FR5969LP.menu.lto.enabled=Enabled
+MSP-EXP430FR5969LP.menu.lto.enabled.build.lto_flags=-flto
+MSP-EXP430FR5969LP.menu.lto.disabled=Disabled
+MSP-EXP430FR5969LP.menu.lto.disabled.board.lto_flags=
 
+# CPU Frequency Menu
 MSP-EXP430FR5969LP.menu.cpu_freq.default=Default (16 MHz)
 MSP-EXP430FR5969LP.menu.cpu_freq.default.build.f_cpu=16000000L
 MSP-EXP430FR5969LP.menu.cpu_freq.24m=24 MHz
@@ -138,6 +153,7 @@ MSP-EXP430FR5969LP.menu.cpu_freq.2m.build.f_cpu=2000000L
 MSP-EXP430FR5969LP.menu.cpu_freq.1m=1 MHz
 MSP-EXP430FR5969LP.menu.cpu_freq.1m.build.f_cpu=1000000L
 
+# External Crystal Menu
 MSP-EXP430FR5969LP.menu.aclk.default=Default (Enabled)
 MSP-EXP430FR5969LP.menu.aclk.default.build.aclk_flags=
 MSP-EXP430FR5969LP.menu.aclk.disable=Disabled
@@ -145,33 +161,35 @@ MSP-EXP430FR5969LP.menu.aclk.disable.build.aclk_flags=-DNOLFXT1
 MSP-EXP430FR5969LP.menu.aclk.enable=Enabled
 MSP-EXP430FR5969LP.menu.aclk.enable.build.aclk_flags=
 
-
+# Upload Tool Menu
 MSP-EXP430FR5969LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430FR5969LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430FR5969LP.menu.upload_tool.mspdebug.upload.protocol=tilib
 MSP-EXP430FR5969LP.menu.upload_tool.uniflash=UniFlash
 MSP-EXP430FR5969LP.menu.upload_tool.uniflash.upload.tool=uniflash-launcher
 MSP-EXP430FR5969LP.menu.upload_tool.uniflash.upload.protocol=
-
-MSP-EXP430FR5969LP.upload.maximum_size=48128
-MSP-EXP430FR5969LP.upload.maximum_data_size=2048
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # MSP-EXP430FR2355LP
 # ------------------------------------------------------------------------------
-MSP-EXP430FR2355LP.vid.0=0x2341
-MSP-EXP430FR2355LP.pid.0=0x0c9f
-
 MSP-EXP430FR2355LP.name=MSP-EXP430FR2355LP
-
 MSP-EXP430FR2355LP.build.mcu=msp430fr2355
 MSP-EXP430FR2355LP.build.f_cpu=16000000L
 MSP-EXP430FR2355LP.build.core=msp430
 MSP-EXP430FR2355LP.build.variant=MSP-EXP430FR2355LP
 MSP-EXP430FR2355LP.build.board=MSP_EXP430FR2355LP
-MSP-EXP430FR2355LP.build.extra_flags={build.aclk_flags} -msmall -mhwmult=auto
+MSP-EXP430FR2355LP.build.extra_flags=-msmall -mhwmult=auto
+MSP-EXP430FR2355LP.upload.maximum_size=32768
+MSP-EXP430FR2355LP.upload.maximum_data_size=4096
 
+# Link Time Optimization Menu
+MSP-EXP430FR2355LP.menu.lto.enabled=Enabled
+MSP-EXP430FR2355LP.menu.lto.enabled.build.lto_flags=-flto
+MSP-EXP430FR2355LP.menu.lto.disabled=Disabled
+MSP-EXP430FR2355LP.menu.lto.disabled.board.lto_flags=
+
+# CPU Frequency Menu
 MSP-EXP430FR2355LP.menu.cpu_freq.default=Default (16 MHz)
 MSP-EXP430FR2355LP.menu.cpu_freq.default.build.f_cpu=16000000L
 MSP-EXP430FR2355LP.menu.cpu_freq.24m=24 MHz
@@ -191,6 +209,7 @@ MSP-EXP430FR2355LP.menu.cpu_freq.2m.build.f_cpu=2000000L
 MSP-EXP430FR2355LP.menu.cpu_freq.1m=1 MHz
 MSP-EXP430FR2355LP.menu.cpu_freq.1m.build.f_cpu=1000000L
 
+# External Crystal Menu
 MSP-EXP430FR2355LP.menu.aclk.default=Default (Enabled)
 MSP-EXP430FR2355LP.menu.aclk.default.build.aclk_flags=
 MSP-EXP430FR2355LP.menu.aclk.disable=Disabled
@@ -198,13 +217,11 @@ MSP-EXP430FR2355LP.menu.aclk.disable.build.aclk_flags=-DNOLFXT1
 MSP-EXP430FR2355LP.menu.aclk.enable=Enabled
 MSP-EXP430FR2355LP.menu.aclk.enable.build.aclk_flags=
 
+# Upload Tool Menu
 MSP-EXP430FR2355LP.menu.upload_tool.mspdebug=mspdebug
 MSP-EXP430FR2355LP.menu.upload_tool.mspdebug.upload.tool=mspdebug
 MSP-EXP430FR2355LP.menu.upload_tool.mspdebug.upload.protocol=tilib
 MSP-EXP430FR2355LP.menu.upload_tool.uniflash=UniFlash
 MSP-EXP430FR2355LP.menu.upload_tool.uniflash.upload.tool=uniflash-launcher
 MSP-EXP430FR2355LP.menu.upload_tool.uniflash.upload.protocol=
-
-MSP-EXP430FR2355LP.upload.maximum_size=32768
-MSP-EXP430FR2355LP.upload.maximum_data_size=4096
 # ------------------------------------------------------------------------------
