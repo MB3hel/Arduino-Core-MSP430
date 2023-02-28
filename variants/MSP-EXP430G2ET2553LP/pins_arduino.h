@@ -25,6 +25,7 @@
 #include <stdint.h>
 
 
+#define MAX_PINNUM                  (20)
 #define NUM_DIGITAL_PINS            (16)
 // TODO: #define NUM_ANALOG_PINS             (8)
 
@@ -77,6 +78,7 @@ const uintptr_t pin_inreg[] = {
     0,                                                  // TEST
     (const uintptr_t)(&P2IN),                           // P2.7
     (const uintptr_t)(&P2IN),                           // P2.6
+    0,                                                  // GND
 };
 
 const uintptr_t pin_outreg[] = {
@@ -100,6 +102,7 @@ const uintptr_t pin_outreg[] = {
     0,                                                  // TEST
     (const uintptr_t)(&P2OUT),                          // P2.7
     (const uintptr_t)(&P2OUT),                          // P2.6
+    0,                                                  // GND
 };
 
 const uintptr_t pin_sel0reg[] = {
@@ -123,6 +126,7 @@ const uintptr_t pin_sel0reg[] = {
     0,                                                  // TEST
     (const uintptr_t)(&P2SEL),                          // P2.7
     (const uintptr_t)(&P2SEL),                          // P2.6
+    0,                                                  // GND
 };
 
 const uintptr_t pin_sel1reg[] = {
@@ -146,6 +150,7 @@ const uintptr_t pin_sel1reg[] = {
     0,                                                  // TEST
     (const uintptr_t)(&P2SEL2),                         // P2.7
     (const uintptr_t)(&P2SEL2),                         // P2.6
+    0,                                                  // GND
 };
 
 const uintptr_t pin_dirreg[] = {
@@ -169,6 +174,7 @@ const uintptr_t pin_dirreg[] = {
     0,                                                  // TEST
     (const uintptr_t)(&P2DIR),                          // P2.7
     (const uintptr_t)(&P2DIR),                          // P2.6
+    0,                                                  // GND
 };
 
 const uintptr_t pin_renreg[] = {
@@ -192,6 +198,7 @@ const uintptr_t pin_renreg[] = {
     0,                                                  // TEST
     (const uintptr_t)(&P2REN),                          // P2.7
     (const uintptr_t)(&P2REN),                          // P2.6
+    0,                                                  // GND
 };
 
 const uint8_t pin_bitmask[] = {
@@ -215,6 +222,7 @@ const uint8_t pin_bitmask[] = {
     0,                                                  // TEST
     BIT7,                                               // P2.7
     BIT6,                                               // P2.6
+    0,                                                  // GND
 };
 
 #endif // ARDUINO_MAIN

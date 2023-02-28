@@ -27,6 +27,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void pinMode(pin_size_t pinNumber, PinMode pinMode){
+    if(PINMASK(pinNumber) == 0 || pinNumber > MAX_PINNUM)
+        return; // Not a valid GPIO pin
+
     // Put pin in GPIO mode
     PSEL0REG(pinNumber) &=~ PINMASK(pinNumber);
     PSEL1REG(pinNumber) &= ~PINMASK(pinNumber);
@@ -61,6 +64,9 @@ void pinMode(pin_size_t pinNumber, PinMode pinMode){
 }
 
 void digitalWrite(pin_size_t pinNumber, PinStatus status){
+    if(PINMASK(pinNumber) == 0 || pinNumber > MAX_PINNUM)
+        return; // Not a valid GPIO pin
+    
     switch(status){
     case HIGH:
         POUTREG(pinNumber) |= PINMASK(pinNumber);
@@ -75,10 +81,13 @@ void digitalWrite(pin_size_t pinNumber, PinStatus status){
 }
 
 PinStatus digitalRead(pin_size_t pinNumber){
-    if((PINREG(pinNumber) & PINMASK(pinNumber))){
-        return PinStatus::HIGH;
+    if(PINMASK(pinNumber) == 0 || pinNumber > MAX_PINNUM)
+        return LOW; // Not a valid GPIO pin
+
+    if(PINREG(pinNumber) & PINMASK(pinNumber)){
+        return HIGH;
     }else{
-        PinStatus::LOW;
+        return LOW;
     }
 }
 
