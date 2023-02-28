@@ -549,7 +549,7 @@ void delay(unsigned long ms){
 //          4MHz | 65535us   | 4us       | 1us
 //          2MHz | 65535us   | 9us       | 2us
 //          1MHz | 65535us   | 18us      | 4us
-void delayMicroseconds(unsigned int us){
+void __attribute__ ((noinline)) delayMicroseconds(unsigned int us){
     // Note: Function call overhead determined from comments in energia code pertaining
     //       to 20 MHz clock
     // It states that 2 cycles more than function call overhead are exactly 1us delay
@@ -760,9 +760,9 @@ void delayMicroseconds(unsigned int us){
 
     // Loop takes 4 cycles per iteration
     asm volatile (
-            "L1: nop \n\t"   
+            "L_Delaymicro: nop \n\t"   
             "dec.w %[us] \n\t"
-            "jnz L1 \n\t"
+            "jnz L_Delaymicro \n\t"
             : [us] "=r" (us) : "[us]" (us)
     );
 }
