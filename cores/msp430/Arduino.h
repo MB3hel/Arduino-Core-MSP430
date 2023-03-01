@@ -15,13 +15,13 @@ const extern uint8_t pin_bitmask[];
 
 
 // Macros to use these arrays
-#define PINREG(x)           (*((volatile uint8_t*)pin_inreg[x]))
-#define POUTREG(x)          (*((volatile uint8_t*)pin_outreg[x]))
-#define PSEL1REG(x)         (*((volatile uint8_t*)pin_sel0reg[x]))
-#define PSEL0REG(x)         (*((volatile uint8_t*)pin_sel1reg[x]))
-#define PDIRREG(x)          (*((volatile uint8_t*)pin_dirreg[x]))
-#define PRENREG(x)          (*((volatile uint8_t*)pin_renreg[x]))
-#define PINMASK(x)          ((uint8_t)pin_bitmask[x])
+#define PxIN(n)             (*((volatile uint8_t*)pin_inreg[n]))
+#define PxOUT(n)            (*((volatile uint8_t*)pin_outreg[n]))
+#define PxSEL0(n)           (*((volatile uint8_t*)pin_sel0reg[n]))
+#define PxSEL1(n)           (*((volatile uint8_t*)pin_sel1reg[n]))
+#define PxDIR(n)            (*((volatile uint8_t*)pin_dirreg[n]))
+#define PxREN(n)            (*((volatile uint8_t*)pin_renreg[n]))
+#define PxMASK(n)             ((uint8_t)pin_bitmask[n])
 
 
 #include "pins_arduino.h"

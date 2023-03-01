@@ -27,35 +27,35 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void pinMode(pin_size_t pinNumber, PinMode pinMode){
-    if(PINMASK(pinNumber) == 0 || pinNumber > MAX_PINNUM)
+    if(PxIN(pinNumber) == 0 || pinNumber > MAX_PINNUM)
         return; // Not a valid GPIO pin
 
     // Put pin in GPIO mode
-    PSEL0REG(pinNumber) &=~ PINMASK(pinNumber);
-    PSEL1REG(pinNumber) &= ~PINMASK(pinNumber);
+    PxSEL0(pinNumber) &= ~PxMASK(pinNumber);
+    PxSEL1(pinNumber) &= ~PxMASK(pinNumber);
 
     switch(pinMode){
     case OUTPUT:
         // Configure as output default low
-        PDIRREG(pinNumber) |= PINMASK(pinNumber);
-        POUTREG(pinNumber) &= ~PINMASK(pinNumber);
+        PxDIR(pinNumber) |= PxMASK(pinNumber);
+        PxOUT(pinNumber) &= ~PxMASK(pinNumber);
         break;
     case INPUT:
         // Configure as input with no pull resistor
-        PDIRREG(pinNumber) &= ~PINMASK(pinNumber);
-        PRENREG(pinNumber) &= ~PINMASK(pinNumber);
+        PxDIR(pinNumber) &= ~PxMASK(pinNumber);
+        PxREN(pinNumber) &= ~PxMASK(pinNumber);
         break;
     case INPUT_PULLUP:
         // Configure as input with pullup resistor
-        PDIRREG(pinNumber) &= ~PINMASK(pinNumber);
-        PRENREG(pinNumber) |= PINMASK(pinNumber);
-        POUTREG(pinNumber) |= PINMASK(pinNumber);
+        PxDIR(pinNumber) &= ~PxMASK(pinNumber);
+        PxREN(pinNumber) |= PxMASK(pinNumber);
+        PxOUT(pinNumber) |= PxMASK(pinNumber);
         break;
     case INPUT_PULLDOWN:
         // Configure as input with pulldown resistor
-        PDIRREG(pinNumber) &= ~PINMASK(pinNumber);
-        PRENREG(pinNumber) |= PINMASK(pinNumber);
-        POUTREG(pinNumber) |= PINMASK(pinNumber);
+        PxDIR(pinNumber) &= ~PxMASK(pinNumber);
+        PxREN(pinNumber) |= PxMASK(pinNumber);
+        PxOUT(pinNumber) |= PxMASK(pinNumber);
         break;
     default:
         // Do nothing
@@ -64,15 +64,15 @@ void pinMode(pin_size_t pinNumber, PinMode pinMode){
 }
 
 void digitalWrite(pin_size_t pinNumber, PinStatus status){
-    if(PINMASK(pinNumber) == 0 || pinNumber > MAX_PINNUM)
+    if(PxMASK(pinNumber) == 0 || pinNumber > MAX_PINNUM)
         return; // Not a valid GPIO pin
     
     switch(status){
     case HIGH:
-        POUTREG(pinNumber) |= PINMASK(pinNumber);
+        PxOUT(pinNumber) |= PxMASK(pinNumber);
         break;
     case LOW:
-        POUTREG(pinNumber) &= ~PINMASK(pinNumber);
+        PxOUT(pinNumber) &= ~PxMASK(pinNumber);
         break;
     default:
         // Do nothing
@@ -81,10 +81,10 @@ void digitalWrite(pin_size_t pinNumber, PinStatus status){
 }
 
 PinStatus digitalRead(pin_size_t pinNumber){
-    if(PINMASK(pinNumber) == 0 || pinNumber > MAX_PINNUM)
+    if(PxMASK(pinNumber) == 0 || pinNumber > MAX_PINNUM)
         return LOW; // Not a valid GPIO pin
 
-    if(PINREG(pinNumber) & PINMASK(pinNumber)){
+    if(PxIN(pinNumber) & PxMASK(pinNumber)){
         return HIGH;
     }else{
         return LOW;
