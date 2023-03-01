@@ -80,6 +80,13 @@ void digitalWrite(pin_size_t pinNumber, PinStatus status){
     }
 }
 
+#ifdef __cplusplus
+// Compatability function to allow "bool" or "int" to digitalWrite
+void digitalWrite(pin_size_t pinNumber, int status){
+    digitalWrite(pinNumber, status ? HIGH : LOW);
+}
+#endif
+
 PinStatus digitalRead(pin_size_t pinNumber){
     if(PxMASK(pinNumber) == 0 || pinNumber > MAX_PINNUM)
         return LOW; // Not a valid GPIO pin

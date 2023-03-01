@@ -4,6 +4,12 @@
 #include <msp430.h>
 
 
+#ifdef __cplusplus
+// Compatability function to allow "bool" or "int" to digitalWrite
+void digitalWrite(pin_size_t pinNumber, int status);
+#endif
+
+
 // Defined in pins_arduino.h
 const extern uintptr_t pin_inreg[];
 const extern uintptr_t pin_outreg[];
