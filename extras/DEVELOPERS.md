@@ -55,8 +55,10 @@ For all platforms, download [TI's MSP Debug Stack](https://www.ti.com/tool/MSPDS
 - Run the following commands
     ```sh
     cd mspdebug-version
-    brew install libusb libusb-compat hidapi
-    make WITHOUT_READLINE=1
+    brew install libusb libusb-compat hidapi readline
+    sed -i.bak 's/READLINE_LIBS = \-lreadline/READLINE_LIBS = -lreadline -L\/usr\/local\/opt\/readline\/lib/g' Makefile
+    sed -i.bak 's/READLINE_CFLAGS = -DUSE_READLINE/READLINE_CFLAGS = -DUSE_READLINE -I\/usr\/local\/opt\/readline\/include/g' Makefile
+    make
     mv mspdebug mspdebug.bin
     mkdir mspdebug
     cp mspdebug.bin mspdebug/
