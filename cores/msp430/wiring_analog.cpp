@@ -167,27 +167,49 @@ void analogReference(uint8_t mode){
     // -----------------------------------------------------------------------------------------------------------------
     // FR4xx and FR2xx family ADC (multi resolution)
     // -----------------------------------------------------------------------------------------------------------------
+    // Note: Uses mem0
     ADCCTL0 &= ~ADCENC;                         // Disable conversion
     ADCCTL1 = ADCSSEL_0 | ADCDIV_4;             // ADCOSC (~5MHz) / 5
     PMMCTL0_H  = PMMPW_H;                       // Unlock PMM
     switch(mode){
 #ifdef REFVSEL
     case INTERNAL1V5:
+        PMMCTL2 |= INTREFEN;                    // Enable internal reference
+        PMMCTL2 &= ~REFVSEL_3;                  // Clear reference vsel
+        PMMCTL2 |= REFVSEL_0;                   // 1.5V reference
+        ADCMCTL0 = ADCSREF_1;                   // 1.5V to GND
         break;
     case INTERNAL2V0:
+        PMMCTL2 |= INTREFEN;                    // Enable internal reference
+        PMMCTL2 &= ~REFVSEL_3;                  // Clear reference vsel
+        PMMCTL2 |= REFVSEL_1;                   // 2.0V reference
+        ADCMCTL0 = ADCSREF_1;                   // 2.0V to GND
         break;
     case INTERNAL2V5:
+        PMMCTL2 |= INTREFEN;                    // Enable internal reference
+        PMMCTL2 &= ~REFVSEL_3;                  // Clear reference vsel
+        PMMCTL2 |= REFVSEL_2;                   // 2.5V reference
+        ADCMCTL0 = ADCSREF_1;                   // 2.5V to GND
         break;
 #else
     case INTERNAL1V5:
+        PMMCTL2 |= INTREFEN;                    // Enable internal 1.5V ref
+        ADCMCTL0 = ADCSREF_1;                   // 1.5V to GND
         break;
 #endif
     case EXTERNAL:
+        PMMCTL2 &= ~INTREFEN;                   // Disable internal reference
+        ADCMCTL0 = ADCSREF_2;                   // External to GND
         break;
     default:
+        PMMCTL2 &= ~INTREFEN;                   // Disable internal reference
+        ADCMCTL0 = ADCSREF_0;                   // VCC to GND
         break;
     }
-    PMMCTL0_H = 0;                               // Lock PMM
+    PMMCTL0_H = 0;                              // Lock PMM
+    ADCCTL0 &= ~ADCSHT_15;                      // Clear sample hold time
+    ADCCTL0 |= ADCSHT_4;                        // Sample and hold 64 cycles
+    ADCIE |= ADCIE0;                            // Enable conversion complete interrupt
     // -----------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC12_PLUS__)
     // -----------------------------------------------------------------------------------------------------------------
