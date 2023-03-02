@@ -46,27 +46,55 @@ static void adc_configure(){
     ADC10CTL1 = ADC10SSEL_0 | ADC10DIV_4;       // ADC10OSC (5MHz) / 5
     switch(adc_ref){
     case INTERNAL1V5:
-        ADC10CTL0 |= SREF_1 | REFON;            // Internal 1.5V reference to GND
+        ADC10CTL0 |= SREF_1 | REFON;            // Internal 1.5V to GND
+        ADC10CTL0 &= ~REF2_5V;
         break;
     case INTERNAL2V5:
-        ADC10CTL0 |= SREF_1 | REFON | REF2_5V;  // Internal 2.5V reference to GND
+        ADC10CTL0 |= SREF_1 | REFON | REF2_5V;  // Internal 2.5V to GND
         break;
     case EXTERNAL:
-        ADC10CTL0 |= SREF_2;                    // External reference to GND
+        ADC10CTL0 |= SREF_2;                    // External to GND
+        ADC10CTL0 &= ~REFON;
         break;
     default:
-        ADC10CTL0 |= SREF_0;                    // VCC reference to GND
+        ADC10CTL0 |= SREF_0;                    // VCC to GND
+        ADC10CTL0 &= ~REFON;
         break;
     }
     ADC10CTL0 |= ADC10SHT_3;                    // ADC on. Sample and hold 64 cycles. 
     ADC10CTL0 |= ADC10IE;                       // Enable interrupt
-    delayMicroseconds(10);                      // Allow reference to stabilize before conversions
     // -----------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC12__)
     // -----------------------------------------------------------------------------------------------------------------
     // F2xx and G2xx family ADC12 module
     // -----------------------------------------------------------------------------------------------------------------
-    // TODO
+    // Note: Using mem0
+#ifndef ADC12ENC
+#define ADC12ENC ENC
+#endif
+    ADC12CTL0 &= ADC12ENC;                      // Disable conversion
+    ADC12CTL1 = ADC12SSEL_0 | ADC12DIV_4;       // ADC12OSC (5MHz) / 5
+    switch(adc_ref){
+    case INTERNAL1V5:
+        ADC12MCTL0 = SREF_1;                    // Internal 1.5V to GND
+        ADC12CTL0 |= REFON;
+        ADC12CTL0 &= ~REF2_5V;
+        break;
+    case INTERNAL2V5:
+        ADC12MCTL0 = SREF1;                     // Internal 2.5V to GND
+        ADC12CTL0 |= REFON | REF2_5V;
+        break;
+    case EXTERNAL:
+        ADC12MCTL0 = SREF_2;                    // External to GND
+        ADC12CTL0 &= ~REFON;
+        break;
+    default:
+        ADC12MCTL0 = SREF_0;                    // VCC to GND
+        ADC12CTL0 &= ~REFON;
+        break;
+    }
+    ADC12CTL0 |= SHT0_4;                        // 64 cycles sample and hold
+    ADC12IE |= BIT0;                            // Enable interrupt for mem 0
     // -----------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC10_B__)
     // -----------------------------------------------------------------------------------------------------------------
@@ -99,6 +127,7 @@ static void adc_configure(){
     // TODO
     // -----------------------------------------------------------------------------------------------------------------
 #endif
+    delayMicroseconds(10);                      // Allow reference to stabilize
 }
 
 int analogRead(pin_size_t pinNumber){

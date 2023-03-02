@@ -101,8 +101,7 @@ The following will not be included (possibly moved as zips to a separate locatio
 
 <br />
 
-- Analog inputs with "normal" reference in 10-bit mode
-- Analog input support for other resolutions
+- Analog inputs (analogRead and analogReference)
 - Analog input support for other references
 
 <br />
