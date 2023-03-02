@@ -829,6 +829,9 @@ void init(){
 #endif
     initClocks();                           // Initialize clocks
     enableWdtInterval();                    // Enable WDT (used as interval timer for ms timing)
+#if defined(DEFAULT)
+    analogReference(DEFAULT);               // Initial configuration of ADC (so analogRead works)
+#endif
     __enable_interrupt();                   // Enable interrupts
 }
 

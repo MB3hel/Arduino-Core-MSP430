@@ -26,15 +26,11 @@
 /// ADC
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static uint8_t adc_ref = DEFAULT;               // Track current reference (one of defines in Arduino.h)
-static uint8_t adc_init = false;                // Has ADC been initialized
-
 
 // Configures ADC with selected reference
 // This means that reference selection and general config
 // does not happen each time analogRead is called
-static void adc_configure(){
-    adc_init = true;
+void analogReference(uint8_t mode){
 #if defined(__MSP430_HAS_ADC10__)
     // -----------------------------------------------------------------------------------------------------------------
     // F2xx and G2xx family ADC10 module
@@ -45,7 +41,7 @@ static void adc_configure(){
     ADC10CTL0 &= ~ADC10ENC;                      // Disable conversion
     ADC10CTL1 = ADC10SSEL_0 | ADC10DIV_4;       // ADC10OSC (5MHz) / 5
     ADC10CTL0 &= ~SREF_7;                       // Clear reference selection
-    switch(adc_ref){
+    switch(mode){
     case INTERNAL1V5:
         ADC10CTL0 |= SREF_1 | REFON;            // Internal 1.5V to GND
         ADC10CTL0 &= ~REF2_5V;
@@ -76,7 +72,7 @@ static void adc_configure(){
 #endif
     ADC12CTL0 &= ~ADC12ENC;                      // Disable conversion
     ADC12CTL1 = ADC12SSEL_0 | ADC12DIV_4;       // ADC12OSC (5MHz) / 5
-    switch(adc_ref){
+    switch(mode){
     case INTERNAL1V5:
         ADC12MCTL0 = SREF_1;                    // Internal 1.5V to GND
         ADC12CTL0 |= REFON;
@@ -107,7 +103,7 @@ static void adc_configure(){
     ADC10CTL1 = ADC10SSEL_0 | ADC10DIV_4;       // ADC10OSC (5MHz) / 5
     ADC10CTL0 &= ~ADC10SREF_7;                  // Clear reference selection
     while(REFCTL0 & REFGENBUSY);                // Wait until ref gen not busy
-    switch(adc_ref){
+    switch(mode){
     case INTERNAL1V5:
         REFCTL0 = REFON | REFVSEL_0;            // Internal reference on 1.5V
         ADC10CTL0 |= ADC10SREF_1;               // Internal 1.5V to GND
@@ -141,7 +137,7 @@ static void adc_configure(){
     ADC12CTL0 &= ~ADC12ENC;                     // Disable Conversion
     ADC12CTL1 = ADC12SSEL_0 | ADC12DIV_4;       // ADC12OSC (5MHz) / 5
     while(REFCTL0 & REFGENBUSY);                // Wait until ref gen not busy
-    switch(adc_ref){
+    switch(mode){
     case INTERNAL1V2:
         REFCTL0 = REFON | REFVSEL_0;            // Internal reference on 1.2V
         ADC12MCTL0 = ADC12VRSEL_1;              // Internal 1.2V to GND
@@ -190,9 +186,6 @@ static void adc_configure(){
 }
 
 int analogRead(pin_size_t pinNumber){
-    if(!adc_init)
-        adc_configure();
-
     // Select channel
     // Turn ADC on
     // Enable conversion
@@ -247,11 +240,6 @@ int analogRead(pin_size_t pinNumber){
     // TODO
     // -----------------------------------------------------------------------------------------------------------------
 #endif
-}
-
-void analogReference(uint8_t mode){
-    adc_ref = mode;
-    adc_configure();
 }
 
 
