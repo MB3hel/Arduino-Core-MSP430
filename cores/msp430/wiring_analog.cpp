@@ -42,8 +42,9 @@ static void adc_configure(){
 #ifndef ADC10ENC
 #define ADC10ENC ENC
 #endif
-    ADC10CTL0 &= ADC10ENC;                      // Disable conversion
+    ADC10CTL0 &= ~ADC10ENC;                      // Disable conversion
     ADC10CTL1 = ADC10SSEL_0 | ADC10DIV_4;       // ADC10OSC (5MHz) / 5
+    ADC10CTL0 &= ~SREF_7;                       // Clear reference selection
     switch(adc_ref){
     case INTERNAL1V5:
         ADC10CTL0 |= SREF_1 | REFON;            // Internal 1.5V to GND
@@ -61,7 +62,8 @@ static void adc_configure(){
         ADC10CTL0 &= ~REFON;
         break;
     }
-    ADC10CTL0 |= ADC10SHT_3;                    // ADC on. Sample and hold 64 cycles. 
+    ADC10CTL0 &= ~ADC10SHT_15;                  // Clear sample hold time
+    ADC10CTL0 |= ADC10SHT_3;                    // Sample and hold 64 cycles. 
     ADC10CTL0 |= ADC10IE;                       // Enable interrupt
     // -----------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC12__)
@@ -72,7 +74,7 @@ static void adc_configure(){
 #ifndef ADC12ENC
 #define ADC12ENC ENC
 #endif
-    ADC12CTL0 &= ADC12ENC;                      // Disable conversion
+    ADC12CTL0 &= ~ADC12ENC;                      // Disable conversion
     ADC12CTL1 = ADC12SSEL_0 | ADC12DIV_4;       // ADC12OSC (5MHz) / 5
     switch(adc_ref){
     case INTERNAL1V5:
@@ -93,6 +95,7 @@ static void adc_configure(){
         ADC12CTL0 &= ~REFON;
         break;
     }
+    ADC12CTL0 &= ~SHT0_15;                      // Clear sample hold time
     ADC12CTL0 |= SHT0_4;                        // 64 cycles sample and hold
     ADC12IE |= BIT0;                            // Enable interrupt for mem 0
     // -----------------------------------------------------------------------------------------------------------------
@@ -100,7 +103,35 @@ static void adc_configure(){
     // -----------------------------------------------------------------------------------------------------------------
     // FR57xx family ADC10_B module
     // -----------------------------------------------------------------------------------------------------------------
-    // TODO
+    ADC10CTL0 &= ~ADC10ENC;                     // Disable Conversion
+    ADC10CTL1 = ADC10SSEL_0 | ADC10DIV_4;       // ADC10OSC (5MHz) / 5
+    ADC10CTL0 &= ~ADC10SREF_7;                  // Clear reference selection
+    while(REFCTL0 & REFGENBUSY);                // Wait until ref gen not busy
+    switch(adc_ref){
+    case INTERNAL1V5:
+        REFCTL0 = REFON | REFVSEL_0;            // Internal reference on 1.5V
+        ADC10CTL0 |= ADC10SREF_1;               // Internal 1.5V to GND
+        break;
+    case INTERNAL2V0:
+        REFCTL0 = REFON | REFVSEL_1;            // Internal reference on 2.0V
+        ADC10CTL0 |= ADC10SREF_1;               // Internal 2.0V to GND
+        break;
+    case INTERNAL2V5:
+        REFCTL0 = REFON | REFVSEL_2;            // Internal reference on 2.5V
+        ADC10CTL0 |= ADC10SREF_1;               // Internal 2.5V to GND
+        break;
+    case EXTERNAL:
+        REFCTL0 = ~REFON;                       // Internal reference off
+        ADC10CTL0 |= ADC10SREF_2;               // External to GND
+        break;
+    default:
+        REFCTL0 = ~REFON;                       // Internal reference off
+        ADC10CTL0 |= ADC10SREF_0;               // VCC to GND
+        break;
+    }
+    ADC10CTL0 &= ~ADC10SHT_15;                  // Clear sample hold time
+    ADC10CTL0 |= ADC10SHT_4;                    // Sample and hold 64 cycles
+    ADC10IE |= ADC10IE0;                        // Enable conversion complete interrupt
     // -----------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC12_B__)
     // -----------------------------------------------------------------------------------------------------------------
