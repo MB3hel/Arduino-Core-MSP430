@@ -10,7 +10,7 @@
         {
           "name": "MSP430 Boards", 
           "architecture": "msp430", 
-          "version": "3.1.0", 
+          "version": "3.1.1", 
           "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.1/msp430-core-3.1.1.tar.bz2", 
           "archiveFileName": "msp430-core-3.1.1.tar.bz2", 
           "checksum": "SHA-256:9a60502e89f23bf716b10a3290fb8a6910e36088cb232cb9ae31e004f38dca6d", 
