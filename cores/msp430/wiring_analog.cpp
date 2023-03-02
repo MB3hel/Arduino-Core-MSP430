@@ -286,6 +286,9 @@ void analogReference(uint8_t mode){
 }
 
 int analogRead(pin_size_t pinNumber){
+    if(PxADCCH(pinNumber) == 0 || pinNumber > MAX_PINNUM)
+        return; // Not a valid pin
+    
     // Select channel
     // Turn ADC on
     // Enable conversion (& start conversion depending on ADC)
@@ -307,6 +310,9 @@ int analogRead(pin_size_t pinNumber){
     // -----------------------------------------------------------------------------------------------------------------
     // F2xx and G2xx family ADC12 module
     // -----------------------------------------------------------------------------------------------------------------
+#ifndef ADC12ENC
+#define ADC12ENC ENC
+#endif
     // TODO
     // -----------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC10_B__)

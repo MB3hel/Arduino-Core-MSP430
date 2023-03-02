@@ -42,6 +42,7 @@ const extern uintptr_t pin_sel1reg[];
 const extern uintptr_t pin_dirreg[];
 const extern uintptr_t pin_renreg[];
 const extern uint8_t pin_bitmask[];
+const extern uint8_t pin_adcch[];
 
 
 // Macros to use these arrays
@@ -51,7 +52,8 @@ const extern uint8_t pin_bitmask[];
 #define PxSEL1(n)           (*((volatile uint8_t*)pin_sel1reg[n]))
 #define PxDIR(n)            (*((volatile uint8_t*)pin_dirreg[n]))
 #define PxREN(n)            (*((volatile uint8_t*)pin_renreg[n]))
-#define PxMASK(n)             ((uint8_t)pin_bitmask[n])
+#define PxMASK(n)           ((uint8_t)pin_bitmask[n])
+#define PxADCCH(n)          (pin_adcch[n])
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
