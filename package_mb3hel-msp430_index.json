@@ -11,6 +11,67 @@
           "name": "MSP430 Boards", 
           "architecture": "msp430", 
           "version": "3.1.0", 
+          "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.1/msp430-core-3.1.1.tar.bz2", 
+          "archiveFileName": "msp430-core-3.1.1.tar.bz2", 
+          "checksum": "SHA-256:9a60502e89f23bf716b10a3290fb8a6910e36088cb232cb9ae31e004f38dca6d", 
+          "size": "2305274", 
+          "boards": [
+            {
+              "name": "MSP-EXP430F5529"
+            }, 
+            {
+              "name": "MSP-EXP430FR2433"
+            }, 
+            {
+              "name": "MSP-EXP430FR4133"
+            }, 
+            {
+              "name": "MSP-EXP430FR5969"
+            }, 
+            {
+              "name": "MSP-EXP430FR6989"
+            }, 
+            {
+              "name": "MSP-EXP430FR5739"
+            }, 
+            {
+              "name": "MSP-EXP430FR2355"
+            }, 
+            {
+              "name": "MSP-EXP430FR2231"
+            }, 
+            {
+              "name": "MSP-EXP430G2"
+            }, 
+            {
+              "name": "MSP-EXP430G2ET"
+            }, 
+            {
+              "name": "MSP-EXP430FR5994"
+            }
+          ], 
+          "toolsDependencies": [
+            {
+              "packager": "mb3hel-msp430", 
+              "name": "msp430gcc", 
+              "version": "9.3.1.11"
+            }, 
+            {
+              "packager": "mb3hel-msp430", 
+              "name": "mspdebug", 
+              "version": "0.25"
+            },
+            {
+              "packager": "mb3hel-msp430", 
+              "name": "uniflash-launcher", 
+              "version": "1.0.0"
+            }
+          ]
+        },
+        {
+          "name": "MSP430 Boards", 
+          "architecture": "msp430", 
+          "version": "3.1.0", 
           "url": "https://github.com/MB3hel/Arduino-Core-MSP430/releases/download/v3.1.0/msp430-core-3.1.0.tar.bz2", 
           "archiveFileName": "msp430-core-3.1.0.tar.bz2", 
           "checksum": "SHA-256:cc3d13760ef56061531acdbcb8d82f071daf42a796aaeb50ba6a82c68cd70ffd", 
