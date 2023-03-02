@@ -170,6 +170,8 @@ void analogReference(uint8_t mode){
     // Note: Uses mem0
     ADCCTL0 &= ~ADCENC;                         // Disable conversion
     ADCCTL1 = ADCSSEL_0 | ADCDIV_4;             // ADCOSC (~5MHz) / 5
+    ADCCTL2 &= ~ADCRES_3;                       // Clear resolution selection
+    ADCCTL2 |= ADCRES_2;                        // 12-bit
     PMMCTL0_H  = PMMPW_H;                       // Unlock PMM
     switch(mode){
 #ifdef REFVSEL
