@@ -91,7 +91,7 @@ const extern uint8_t pin_bitmask[];
 // FR58xx, FR59xx, FR6xx family ADC12_B module
 // -----------------------------------------------------------------------------------------------------------------
 #define DEFAULT             0
-#define INTERNAL1V5         1
+#define INTERNAL1V2         1
 #define INTERNAL2V0         2
 #define INTERNAL2V5         3
 #define EXTERNAL            4

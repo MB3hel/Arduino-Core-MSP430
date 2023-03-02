@@ -137,7 +137,35 @@ static void adc_configure(){
     // -----------------------------------------------------------------------------------------------------------------
     // FR58xx, FR59xx, FR6xx family ADC12_B module
     // -----------------------------------------------------------------------------------------------------------------
-    // TODO
+    // Note: Using mem0
+    ADC12CTL0 &= ~ADC12ENC;                     // Disable Conversion
+    ADC12CTL1 = ADC12SSEL_0 | ADC12DIV_4;       // ADC12OSC (5MHz) / 5
+    while(REFCTL0 & REFGENBUSY);                // Wait until ref gen not busy
+    switch(adc_ref){
+    case INTERNAL1V2:
+        REFCTL0 = REFON | REFVSEL_0;            // Internal reference on 1.2V
+        ADC12MCTL0 = ADC12VRSEL_1;              // Internal 1.2V to GND
+        break;
+    case INTERNAL2V0:
+        REFCTL0 = REFON | REFVSEL_1;            // Internal reference on 2.0V
+        ADC12MCTL0 = ADC12VRSEL_1;              // Internal 2.0V to GND
+        break;
+    case INTERNAL2V5:
+        REFCTL0 = REFON | REFVSEL_2;            // Internal reference on 2.5V
+        ADC12MCTL0 = ADC12VRSEL_1;              // Internal 2.5V to GND
+        break;
+    case EXTERNAL:
+        REFCTL0 = ~REFON;                       // Internal reference off
+        ADC12MCTL0 = ADC12VRSEL_4;              // External to GND
+        break;
+    default:
+        REFCTL0 = ~REFON;                       // Internal reference off
+        ADC12MCTL0 = ADC12VRSEL_0;              // VCC to GND
+        break;
+    }
+    ADC12CTL0 &= ~ADC12SHT0_15;                 // Clear sample hold time
+    ADC12CTL0 |= ADC12SHT0_4;                   // Sample and hold 64 cycles
+    ADC12IER0 |= ADC12IE0;                      // Enable conversion complete interrupt
     // -----------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC__)
     // -----------------------------------------------------------------------------------------------------------------
