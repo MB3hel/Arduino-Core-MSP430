@@ -49,9 +49,14 @@ static volatile unsigned int totalWait = 0; // Total amount waited so far in the
 #define TIMERA0_VECTOR TIMER0_A0_VECTOR
 #endif /* TIMER0_A0_VECTOR */
 
-// Timer A0 interrupt service routine
+#ifndef TIMERB0_VECTOR
+#define TIMERB0_VECTOR TIMER0_B0_VECTOR
+#endif /* TIMER0_B0_VECTOR */
+
+
+
 static void inline
-Timer_A(void)
+Timer_Process(void)
 {
   static unsigned long wait;
   if (counter >= 0) {
@@ -72,23 +77,42 @@ Timer_A(void)
     digitalWrite(servos[counter].Pin.nbr, HIGH);
     /* And hold! */
     totalWait += servos[counter].ticks;
+#if defined(__MSP430_HAS_TA0__)
     TA0CCR0 = servos[counter].ticks;
+#elif defined(__MSP430_HAS_TB0__)
+    TB0CCR0 = servos[counter].ticks;
+#endif
   } else {
     /* Wait for the remaining of REFRESH_INTERVAL. */
     wait = usToTicks(REFRESH_INTERVAL) - totalWait;
     totalWait = 0;
+#if defined(__MSP430_HAS_TA0__)
     TA0CCR0 = (wait < 1000 ? 1000 : wait);
+#elif defined(__MSP430_HAS_TB0__)
+    TB0CCR0 = (wait < 1000 ? 1000 : wait);
+#endif
     counter = -1;
   }
 }
 
-// Timer A0 interrupt service routine
+#if defined(__MSP430_HAS_TA0__)
+
 __attribute__((interrupt(TIMERA0_VECTOR)))
 static void
-Timer_A_int(void)
-{
-  Timer_A();
+Timer_isr(void){
+  Timer_Process();
 }
+
+#elif defined (__MSP430_HAS_TB0__)
+
+__attribute__((interrupt(TIMERB0_VECTOR)))
+static void
+Timer_isr(void){
+  Timer_Process();
+}
+
+#endif
+
 
 static boolean isTimerActive(void)
 {
@@ -104,17 +128,28 @@ static void enableTimer(void)
   counter = -1;
   totalWait = 0;
 
-  Timer_A(); // enable first servo
+  Timer_Process(); // enable first servo
 
+#if defined(__MSP430_HAS_TA0__)
   TA0CCTL0 = CCIE;                             // CCR0 interrupt enabled
   TA0CTL = TASSEL_2 + MC_1 + ID_3;           // prescale SMCLK/8, upmode
+#elif defined(__MSP430_HAS_TB0__)
+  TB0CCTL0 = CCIE;                             // CCR0 interrupt enabled
+  TB0CTL = TBSSEL_2 + MC_1 + ID_3;           // prescale SMCLK/8, upmode
+#endif
 }
 
 static void disableTimer(void)
 {
+#if defined(__MSP430_HAS_TA0__)
   // disable interrupt
   TA0CCTL0 = 0;
   TA0CCR0 = 0;
+#elif defined(__MSP430_HAS_TB0__)
+  // disable interrupt
+  TB0CCTL0 = 0;
+  TB0CCR0 = 0;
+#endif
 }
 
 
