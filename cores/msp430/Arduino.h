@@ -125,7 +125,7 @@ const extern uint8_t pin_bitmask[];
 // -----------------------------------------------------------------------------------------------------------------
 #define DEFAULT             0
 #define INTERNAL1V5         1
-// #define INTERNAL2V0      2     // Supported on "non-A" only devices
+#define INTERNAL2V0         2     
 #define INTERNAL2V5         3
 #define EXTERNAL            4
 // -----------------------------------------------------------------------------------------------------------------

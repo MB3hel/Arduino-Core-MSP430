@@ -215,13 +215,69 @@ void analogReference(uint8_t mode){
     // -----------------------------------------------------------------------------------------------------------------
     // x5xx and x6xx family ADC12_A module
     // -----------------------------------------------------------------------------------------------------------------
-    // TODO
+    // Note: Using mem0
+    ADC12CTL0 &= ~ADC12ENC;                     // Disable Conversion
+    ADC12CTL1 = ADC12SSEL_0 | ADC12DIV_4;       // ADC12OSC (~5MHz) / 5
+    while(REFCTL0 & REFGENBUSY);                // Wait until ref gen not busy
+    switch(mode){
+    case INTERNAL1V5:
+        REFCTL0 = REFON | REFVSEL_0;            // Internal reference on 1.2V
+        ADC12MCTL0 = ADC12SREF_0;               // Internal 1.2V to GND
+        break;
+    case INTERNAL2V0:
+        REFCTL0 = REFON | REFVSEL_1;            // Internal reference on 2.0V
+        ADC12MCTL0 = ADC12SREF_1;               // Internal 2.0V to GND
+        break;
+    case INTERNAL2V5:
+        REFCTL0 = REFON | REFVSEL_2;            // Internal reference on 2.5V
+        ADC12MCTL0 = ADC12SREF_1;               // Internal 2.5V to GND
+        break;
+    case EXTERNAL:
+        REFCTL0 = ~REFON;                       // Internal reference off
+        ADC12MCTL0 = ADC12SREF_4;               // External to GND
+        break;
+    default:
+        REFCTL0 = ~REFON;                       // Internal reference off
+        ADC12MCTL0 = ADC12SREF_0;               // VCC to GND
+        break;
+    }
+    ADC12CTL0 &= ~ADC12SHT0_15;                 // Clear sample hold time
+    ADC12CTL0 |= ADC12SHT0_4;                   // Sample and hold 64 cycles
+    ADC12IE |= ADC12IE0;                        // Enable conversion complete interrupt
     // -----------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC10_A__)
     // -----------------------------------------------------------------------------------------------------------------
     // x5xx and x6xx family ADC10_A module
     // -----------------------------------------------------------------------------------------------------------------
-    // TODO
+    ADC10CTL0 &= ~ADC10ENC;                     // Disable Conversion
+    ADC10CTL1 = ADC10SSEL_0 | ADC10DIV_4;       // ADC10OSC (~5MHz) / 5
+    ADC10CTL0 &= ~ADC10SREF_7;                  // Clear reference selection
+    while(REFCTL0 & REFGENBUSY);                // Wait until ref gen not busy
+    switch(mode){
+    case INTERNAL1V5:
+        REFCTL0 = REFON | REFVSEL_0;            // Internal reference on 1.5V
+        ADC10CTL0 |= ADC10SREF_1;               // Internal 1.5V to GND
+        break;
+    case INTERNAL2V0:
+        REFCTL0 = REFON | REFVSEL_1;            // Internal reference on 2.0V
+        ADC10CTL0 |= ADC10SREF_1;               // Internal 2.0V to GND
+        break;
+    case INTERNAL2V5:
+        REFCTL0 = REFON | REFVSEL_2;            // Internal reference on 2.5V
+        ADC10CTL0 |= ADC10SREF_1;               // Internal 2.5V to GND
+        break;
+    case EXTERNAL:
+        REFCTL0 = ~REFON;                       // Internal reference off
+        ADC10CTL0 |= ADC10SREF_2;               // External to GND
+        break;
+    default:
+        REFCTL0 = ~REFON;                       // Internal reference off
+        ADC10CTL0 |= ADC10SREF_0;               // VCC to GND
+        break;
+    }
+    ADC10CTL0 &= ~ADC10SHT_15;                  // Clear sample hold time
+    ADC10CTL0 |= ADC10SHT_4;                    // Sample and hold 64 cycles
+    ADC10IE |= ADC10IE0;                        // Enable conversion complete interrupt
     // -----------------------------------------------------------------------------------------------------------------
 #endif
     delayMicroseconds(10);                      // Allow reference to stabilize
