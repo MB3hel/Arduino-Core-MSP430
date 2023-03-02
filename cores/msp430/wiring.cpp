@@ -823,9 +823,10 @@ __interrupt_vec(WDT_VECTOR) void watchdog_isr (void){
 void init(){
     WDTCTL = WDTPW | WDTHOLD;               // Disable watchdog timer
 #if defined(LOCKLPM5)
-     PMMCTL0_H = PMMPW_H;                   // Open PMM
-     PM5CTL0 &= ~LOCKLPM5;                  // Unlock IO ports (FR59xx)
-     PMMCTL0_H = 0;                         // Lock PMM
+    PMMCTL0_H = PMMPW_H;                    // Open PMM
+    PM5CTL0 &= ~LOCKLPM5;                   // Unlock IO ports (FR59xx)
+    PMMCTL0_H = 0;                          // Lock PMM
+     
 #endif
     initClocks();                           // Initialize clocks
     enableWdtInterval();                    // Enable WDT (used as interval timer for ms timing)

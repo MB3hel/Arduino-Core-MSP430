@@ -39,7 +39,7 @@ void analogReference(uint8_t mode){
 #define ADC10ENC ENC
 #endif
     ADC10CTL0 &= ~ADC10ENC;                      // Disable conversion
-    ADC10CTL1 = ADC10SSEL_0 | ADC10DIV_4;       // ADC10OSC (5MHz) / 5
+    ADC10CTL1 = ADC10SSEL_0 | ADC10DIV_4;       // ADC10OSC (~5MHz) / 5
     ADC10CTL0 &= ~SREF_7;                       // Clear reference selection
     switch(mode){
     case INTERNAL1V5:
@@ -71,7 +71,7 @@ void analogReference(uint8_t mode){
 #define ADC12ENC ENC
 #endif
     ADC12CTL0 &= ~ADC12ENC;                      // Disable conversion
-    ADC12CTL1 = ADC12SSEL_0 | ADC12DIV_4;       // ADC12OSC (5MHz) / 5
+    ADC12CTL1 = ADC12SSEL_0 | ADC12DIV_4;       // ADC12OSC (~5MHz) / 5
     switch(mode){
     case INTERNAL1V5:
         ADC12MCTL0 = SREF_1;                    // Internal 1.5V to GND
@@ -100,7 +100,7 @@ void analogReference(uint8_t mode){
     // FR57xx family ADC10_B module
     // -----------------------------------------------------------------------------------------------------------------
     ADC10CTL0 &= ~ADC10ENC;                     // Disable Conversion
-    ADC10CTL1 = ADC10SSEL_0 | ADC10DIV_4;       // ADC10OSC (5MHz) / 5
+    ADC10CTL1 = ADC10SSEL_0 | ADC10DIV_4;       // ADC10OSC (~5MHz) / 5
     ADC10CTL0 &= ~ADC10SREF_7;                  // Clear reference selection
     while(REFCTL0 & REFGENBUSY);                // Wait until ref gen not busy
     switch(mode){
@@ -135,7 +135,7 @@ void analogReference(uint8_t mode){
     // -----------------------------------------------------------------------------------------------------------------
     // Note: Using mem0
     ADC12CTL0 &= ~ADC12ENC;                     // Disable Conversion
-    ADC12CTL1 = ADC12SSEL_0 | ADC12DIV_4;       // ADC12OSC (5MHz) / 5
+    ADC12CTL1 = ADC12SSEL_0 | ADC12DIV_4;       // ADC12OSC (~5MHz) / 5
     while(REFCTL0 & REFGENBUSY);                // Wait until ref gen not busy
     switch(mode){
     case INTERNAL1V2:
@@ -167,7 +167,27 @@ void analogReference(uint8_t mode){
     // -----------------------------------------------------------------------------------------------------------------
     // FR4xx and FR2xx family ADC (multi resolution)
     // -----------------------------------------------------------------------------------------------------------------
-    // TODO
+    ADCCTL0 &= ~ADCENC;                         // Disable conversion
+    ADCCTL1 = ADCSSEL_0 | ADCDIV_4;             // ADCOSC (~5MHz) / 5
+    PMMCTL0_H  = PMMPW_H;                       // Unlock PMM
+    switch(mode){
+#ifdef REFVSEL
+    case INTERNAL1V5:
+        break;
+    case INTERNAL2V0:
+        break;
+    case INTERNAL2V5:
+        break;
+#else
+    case INTERNAL1V5:
+        break;
+#endif
+    case EXTERNAL:
+        break;
+    default:
+        break;
+    }
+    PMMCTL0_H = 0;                               // Lock PMM
     // -----------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC12_PLUS__)
     // -----------------------------------------------------------------------------------------------------------------
@@ -188,7 +208,7 @@ void analogReference(uint8_t mode){
 int analogRead(pin_size_t pinNumber){
     // Select channel
     // Turn ADC on
-    // Enable conversion
+    // Enable conversion (& start conversion depending on ADC)
     // Enter LPM0
     // Wait for interrupt then wake
     // Disable conversion

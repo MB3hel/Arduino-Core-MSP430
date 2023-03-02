@@ -100,11 +100,14 @@ const extern uint8_t pin_bitmask[];
 // -----------------------------------------------------------------------------------------------------------------
 // FR4xx and FR2xx family ADC (multi resolution)
 // -----------------------------------------------------------------------------------------------------------------
-// Note that user-selectable 1.5V, 2.0V, and 2.5V are not available on all devices
-// But the fixed 1.5V is, so only support that one (at least for now)
+// 1.5V internal ref available on all, but 2.0 and 2.5 only on some
 #define DEFAULT             0
 #define INTERNAL1V5         1
-#define EXTERNAL            2
+#ifdef REFVSEL
+#define INTERNAL2V0         2
+#define INTERNAL2V5         3
+#endif
+#define EXTERNAL            4
 // -----------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC12_PLUS__)
 // -----------------------------------------------------------------------------------------------------------------
