@@ -26,10 +26,6 @@
 /// ADC
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-// Configures ADC with selected reference
-// This means that reference selection and general config
-// does not happen each time analogRead is called
 void analogReference(uint8_t mode){
 #if defined(__MSP430_HAS_ADC10__)
     // -----------------------------------------------------------------------------------------------------------------
@@ -38,7 +34,7 @@ void analogReference(uint8_t mode){
 #ifndef ADC10ENC
 #define ADC10ENC ENC
 #endif
-    ADC10CTL0 &= ~ADC10ENC;                      // Disable conversion
+    ADC10CTL0 &= ~ADC10ENC;                     // Disable conversion
     ADC10CTL1 = ADC10SSEL_0 | ADC10DIV_4;       // ADC10OSC (~5MHz) / 5
     ADC10CTL0 &= ~SREF_7;                       // Clear reference selection
     switch(mode){
@@ -58,7 +54,7 @@ void analogReference(uint8_t mode){
         ADC10CTL0 &= ~REFON;
         break;
     }
-    ADC10CTL0 &= ~ADC10SHT_15;                  // Clear sample hold time
+    ADC10CTL0 &= ~ADC10SHT_3;                   // Clear sample hold time
     ADC10CTL0 |= ADC10SHT_3;                    // Sample and hold 64 cycles. 
     ADC10CTL0 |= ADC10IE;                       // Enable interrupt
     // -----------------------------------------------------------------------------------------------------------------
@@ -70,7 +66,7 @@ void analogReference(uint8_t mode){
 #ifndef ADC12ENC
 #define ADC12ENC ENC
 #endif
-    ADC12CTL0 &= ~ADC12ENC;                      // Disable conversion
+    ADC12CTL0 &= ~ADC12ENC;                     // Disable conversion
     ADC12CTL1 = ADC12SSEL_0 | ADC12DIV_4;       // ADC12OSC (~5MHz) / 5
     switch(mode){
     case INTERNAL1V5:
@@ -304,7 +300,13 @@ int analogRead(pin_size_t pinNumber){
 #ifndef ADC10ENC
 #define ADC10ENC ENC
 #endif
-    // TODO
+    ADC10CTL0 |= ADC10ON;                       // Turn ADC on
+    ADC10CTL1 &= ~INCH_15;                      // Clear channel selection
+    ADC10CTL0 |= ADC10ENC | ADC10SC;            // Enable & start conversion
+    __bis_SR_register(LPM0_bits + GIE);         // Enter low power mode (will be woken by ISR)
+    ADC10CTL0 &= ~(ADC10ENC | ADC10SC);         // Disable conversion
+    ADC10CTL0 &= ~ADC10ON;                      // Turn ADC off
+    return (int)ADC10MEM;
     // -----------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC12__)
     // -----------------------------------------------------------------------------------------------------------------
@@ -345,6 +347,8 @@ int analogRead(pin_size_t pinNumber){
     // -----------------------------------------------------------------------------------------------------------------
     // TODO
     // -----------------------------------------------------------------------------------------------------------------
+#else
+    return 0;                                   // No known ADC
 #endif
 }
 

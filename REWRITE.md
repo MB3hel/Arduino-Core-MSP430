@@ -96,6 +96,7 @@ The following will not be included (possibly moved as zips to a separate locatio
 <br />
 
 - Digital input and output (with pullup and puldown resistors)
+    - Done.
 - Digital pin interrupts (all pins / ports)
 - Implement shift and pulse stuff
 
