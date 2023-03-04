@@ -373,7 +373,15 @@ int analogRead(pin_size_t pinNumber){
     // -----------------------------------------------------------------------------------------------------------------
     // x5xx and x6xx family ADC12_A module
     // -----------------------------------------------------------------------------------------------------------------
-    // TODO
+    ADC12CTL0 |= ADC12ON;                       // Turn ADC on
+    ADC12MCTL0 &= ~ADC12INCH_15;                // Clear channel selection
+    ADC12MCTL0 |= 
+        ((PxADCCH(pinNumber) & 0xF) << 0);      // Select channel
+    ADC12CTL0 |= ADC12ENC | ADC12SC;            // Enable & start conversion
+    __bis_SR_register(LPM0_bits + GIE);         // Enter low power mode (will be woken by ISR)
+    ADC12CTL0 &= ~(ADC12ENC | ADC12SC);         // Disable conversion
+    ADC12CTL0 &= ~ADC12ON;                      // Turn ADC off
+    return (int)ADC12MEM0;
     // -----------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC10_A__)
     // -----------------------------------------------------------------------------------------------------------------
