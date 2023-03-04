@@ -302,7 +302,8 @@ int analogRead(pin_size_t pinNumber){
 #endif
     ADC10CTL0 |= ADC10ON;                       // Turn ADC on
     ADC10CTL1 &= ~INCH_15;                      // Clear channel selection
-    ADC10CTL1 |= (PxADCCH(pinNumber) << 12);    // Select channel
+    ADC10CTL1 |= 
+        ((PxADCCH(pinNumber) & 0xF) << 12);     // Select channel
     ADC10CTL0 |= ADC10ENC | ADC10SC;            // Enable & start conversion
     __bis_SR_register(LPM0_bits + GIE);         // Enter low power mode (will be woken by ISR)
     ADC10CTL0 &= ~(ADC10ENC | ADC10SC);         // Disable conversion
@@ -318,7 +319,8 @@ int analogRead(pin_size_t pinNumber){
 #endif
     ADC12CTL0 |= ADC12ON;                       // Turn ADC on
     ADC12MCTL0 &= ~INCH_15;                     // Clear channel selection
-    ADC12MCTL0 |= (PxADCCH(pinNumber) << 0);    // Select channel
+    ADC12MCTL0 |= 
+        ((PxADCCH(pinNumber) & 0xF) << 0);      // Select channel
     ADC12CTL0 |= ADC12ENC | ADC12SC;            // Enable & start conversion
     __bis_SR_register(LPM0_bits + GIE);         // Enter low power mode (will be woken by ISR)
     ADC12CTL0 &= ~(ADC12ENC | ADC12SC);         // Disable conversion
@@ -331,7 +333,8 @@ int analogRead(pin_size_t pinNumber){
     // -----------------------------------------------------------------------------------------------------------------
     ADC10CTL0 |= ADC10ON;                       // Turn ADC on
     ADC10MCTL0 &= ~ADC10INCH_15;                // Clear channel selection
-    ADC10MCTL0 |= (PxADCCH(pinNumber) << 0);    // Select channel
+    ADC10MCTL0 |= 
+        ((PxADCCH(pinNumber) & 0xF) << 0);      // Select channel
     ADC10CTL0 |= ADC10ENC | ADC10SC;            // Enable & start conversion
     __bis_SR_register(LPM0_bits + GIE);         // Enter low power mode (will be woken by ISR)
     ADC10CTL0 &= ~(ADC10ENC | ADC10SC);         // Disable conversion
