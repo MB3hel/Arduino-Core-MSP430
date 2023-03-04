@@ -387,7 +387,15 @@ int analogRead(pin_size_t pinNumber){
     // -----------------------------------------------------------------------------------------------------------------
     // x5xx and x6xx family ADC10_A module
     // -----------------------------------------------------------------------------------------------------------------
-    // TODO
+    ADC10CTL0 |= ADC10ON;                       // Turn ADC on
+    ADC10MCTL0 &= ~ADC10INCH_15;                // Clear channel selection
+    ADC10MCTL0 |= 
+        ((PxADCCH(pinNumber) & 0xF) << 0);      // Select channel
+    ADC10CTL0 |= ADC10ENC | ADC10SC;            // Enable & start conversion
+    __bis_SR_register(LPM0_bits + GIE);         // Enter low power mode (will be woken by ISR)
+    ADC10CTL0 &= ~(ADC10ENC | ADC10SC);         // Disable conversion
+    ADC10CTL0 &= ~ADC10ON;                      // Turn ADC off
+    return (int)ADC10MEM0;
     // -----------------------------------------------------------------------------------------------------------------
 #else
     return 0;                                   // No known ADC
