@@ -282,8 +282,8 @@ void analogReference(uint8_t mode){
 }
 
 int analogRead(pin_size_t pinNumber){
-    if(PxADCCH(pinNumber) == 0 || pinNumber > MAX_PINNUM)
-        return; // Not a valid pin
+    if(PxADCCH(pinNumber) == 255 || pinNumber > MAX_PINNUM)
+        return 0; // Not a valid pin
     
     // Select channel
     // Turn ADC on
@@ -302,6 +302,7 @@ int analogRead(pin_size_t pinNumber){
 #endif
     ADC10CTL0 |= ADC10ON;                       // Turn ADC on
     ADC10CTL1 &= ~INCH_15;                      // Clear channel selection
+    ADC10CTL1 |= (PxADCCH(pinNumber) << 12);    // Select channel
     ADC10CTL0 |= ADC10ENC | ADC10SC;            // Enable & start conversion
     __bis_SR_register(LPM0_bits + GIE);         // Enter low power mode (will be woken by ISR)
     ADC10CTL0 &= ~(ADC10ENC | ADC10SC);         // Disable conversion
