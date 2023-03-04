@@ -316,7 +316,14 @@ int analogRead(pin_size_t pinNumber){
 #ifndef ADC12ENC
 #define ADC12ENC ENC
 #endif
-    // TODO
+    ADC12CTL0 |= ADC12ON;                       // Turn ADC on
+    ADC12MCTL0 &= ~INCH_15;                     // Clear channel selection
+    ADC12MCTL0 |= (PxADCCH(pinNumber) << 0);    // Select channel
+    ADC12CTL0 |= ADC12ENC | ADC12SC;            // Enable & start conversion
+    __bis_SR_register(LPM0_bits + GIE);         // Enter low power mode (will be woken by ISR)
+    ADC12CTL0 &= ~(ADC12ENC | ADC12SC);         // Disable conversion
+    ADC12CTL0 &= ~ADC12ON;                      // Turn ADC off
+    return (int)ADC12MEM0;
     // -----------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC10_B__)
     // -----------------------------------------------------------------------------------------------------------------
