@@ -249,28 +249,28 @@ void analogReference(uint8_t mode){
     // -----------------------------------------------------------------------------------------------------------------
     ADC10CTL0 &= ~ADC10ENC;                     // Disable Conversion
     ADC10CTL1 = ADC10SSEL_0 | ADC10DIV_4;       // ADC10OSC (~5MHz) / 5
-    ADC10CTL0 &= ~ADC10SREF_7;                  // Clear reference selection
+    ADC10MCTL0 &= ~ADC10SREF_7;                 // Clear reference selection
     while(REFCTL0 & REFGENBUSY);                // Wait until ref gen not busy
     switch(mode){
     case INTERNAL1V5:
         REFCTL0 = REFON | REFVSEL_0;            // Internal reference on 1.5V
-        ADC10CTL0 |= ADC10SREF_1;               // Internal 1.5V to GND
+        ADC10MCTL0 |= ADC10SREF_1;              // Internal 1.5V to GND
         break;
     case INTERNAL2V0:
         REFCTL0 = REFON | REFVSEL_1;            // Internal reference on 2.0V
-        ADC10CTL0 |= ADC10SREF_1;               // Internal 2.0V to GND
+        ADC10MCTL0 |= ADC10SREF_1;              // Internal 2.0V to GND
         break;
     case INTERNAL2V5:
         REFCTL0 = REFON | REFVSEL_2;            // Internal reference on 2.5V
-        ADC10CTL0 |= ADC10SREF_1;               // Internal 2.5V to GND
+        ADC10MCTL0 |= ADC10SREF_1;              // Internal 2.5V to GND
         break;
     case EXTERNAL:
         REFCTL0 = ~REFON;                       // Internal reference off
-        ADC10CTL0 |= ADC10SREF_2;               // External to GND
+        ADC10MCTL0 |= ADC10SREF_2;              // External to GND
         break;
     default:
         REFCTL0 = ~REFON;                       // Internal reference off
-        ADC10CTL0 |= ADC10SREF_0;               // VCC to GND
+        ADC10MCTL0 |= ADC10SREF_0;              // VCC to GND
         break;
     }
     ADC10CTL0 &= ~ADC10SHT_15;                  // Clear sample hold time
