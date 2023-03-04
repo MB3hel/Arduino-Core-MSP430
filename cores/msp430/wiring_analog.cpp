@@ -359,7 +359,15 @@ int analogRead(pin_size_t pinNumber){
     // -----------------------------------------------------------------------------------------------------------------
     // FR4xx and FR2xx family ADC (multi resolution)
     // -----------------------------------------------------------------------------------------------------------------
-    // TODO
+    ADCCTL0 |= ADCON;                           // Turn ADC on
+    ADCMCTL0 &= ~ADCINCH_15;                    // Clear channel selection
+    ADCMCTL0 |= 
+        ((PxADCCH(pinNumber) & 0xF) << 0);      // Select channel
+    ADCCTL0 |= ADCENC | ADCSC;                  // Enable & start conversion
+    __bis_SR_register(LPM0_bits + GIE);         // Enter low power mode (will be woken by ISR)
+    ADCCTL0 &= ~(ADCENC | ADCSC);               // Disable conversion
+    ADCCTL0 &= ~ADCON;                          // Turn ADC off
+    return (int)ADCMEM0;
     // -----------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC12_PLUS__)
     // -----------------------------------------------------------------------------------------------------------------
