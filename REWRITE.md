@@ -5,8 +5,6 @@
 ## Core
 
 - Implement the core (largely based on the old core) using the [Arduino Core API](https://github.com/arduino/ArduinoCore-API)
-- Ideally, DriverLib will not be used
-    - I may backtrack on this. It may provide useful abstractions between devices.
 - Serial Communications
     - USCI_A will support UART mode
     - USCI_B will support SPI and I2C mode
@@ -24,13 +22,14 @@
             - Function on `Wire` instance to change to hardware (this function would do nothing on boards with two USCI_Bs). Similar idea to energia's `setModule` function
             - Alternatively, this could just not be supported. This is the easy option.
     - Same ideas apply for eUSCI modules (but slightly different implementation)
+    - Some devices have "USI" modules??? Need to look into this more.
 - Clock configuration
     - Support multiple CPU frequencies (through tool menu in IDE). Options depend on board.
     - SMCLK will match MCLK
-    - ACLK will be external oscillator with VLO as fallback
+    - ACLK will be external oscillator with VLO/REFO as fallback
 - Analog Inputs
-    - TODO: Supported references
-    - All boards default to same resolution (10-bit?)
+    - Support all internal references, VCC, and external (all use GND as ref-)
+    - Support multiple resolutions on FR2xx_FR4xx family
 - Digital Inputs
     - Support interrupts on all pins
 
@@ -47,11 +46,10 @@ The following common arduino libraries will be ported to this core
 The following libraries from Energia will still be included
 
 - Servo
-- Maybe USBSerial
-- MspFlash
+- Maybe USBSerial (possibly replace with TinyUSB implementation)
 
 
-The following were included in Energia, but probalby don't need to be (can just use versions in library manager now)
+The following were included in Energia, but probably don't need to be (can just use versions in library manager now)
 
 - LiquidCrystal
 - Stepper
@@ -68,6 +66,7 @@ The following will not be included (possibly moved as zips to a separate locatio
 - LCD_Launchpad
 - PubNub
 - aJson
+- MspFlash
 
 
 ## Boards
@@ -85,34 +84,41 @@ The following will not be included (possibly moved as zips to a separate locatio
 
 ## Core Implementation TODO List (kindof in order)
 
-- Chip initialization and clock configuration (focus on chips I have first then port for other chips based on energia code)
-    - Note that most launchpads have an (LF)XT1 32786Hz crystal, however on some they are not connected by default. On such launchpads, the external crystal is disabled by default, however it can be enabled in the Tools menu of the IDE.
-    - All boards default to a clock speed of 16MHz. Higher values (if supported) and lower values are available in a tools menu.
-- Delay and timing support (millis, delay, micros, delayMicros)
-    - WDT is used as an interval timer
-    - delayMicroseconds fixed for various frequencies
-    - More clock frequencies supported for delayMicroseconds
+- [x] Chip initialization and clock configuration (focus on chips I have first then port for other chips based on energia code)
+- [x] Delay and timing support (millis, delay, micros, delayMicros)
+    
 
 <br />
 
-- Digital input and output (with pullup and puldown resistors)
-    - Done.
-- Digital pin interrupts (all pins / ports)
-- Implement shift and pulse stuff
+- [x] Digital input and output (with pullup and puldown resistors)
+- [ ] Digital pin interrupts (all pins / ports)
+- [ ] Implement shift and pulse stuff
 
 <br />
 
-- Analog inputs (analogRead and analogReference)
-- Analog input support for other references
+- [ ] Analog inputs (analogRead and analogReference)
+    - [ ] Resolution selection for FR2xx_FR4xx family
+- [ ] Analog input support for other references
+- [ ] PWM (analogWrite) using timers
 
 <br />
 
-- HardwareSerial implemented with USCI_A or eUSCI_A
- 
+- [ ] HardwareSerial implemented with USCI_A
+- [ ] HardwareSPI using USCI_B (SPI library)
+- [ ] Hardware_I2C implementation with USCI_B (Wire library)
+- [ ] Software_I2C implementation (master mode) for devices without two USCI_B modules (Wire library)
+
 <br />
 
-- HardwareSPI and Hardware_I2C implementation with USCI_B
+- [ ] Add / port other libraries
+    - [ ] Servo
 
-<br />
+## Implementation notes
 
-- Add / port other libraries
+- Note that most launchpads have an (LF)XT1 32786Hz crystal, however on some they are not connected by default. On such launchpads, the external crystal is disabled by default, however it can be enabled in the Tools menu of the IDE.
+- All boards default to a clock speed of 16MHz. Higher values (if supported) and lower values are available in a tools menu.
+    - Note that it may be better to default FRAM devices to 8MHz to avoid needing FRAM wait states by default.
+
+- WDT is used as an interval timer
+- delayMicroseconds fixed for various frequencies
+- More clock frequencies supported for delayMicroseconds than originally in energia core
