@@ -417,9 +417,12 @@ __interrupt_vec(ADC10_VECTOR) void ADC10_ISR(){
 // F2xx and G2xx family ADC12 module
 // ---------------------------------------------------------------------------------------------------------------------
 __interrupt_vec(ADC12_VECTOR) void ADC10_ISR(){
-    if(ADC12IV & ADC12IV_ADC12IFG0)
+    switch(ADC12IV){
+    case ADC12IV_ADC12IFG0:
         __bic_SR_register_on_exit(LPM0_bits);   // Exit LPM0
-    ADC12IFG = 0;                               // Clear interrupt flags
+        break;
+    }
+    // No need to clear IFG. Will be cleared when reading IV
 }
 // ---------------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC10_B__)
@@ -427,34 +430,65 @@ __interrupt_vec(ADC12_VECTOR) void ADC10_ISR(){
 // FR57xx family ADC10_B module
 // ---------------------------------------------------------------------------------------------------------------------
 __interrupt_vec(ADC10_VECTOR) void ADC10_ISR(){
-    if(ADC10IV & ADC10IV_ADC10IFG)
+    switch(ADC10IV){
+    case ADC10IV_ADC10IFG:
         __bic_SR_register_on_exit(LPM0_bits);   // Exit LPM0
-    ADC10IFG = 0;                               // Clear interrupt flags
+        break;
+    }
+    // No need to clear IFG. Will be cleared when reading IV
 }
 // ---------------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC12_B__)
 // ---------------------------------------------------------------------------------------------------------------------
 // FR58xx, FR59xx, FR6xx family ADC12_B module
 // ---------------------------------------------------------------------------------------------------------------------
-// TODO
+__interrupt_vec(ADC12_VECTOR) void ADC10_ISR(){
+    switch(ADC12IV){
+    case ADC12IV_ADC12IFG0:
+        __bic_SR_register_on_exit(LPM0_bits);   // Exit LPM0
+        break;
+    }
+    // No need to clear IFG. Will be cleared when reading IV
+}
 // ---------------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC__)
 // ---------------------------------------------------------------------------------------------------------------------
 // FR4xx and FR2xx family ADC (multi resolution)
 // ---------------------------------------------------------------------------------------------------------------------
-// TODO
+__interrupt_vec(ADC_VECTOR) void ADC_ISR(){
+    switch(ADCIV){
+    case ADCIV_ADCIFG:
+        __bic_SR_register_on_exit(LPM0_bits);   // Exit LPM0
+        break;
+    }
+    // No need to clear IFG. Will be cleared when reading IV
+}
 // ---------------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC12_PLUS__)
 // ---------------------------------------------------------------------------------------------------------------------
 // x5xx and x6xx family ADC12_A module
 // ---------------------------------------------------------------------------------------------------------------------
-// TODO
+__interrupt_vec(ADC12_VECTOR) void ADC_ISR(){
+    switch(ADC12IV){
+    case ADC12IV_ADC12IFG0:
+        __bic_SR_register_on_exit(LPM0_bits);   // Exit LPM0
+        break;
+    }
+    // No need to clear IFG. Will be cleared when reading IV
+}
 // ---------------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC10_A__)
 // ---------------------------------------------------------------------------------------------------------------------
 // x5xx and x6xx family ADC10_A module
 // ---------------------------------------------------------------------------------------------------------------------
-// TODO
+__interrupt_vec(ADC10_VECTOR) void ADC_ISR(){
+    switch(ADC10IV){
+    case ADC10IV_ADC10IFG:
+        __bic_SR_register_on_exit(LPM0_bits);   // Exit LPM0
+        break;
+    }
+    // No need to clear IFG. Will be cleared when reading IV
+}
 // ---------------------------------------------------------------------------------------------------------------------
 #endif
 
