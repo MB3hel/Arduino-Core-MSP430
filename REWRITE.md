@@ -92,7 +92,7 @@ The following will not be included (possibly moved as zips to a separate locatio
 
 - [x] Digital input and output (with pullup and puldown resistors)
 - [ ] Digital pin interrupts (all pins / ports)
-- [ ] Implement shift and pulse stuff
+- [x] Implement shift and pulse stuff
 
 <br />
 
