@@ -1,8 +1,19 @@
 # Development Information
 
+## Development Setup
 
+- Note that a working bash shell environment is assumed. Most scripts / processes could be adapted to windows, but it is recommended to just use git bash or msys2.
+- Install the Arduino IDE 2.0 (1.x version seems to not find tools packages correctly if not installed via boards manager)
+- Make a development sketchbook (eg `~/Arduino-Dev`) and change to this sketchbook in the IDE preferences
+- Clone this repo to `DEV_SKETCHBOOK/hardware/mb3hel-msp430/msp430`
+- Note that tools packages are not supported in the sketchbook. Thus, you'll have to manually install tools in `ARDUINO15/packages/mb3hel-msp430/tools/TOOL_NAME/TOOL_VERSION/`. See [this](https://support.arduino.cc/hc/en-us/articles/360018448279-Open-the-Arduino15-folder) for finding the Arduino15 directory.
+- Select the board from the sketchbook platform in the boards menu
+- Note that some changes may require an IDE restart to take effect
+- Note [this bug](https://github.com/arduino/arduino-ide/issues/1030). You may need to run `./extras/clear_ide_cache.sh` for some changes too.
 
-## MSP430 Arduino Core Package
+## Building & Releasing
+
+### MSP430 Arduino Core Package
 
 Run `extras/package.sh` and enter the version number. The tarball will be created in the `build` directory. This script is intended to be run on a Linux system. It may work on macOS or on MSYS2 on windows, but those are not tested.
 
@@ -12,17 +23,17 @@ Also, be aware of [this bug](https://github.com/arduino/arduino-ide/issues/1030)
 
 
 
-## MSP430-GCC Tool Package
+### MSP430-GCC Tool Package
 
 [Download](https://www.ti.com/tool/MSP430-GCC-OPENSOURCE) the "toolchain only" archives for each platform. Also download the support files. Extract each archive and merge the support file `include/` with the toolchain `include`. Then recompress the file. This should be done on a Linux / unix filesystem so that extracted macos and linux tarballs retain file permissions.
 
 
 
-## mspdebug Tool Package
+### mspdebug Tool Package
 
 For all platforms, download [TI's MSP Debug Stack](https://www.ti.com/tool/MSPDS) DLLs (not source code). For platforms without a prebuilt library, the source code can be downloaded and built according the the instructions provided in the archive.
 
-### Windows
+#### Windows
 
 - Install [MSYS2](https://www.msys2.org/).
 - Run in `mingw32` or `mingw64` environments (i686 or amd64 builds respectively)
@@ -49,7 +60,7 @@ For all platforms, download [TI's MSP Debug Stack](https://www.ti.com/tool/MSPDS
 - Compress the `mspdebug` directory using 7zip (archive as tar, then compress that tar as bzip2).
 
 
-### macOS
+#### macOS
 
 - Install [homebrew](https://brew.sh/)
 - Run the following commands
@@ -85,7 +96,7 @@ For all platforms, download [TI's MSP Debug Stack](https://www.ti.com/tool/MSPDS
     ```
 
 
-### Linux
+#### Linux
 
 - Note that it is best to build an a system with an older GLIBC (build on an older distro). This is often easily done using a debian / ubuntu chroot
 - Run the following commands
@@ -114,7 +125,7 @@ For all platforms, download [TI's MSP Debug Stack](https://www.ti.com/tool/MSPDS
     ```
 
 
-## UniFlash Launcher Tool Package
+### UniFlash Launcher Tool Package
 
 ```sh
 cd extras
@@ -123,7 +134,7 @@ tar --create --bzip2 -f ../build/uniflash-launcher-VERSION.tar.bz2 uniflash-laun
 ```
 
 
-## Index File
+### Index File
 
 The index file is manually updated. Copy / paste an existing entry of the same type and add new URL, hashsum (`sha256sum filename` command), and size in bytes (`wc -c filename` command). 
 
