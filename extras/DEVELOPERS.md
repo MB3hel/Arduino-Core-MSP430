@@ -3,13 +3,13 @@
 ## Development Setup
 
 - Note that a working bash shell environment is assumed. Most scripts / processes could be adapted to windows, but it is recommended to just use git bash or msys2.
-- Install the Arduino IDE 2.0 (1.x version seems to not find tools packages correctly if not installed via boards manager)
+- Install the Arduino IDE
 - Make a development sketchbook (eg `~/Arduino-Dev`) and change to this sketchbook in the IDE preferences
 - Clone this repo to `DEV_SKETCHBOOK/hardware/mb3hel-msp430/msp430`
 - Note that tools packages are not supported in the sketchbook. Thus, you'll have to manually install tools in `ARDUINO15/packages/mb3hel-msp430/tools/TOOL_NAME/TOOL_VERSION/`. See [this](https://support.arduino.cc/hc/en-us/articles/360018448279-Open-the-Arduino15-folder) for finding the Arduino15 directory.
 - Select the board from the sketchbook platform in the boards menu
 - Note that some changes may require an IDE restart to take effect
-- Note [this bug](https://github.com/arduino/arduino-ide/issues/1030). You may need to run `./extras/clear_ide_cache.sh` for some changes too.
+- Note [this bug](https://github.com/arduino/arduino-ide/issues/1030). You may need to run `./extras/clear_ide_cache.sh` for some changes too. This only applies to the 2.0 IDE (not 1.x).
 
 ## Building & Releasing
 
