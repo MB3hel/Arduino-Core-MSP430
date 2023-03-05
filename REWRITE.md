@@ -113,6 +113,11 @@ The following will not be included (possibly moved as zips to a separate locatio
 - [ ] Add / port other libraries
     - [ ] Servo
 
+<br />
+
+- [ ] Port configurations for other boards
+    - [ ] Make clear board list / table indicating boards tested with this core or not tested (and which features)
+
 ## Implementation notes
 
 - Note that most launchpads have an (LF)XT1 32786Hz crystal, however on some they are not connected by default. On such launchpads, the external crystal is disabled by default, however it can be enabled in the Tools menu of the IDE.
