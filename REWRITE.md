@@ -127,3 +127,5 @@ The following will not be included (possibly moved as zips to a separate locatio
 - WDT is used as an interval timer
 - delayMicroseconds fixed for various frequencies
 - More clock frequencies supported for delayMicroseconds than originally in energia core
+
+

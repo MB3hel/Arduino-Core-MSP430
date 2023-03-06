@@ -68,6 +68,11 @@ static const uint8_t A5 = PIN_A5;
 static const uint8_t A6 = PIN_A6;
 static const uint8_t A7 = PIN_A7;
 
+// Board LEDs
+static const uint8_t RED_LED = 14;
+static const uint8_t GREEN_LED = 2;
+static const uint8_t LED_BUILTIN = RED_LED;
+
 // TODO: digitalPinToInterrupt macro
 
 
