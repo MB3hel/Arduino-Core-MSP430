@@ -300,14 +300,16 @@ int analogRead(pin_size_t pinNumber){
 #ifndef ADC10ENC
 #define ADC10ENC ENC
 #endif
-    ADC10CTL0 |= ADC10ON;                       // Turn ADC on
     ADC10CTL1 &= ~INCH_15;                      // Clear channel selection
-    ADC10CTL1 |= 
+    ADC10CTL1 |=
         ((PxADCCH(pinNumber) & 0xF) << 12);     // Select channel
+    ADC10AE0 |= PxADCMASK(pinNumber);           // Enable analog input for the given channel
+    ADC10CTL0 |= ADC10ON;                       // Turn ADC on
     ADC10CTL0 |= ADC10ENC | ADC10SC;            // Enable & start conversion
     __bis_SR_register(LPM0_bits + GIE);         // Enter low power mode (will be woken by ISR)
     ADC10CTL0 &= ~(ADC10ENC | ADC10SC);         // Disable conversion
     ADC10CTL0 &= ~ADC10ON;                      // Turn ADC off
+    ADC10AE0 &= ~PxADCMASK(pinNumber);          // Disable analog input for the given channel
     return (int)ADC10MEM;
     // -----------------------------------------------------------------------------------------------------------------
 #elif defined(__MSP430_HAS_ADC12__)
@@ -317,10 +319,11 @@ int analogRead(pin_size_t pinNumber){
 #ifndef ADC12ENC
 #define ADC12ENC ENC
 #endif
-    ADC12CTL0 |= ADC12ON;                       // Turn ADC on
+    // TODO: Pin mux configuration
     ADC12MCTL0 &= ~INCH_15;                     // Clear channel selection
     ADC12MCTL0 |= 
         ((PxADCCH(pinNumber) & 0xF) << 0);      // Select channel
+    ADC12CTL0 |= ADC12ON;                       // Turn ADC on
     ADC12CTL0 |= ADC12ENC | ADC12SC;            // Enable & start conversion
     __bis_SR_register(LPM0_bits + GIE);         // Enter low power mode (will be woken by ISR)
     ADC12CTL0 &= ~(ADC12ENC | ADC12SC);         // Disable conversion
@@ -331,10 +334,11 @@ int analogRead(pin_size_t pinNumber){
     // -----------------------------------------------------------------------------------------------------------------
     // FR57xx family ADC10_B module
     // -----------------------------------------------------------------------------------------------------------------
-    ADC10CTL0 |= ADC10ON;                       // Turn ADC on
+    // TODO: Pin mux configuration
     ADC10MCTL0 &= ~ADC10INCH_15;                // Clear channel selection
     ADC10MCTL0 |= 
         ((PxADCCH(pinNumber) & 0xF) << 0);      // Select channel
+    ADC10CTL0 |= ADC10ON;                       // Turn ADC on
     ADC10CTL0 |= ADC10ENC | ADC10SC;            // Enable & start conversion
     __bis_SR_register(LPM0_bits + GIE);         // Enter low power mode (will be woken by ISR)
     ADC10CTL0 &= ~(ADC10ENC | ADC10SC);         // Disable conversion
@@ -345,10 +349,11 @@ int analogRead(pin_size_t pinNumber){
     // -----------------------------------------------------------------------------------------------------------------
     // FR58xx, FR59xx, FR6xx family ADC12_B module
     // -----------------------------------------------------------------------------------------------------------------
-    ADC12CTL0 |= ADC12ON;                       // Turn ADC on
+    // TODO: Pin mux configuration
     ADC12MCTL0 &= ~ADC12INCH_15;                // Clear channel selection
     ADC12MCTL0 |= 
         ((PxADCCH(pinNumber) & 0xF) << 0);      // Select channel
+    ADC12CTL0 |= ADC12ON;                       // Turn ADC on
     ADC12CTL0 |= ADC12ENC | ADC12SC;            // Enable & start conversion
     __bis_SR_register(LPM0_bits + GIE);         // Enter low power mode (will be woken by ISR)
     ADC12CTL0 &= ~(ADC12ENC | ADC12SC);         // Disable conversion
@@ -359,10 +364,11 @@ int analogRead(pin_size_t pinNumber){
     // -----------------------------------------------------------------------------------------------------------------
     // FR4xx and FR2xx family ADC (multi resolution)
     // -----------------------------------------------------------------------------------------------------------------
-    ADCCTL0 |= ADCON;                           // Turn ADC on
+    // TODO: Pin mux configuration
     ADCMCTL0 &= ~ADCINCH_15;                    // Clear channel selection
     ADCMCTL0 |= 
         ((PxADCCH(pinNumber) & 0xF) << 0);      // Select channel
+    ADCCTL0 |= ADCON;                           // Turn ADC on
     ADCCTL0 |= ADCENC | ADCSC;                  // Enable & start conversion
     __bis_SR_register(LPM0_bits + GIE);         // Enter low power mode (will be woken by ISR)
     ADCCTL0 &= ~(ADCENC | ADCSC);               // Disable conversion
@@ -373,10 +379,11 @@ int analogRead(pin_size_t pinNumber){
     // -----------------------------------------------------------------------------------------------------------------
     // x5xx and x6xx family ADC12_A module
     // -----------------------------------------------------------------------------------------------------------------
-    ADC12CTL0 |= ADC12ON;                       // Turn ADC on
+    // TODO: Pin mux configuration
     ADC12MCTL0 &= ~ADC12INCH_15;                // Clear channel selection
     ADC12MCTL0 |= 
-        ((PxADCCH(pinNumber) & 0xF) << 0);      // Select channel
+        ((PxADCCH(pinNumber) & 0xF) << 0);      // Select channel.
+    ADC12CTL0 |= ADC12ON;                       // Turn ADC on
     ADC12CTL0 |= ADC12ENC | ADC12SC;            // Enable & start conversion
     __bis_SR_register(LPM0_bits + GIE);         // Enter low power mode (will be woken by ISR)
     ADC12CTL0 &= ~(ADC12ENC | ADC12SC);         // Disable conversion
@@ -387,10 +394,11 @@ int analogRead(pin_size_t pinNumber){
     // -----------------------------------------------------------------------------------------------------------------
     // x5xx and x6xx family ADC10_A module
     // -----------------------------------------------------------------------------------------------------------------
-    ADC10CTL0 |= ADC10ON;                       // Turn ADC on
+    // TODO: Pin mux configuration
     ADC10MCTL0 &= ~ADC10INCH_15;                // Clear channel selection
     ADC10MCTL0 |= 
         ((PxADCCH(pinNumber) & 0xF) << 0);      // Select channel
+    ADC10CTL0 |= ADC10ON;                       // Turn ADC on
     ADC10CTL0 |= ADC10ENC | ADC10SC;            // Enable & start conversion
     __bis_SR_register(LPM0_bits + GIE);         // Enter low power mode (will be woken by ISR)
     ADC10CTL0 &= ~(ADC10ENC | ADC10SC);         // Disable conversion

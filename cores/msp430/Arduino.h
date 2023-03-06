@@ -54,6 +54,9 @@ const extern uint8_t pin_adcch[];
 #define PxREN(n)            (*((volatile uint8_t*)pin_renreg[n]))
 #define PxMASK(n)           ((uint8_t)pin_bitmask[n])
 #define PxADCCH(n)          (pin_adcch[n])
+#define PxADCMASK(n)        (1 << pin_adcch[n])
+// Note PxADCCH is channel number (0, 1, 2, 3, 4, etc)
+//      PxADCMASK is channel bitmask (BIT0, BIT1, BIT2, etc)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
