@@ -1,3 +1,4 @@
+// Setup: Two LEDs onboard launchpad
 // Tests digitalWrite, digitalRead, millis, micros
 
 

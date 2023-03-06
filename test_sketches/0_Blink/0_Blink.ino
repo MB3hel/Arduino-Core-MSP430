@@ -1,3 +1,4 @@
+// Setup: LED onboard launchpad
 // Tests digitalWrite, digitalRead, delay, and delayMicroseconds
 
 

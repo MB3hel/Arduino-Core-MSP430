@@ -14,14 +14,14 @@ void setup() {
 
 void loop() {
   int val = analogRead(POT);
-  if(val >= (ADC_MAX / 2)){
+  if(val >= (ADC_MAX / 3)){
     digitalWrite(LED1, HIGH);
   }else{
     digitalWrite(LED1, LOW);
   }
-  /*if(val >= (2 * ADC_MAX / 3)){
+  if(val >= (2 * ADC_MAX / 3)){
     digitalWrite(LED2, HIGH);
   }else{
     digitalWrite(LED2, LOW);
-  }*/
+  }
 }
