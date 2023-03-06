@@ -41,6 +41,9 @@ const extern uintptr_t pin_sel0reg[];
 const extern uintptr_t pin_sel1reg[];
 const extern uintptr_t pin_dirreg[];
 const extern uintptr_t pin_renreg[];
+const extern uintptr_t pin_iesreg[];
+const extern uintptr_t pin_iereg[];
+const extern uintptr_t pin_ifgreg[];
 const extern uint8_t pin_bitmask[];
 const extern uint8_t pin_adcch[];
 
@@ -52,11 +55,17 @@ const extern uint8_t pin_adcch[];
 #define PxSEL1(n)           (*((volatile uint8_t*)pin_sel1reg[n]))
 #define PxDIR(n)            (*((volatile uint8_t*)pin_dirreg[n]))
 #define PxREN(n)            (*((volatile uint8_t*)pin_renreg[n]))
+#define PxIES(n)            (*((volatile uint8_t*)pin_iesreg[n]))
+#define PxIE(n)             (*((volatile uint8_t*)pin_iereg[n]))
+#define PxIFG(n)            (*((volatile uint8_t*)pin_ifgreg[n]))
 #define PxMASK(n)           ((uint8_t)pin_bitmask[n])
 #define PxADCCH(n)          (pin_adcch[n])
 #define PxADCMASK(n)        (1 << pin_adcch[n])
 // Note PxADCCH is channel number (0, 1, 2, 3, 4, etc)
 //      PxADCMASK is channel bitmask (BIT0, BIT1, BIT2, etc)
+
+// Interrupt numbers match pin numbers since all pins support interrupts
+#define digitalPinToInterrupt(pin) (pin)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

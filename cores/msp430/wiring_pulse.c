@@ -1,5 +1,5 @@
 /**
- * @file wiring_pulse.cpp
+ * @file wiring_pulse.c
  * Derived from Energia MSP430 wiring_pulse.c
  * 
  * This library is free software; you can redistribute it and/or

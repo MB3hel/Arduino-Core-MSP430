@@ -1,5 +1,5 @@
 /**
- * @file wiring_digital.cpp
+ * @file wiring_digital.c
  * Derived from Energia MSP430 wiring_digital.c
  * 
  * This library is free software; you can redistribute it and/or

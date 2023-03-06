@@ -1,5 +1,5 @@
 /**
- * @file wiring_analog.cpp
+ * @file wiring_analog.c
  * Derived from Energia MSP430 wiring_analog.c
  * 
  * This library is free software; you can redistribute it and/or

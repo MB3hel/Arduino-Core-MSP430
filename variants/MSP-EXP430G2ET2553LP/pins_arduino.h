@@ -73,8 +73,6 @@ static const uint8_t RED_LED = 14;
 static const uint8_t GREEN_LED = 2;
 static const uint8_t LED_BUILTIN = RED_LED;
 
-// TODO: digitalPinToInterrupt macro
-
 
 #ifdef ARDUINO_MAIN
 
@@ -219,6 +217,78 @@ const uintptr_t pin_renreg[] = {
     0,                                                  // TEST
     (const uintptr_t)(&P2REN),                          // P2.7
     (const uintptr_t)(&P2REN),                          // P2.6
+    0                                                   // GND
+};
+
+const uintptr_t pin_iesreg[] = {
+    0,                                                  // Placeholder. We count from 1 not 0.
+    0,                                                  // VCC
+    (const uintptr_t)(&P1IES),                          // P1.0
+    (const uintptr_t)(&P1IES),                          // P1.1
+    (const uintptr_t)(&P1IES),                          // P1.2
+    (const uintptr_t)(&P1IES),                          // P1.3
+    (const uintptr_t)(&P1IES),                          // P1.4
+    (const uintptr_t)(&P1IES),                          // P1.5
+    (const uintptr_t)(&P2IES),                          // P2.0
+    (const uintptr_t)(&P2IES),                          // P2.1
+    (const uintptr_t)(&P2IES),                          // P2.2
+    (const uintptr_t)(&P2IES),                          // P2.3
+    (const uintptr_t)(&P2IES),                          // P2.4
+    (const uintptr_t)(&P2IES),                          // P2.5
+    (const uintptr_t)(&P1IES),                          // P1.6
+    (const uintptr_t)(&P1IES),                          // P1.7
+    0,                                                  // RST
+    0,                                                  // TEST
+    (const uintptr_t)(&P2IES),                          // P2.7
+    (const uintptr_t)(&P2IES),                          // P2.6
+    0                                                   // GND
+};
+
+const uintptr_t pin_iereg[] = {
+    0,                                                  // Placeholder. We count from 1 not 0.
+    0,                                                  // VCC
+    (const uintptr_t)(&P1IE),                           // P1.0
+    (const uintptr_t)(&P1IE),                           // P1.1
+    (const uintptr_t)(&P1IE),                           // P1.2
+    (const uintptr_t)(&P1IE),                           // P1.3
+    (const uintptr_t)(&P1IE),                           // P1.4
+    (const uintptr_t)(&P1IE),                           // P1.5
+    (const uintptr_t)(&P2IE),                           // P2.0
+    (const uintptr_t)(&P2IE),                           // P2.1
+    (const uintptr_t)(&P2IE),                           // P2.2
+    (const uintptr_t)(&P2IE),                           // P2.3
+    (const uintptr_t)(&P2IE),                           // P2.4
+    (const uintptr_t)(&P2IE),                           // P2.5
+    (const uintptr_t)(&P1IE),                           // P1.6
+    (const uintptr_t)(&P1IE),                           // P1.7
+    0,                                                  // RST
+    0,                                                  // TEST
+    (const uintptr_t)(&P2IE),                           // P2.7
+    (const uintptr_t)(&P2IE),                           // P2.6
+    0                                                   // GND
+};
+
+const uintptr_t pin_ifgreg[] = {
+    0,                                                  // Placeholder. We count from 1 not 0.
+    0,                                                  // VCC
+    (const uintptr_t)(&P1IFG),                          // P1.0
+    (const uintptr_t)(&P1IFG),                          // P1.1
+    (const uintptr_t)(&P1IFG),                          // P1.2
+    (const uintptr_t)(&P1IFG),                          // P1.3
+    (const uintptr_t)(&P1IFG),                          // P1.4
+    (const uintptr_t)(&P1IFG),                          // P1.5
+    (const uintptr_t)(&P2IFG),                          // P2.0
+    (const uintptr_t)(&P2IFG),                          // P2.1
+    (const uintptr_t)(&P2IFG),                          // P2.2
+    (const uintptr_t)(&P2IFG),                          // P2.3
+    (const uintptr_t)(&P2IFG),                          // P2.4
+    (const uintptr_t)(&P2IFG),                          // P2.5
+    (const uintptr_t)(&P1IFG),                          // P1.6
+    (const uintptr_t)(&P1IFG),                          // P1.7
+    0,                                                  // RST
+    0,                                                  // TEST
+    (const uintptr_t)(&P2IFG),                          // P2.7
+    (const uintptr_t)(&P2IFG),                          // P2.6
     0                                                   // GND
 };
 

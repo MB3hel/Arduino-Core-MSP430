@@ -1,5 +1,5 @@
 /**
- * @file wiring_shift.cpp
+ * @file wiring_shift.c
  * Derived from Energia MSP430 wiring_shift.c and Arduino AVR core wiring_shift.c
  * 
  * This library is free software; you can redistribute it and/or

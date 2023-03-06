@@ -53,7 +53,7 @@ volatile unsigned long wdt_overflow_count;
 // Clock initialization for MSP430 chips with a Basic Clock module
 // ---------------------------------------------------------------------------------------------------------------------
 // Includes G2553
-static void initClocks(){
+static void initClocks(void){
     // Set frequency for DCO (used for MCLK and SMCLK)
     // Reset state has MCLK = DCO / 1
     // and SMCLK = DOC / 1
@@ -108,7 +108,7 @@ static void initClocks(){
 // Clock initialization for MSP430 FR2XX and FR4XX family chips
 // ---------------------------------------------------------------------------------------------------------------------
 // Includes FR2355, FR2433
-static void initClocks(){
+static void initClocks(void){
 
     // These names were changed at some point. Not consistent between chips.
 #if !defined(NACCESS_0)
@@ -216,7 +216,7 @@ static void initClocks(){
 // Clock initialization for MSP430 FRAM chips other than FR2XX and FR4XX family
 // ---------------------------------------------------------------------------------------------------------------------
 // Includes FR5969
-static void initClocks(){
+static void initClocks(void){
 
     // These names were changed at some point. Not consistent between chips.
 #if !defined(NACCESS_0)
@@ -297,7 +297,7 @@ static void initClocks(){
 // ---------------------------------------------------------------------------------------------------------------------
 // Includes FR5739
 // Note: Untested as I have no boards that use this
-static void initClocks(){
+static void initClocks(void){
     CSCTL0 = CSKEY;                             // Enable Access to CS Registers
   
     CSCTL2 &= ~SELM_7;                          // Clear selected Main CLK Source
@@ -367,7 +367,7 @@ static void initClocks(){
 // ---------------------------------------------------------------------------------------------------------------------
 // Includes F5529
 // Note: Untested as I have no boards that use this
-static void initClocks(){
+static void initClocks(void){
     PMMCTL0_H = PMMPW_H;             // open PMM
     SVSMLCTL &= ~SVSMLRRL_7;         // reset
     PMMCTL0_L = PMMCOREV_0;          //
@@ -472,7 +472,7 @@ static void initClocks(){
 // ---------------------------------------------------------------------------------------------------------------------
 
 #else
-static void initClocks(){
+static void initClocks(void){
 #error Clock configuration unknown for this chip!
 }
 #endif
@@ -772,7 +772,7 @@ void __attribute__ ((noinline)) delayMicroseconds(unsigned int us){
  * This mode will not reset the chip when it expires. It is used to generate
  * a periodic interrupt used for system timing.
  */
-static void enableWdtInterval(){
+static void enableWdtInterval(void){
     // For F_CPU < 8MHz use MCLK / 512
     // For F_CPU >= 8MHz use MCLK / 8192
 #if F_CPU < 8000000L
@@ -820,7 +820,7 @@ __interrupt_vec(WDT_VECTOR) void watchdog_isr (void){
 /**
  * Initialize MSP430 chip
  */
-void init(){
+void init(void){
     WDTCTL = WDTPW | WDTHOLD;               // Disable watchdog timer
 #if defined(LOCKLPM5)
     PMMCTL0_H = PMMPW_H;                    // Open PMM
