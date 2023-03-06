@@ -1,11 +1,10 @@
 // Setup: Potentiometer connected between VCC and GND. Signal to an analog pin. Two LEDs on launchpad
 // Tests: analogRead
 
-#define POT       A0
+#define POT       A1
 #define LED1      2
 #define LED2      14
 #define ADC_MAX   1024
-
 
 
 void setup() {
