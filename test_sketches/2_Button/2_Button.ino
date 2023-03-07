@@ -1,5 +1,5 @@
 // Setup: Two LEDs on launchpad. One builtin button (assumed to have external pullup) 
-/         and one external button (using internal pullup)
+//         and one external button (using internal pullup)
 // Tests digitalWrite, digitalRead using INPUT and INPUT_PULLUP mode
 
 

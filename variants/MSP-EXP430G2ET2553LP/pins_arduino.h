@@ -23,7 +23,7 @@
 #pragma once
 
 #include <stdint.h>
-#include "../common.h"
+#include "../pins_common.h"
 
 
 #define MAX_PINNUM                  (20)

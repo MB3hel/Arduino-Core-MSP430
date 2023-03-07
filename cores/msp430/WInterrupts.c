@@ -73,10 +73,10 @@ void attachInterrupt(pin_size_t interruptNumber, voidFuncPtr callback, PinStatus
 
     switch(mode){
     case RISING:
-        PxIES(interruptNumber) &= ~PxMASK(interruptNumber);
+        PxIES(interruptNumber) &= ~PINMASK(interruptNumber);
         break;
     case FALLING:
-        PxIES(interruptNumber) |= PxMASK(interruptNumber);
+        PxIES(interruptNumber) |= PINMASK(interruptNumber);
         break;
     }
 

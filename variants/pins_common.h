@@ -1,11 +1,10 @@
-#define ARDUINO_MAIN
 #ifdef ARDUINO_MAIN
 
 #include <msp430.h>
 #include <stdint.h>
 
-// pin_in[x] = PxIN
-const uintptr_t pin_in[] = {
+// port_in[x] = PxIN
+const uintptr_t port_in[] = {
     0,
 #ifdef __MSP430_HAS_PORT1_R__
     (const uintptr_t)(&P1IN),
@@ -42,8 +41,8 @@ const uintptr_t pin_in[] = {
 #endif
 };
 
-// pin_out[x] = PxOUT
-const uintptr_t pin_out[] = {
+// port_out[x] = PxOUT
+const uintptr_t port_out[] = {
     0,
 #ifdef __MSP430_HAS_PORT1_R__
     (const uintptr_t)(&P1OUT),
@@ -80,8 +79,8 @@ const uintptr_t pin_out[] = {
 #endif
 };
 
-// pin_sel0[x] = PxSEL0 or PxSEL
-const uintptr_t pin_sel0[] = {
+// port_sel0[x] = PxSEL0 or PxSEL
+const uintptr_t port_sel0[] = {
     0,
 #ifdef __MSP430_HAS_PORT1_R__
 #if defined(__MSP430_HAS_P1SEL__)
@@ -162,8 +161,8 @@ const uintptr_t pin_sel0[] = {
 #endif
 };
 
-// pin_sel1[x] = PxSEL1 or PxSEL2
-const uintptr_t pin_sel1[] = {
+// port_sel1[x] = PxSEL1 or PxSEL2
+const uintptr_t port_sel1[] = {
     0,
 #ifdef __MSP430_HAS_PORT1_R__
 #if defined(__MSP430_HAS_P1SEL2__)
@@ -244,8 +243,8 @@ const uintptr_t pin_sel1[] = {
 #endif
 };
 
-// pin_dir[x] = PxDIR
-const uintptr_t pin_dir[] = {
+// port_dir[x] = PxDIR
+const uintptr_t port_dir[] = {
     0,
 #ifdef __MSP430_HAS_PORT1_R__
     (const uintptr_t)(&P1DIR),
@@ -282,8 +281,8 @@ const uintptr_t pin_dir[] = {
 #endif
 };
 
-// pin_ren[x] = PxREN
-const uintptr_t pin_ren[] = {
+// port_ren[x] = PxREN
+const uintptr_t port_ren[] = {
     0,
 #ifdef __MSP430_HAS_PORT1_R__
     (const uintptr_t)(&P1REN),
@@ -320,8 +319,8 @@ const uintptr_t pin_ren[] = {
 #endif
 };
 
-// pin_ies[x] = PxIES
-const uintptr_t pin_ies[] = {
+// port_ies[x] = PxIES
+const uintptr_t port_ies[] = {
     0,
 #ifdef PORT1_VECTOR
     (const uintptr_t)(&P1IES),
@@ -358,8 +357,8 @@ const uintptr_t pin_ies[] = {
 #endif
 };
 
-// pin_ie[x] = PxIE
-const uintptr_t pin_ie[] = {
+// port_ie[x] = PxIE
+const uintptr_t port_ie[] = {
     0,
 #ifdef PORT1_VECTOR
     (const uintptr_t)(&P1IE),
@@ -396,8 +395,8 @@ const uintptr_t pin_ie[] = {
 #endif
 };
 
-// pin_ifg[x] = PxIFG
-const uintptr_t pin_ifg[] = {
+// port_ifg[x] = PxIFG
+const uintptr_t port_ifg[] = {
     0,
 #ifdef PORT1_VECTOR
     (const uintptr_t)(&P1IFG),

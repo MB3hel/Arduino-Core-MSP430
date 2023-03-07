@@ -33,24 +33,24 @@ unsigned long pulseIn(pin_size_t pin, uint8_t state, unsigned long timeout){
     unsigned long maxLoops = timeout * (F_CPU / 1000000L);
 
     // Mask to match for pulse
-    uint8_t stateMask = state ? PxMASK(pin) : 0;
+    uint8_t stateMask = state ? PINMASK(pin) : 0;
 
     // Wait for previous pulse to end
-    while((PxIN(pin) & PxMASK(pin)) == stateMask){
+    while((PxIN(pin) & PINMASK(pin)) == stateMask){
         if(numLoops++ == maxLoops){
             return 0;
         }
     }
 
     // Wait for pulse to start
-    while((PxIN(pin) & PxMASK(pin)) != stateMask){
+    while((PxIN(pin) & PINMASK(pin)) != stateMask){
         if(numLoops++ == maxLoops){
             return 0;
         }
     }
 
     // Wait for pulse to stop
-    while((PxIN(pin) & PxMASK(pin)) == stateMask){
+    while((PxIN(pin) & PINMASK(pin)) == stateMask){
         if(numLoops++ == maxLoops){
             return 0;
         }
@@ -71,18 +71,18 @@ unsigned long pulseIn(pin_size_t pin, uint8_t state, unsigned long timeout){
 // Designed to be better for long pulses and more tolerant of interrupts
 // by using micros()
 unsigned long pulseInLong(pin_size_t pin, uint8_t state, unsigned long timeout){
-    uint8_t stateMask = state ? PxMASK(pin) : 0;
+    uint8_t stateMask = state ? PINMASK(pin) : 0;
     unsigned long start = micros(); // Start of function not pulse. Used for timeout
 
     // Wait for previous pulse to end
-    while((PxIN(pin) & PxMASK(pin)) == stateMask){
+    while((PxIN(pin) & PINMASK(pin)) == stateMask){
         if(micros() - start > timeout){
             return 0;
         }
     }
 
     // Wait for the pulse to start
-    while((PxIN(pin) & PxMASK(pin)) != stateMask){
+    while((PxIN(pin) & PINMASK(pin)) != stateMask){
         if(micros() - start > timeout){
             return 0;
         }
@@ -90,7 +90,7 @@ unsigned long pulseInLong(pin_size_t pin, uint8_t state, unsigned long timeout){
     unsigned long pulseStart = micros();
 
     // Wait for pulse to stop
-    while((PxIN(pin) & PxMASK(pin)) == stateMask){
+    while((PxIN(pin) & PINMASK(pin)) == stateMask){
         if(micros() - start > timeout){
             return 0;
         }

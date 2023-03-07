@@ -31,10 +31,15 @@
 #ifdef __cplusplus
 // Compatability function to allow "bool" or "int" to digitalWrite
 void digitalWrite(pin_size_t pinNumber, int status);
+#ifdef ARDUINO_MAIN
+void digitalWrite(pin_size_t pinNumber, int status){
+    digitalWrite(pinNumber, (PinStatus)status);
+}
+#endif
 #endif
 
 // Port number to register port_reg[x] -> PxREG
-// Defined in common.h for variants
+// Defined in pins_common.h for variants
 const extern uintptr_t port_in[];
 const extern uintptr_t port_out[];
 const extern uintptr_t port_sel0[];
