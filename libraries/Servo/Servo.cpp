@@ -77,33 +77,33 @@ Timer_Process(void)
     digitalWrite(servos[counter].Pin.nbr, HIGH);
     /* And hold! */
     totalWait += servos[counter].ticks;
-#if defined(__MSP430_HAS_TA0__)
+#if defined(TIMER0_A0_VECTOR)
     TA0CCR0 = servos[counter].ticks;
-#elif defined(__MSP430_HAS_TB0__)
+#elif defined(TIMER0_B0_VECTOR)
     TB0CCR0 = servos[counter].ticks;
 #endif
   } else {
     /* Wait for the remaining of REFRESH_INTERVAL. */
     wait = usToTicks(REFRESH_INTERVAL) - totalWait;
     totalWait = 0;
-#if defined(__MSP430_HAS_TA0__)
+#if defined(TIMER0_A0_VECTOR)
     TA0CCR0 = (wait < 1000 ? 1000 : wait);
-#elif defined(__MSP430_HAS_TB0__)
+#elif defined(TIMER0_B0_VECTOR)
     TB0CCR0 = (wait < 1000 ? 1000 : wait);
 #endif
     counter = -1;
   }
 }
 
-#if defined(__MSP430_HAS_TA0__)
+#if defined(TIMER0_A0_VECTOR)
 
-__attribute__((interrupt(TIMERA0_VECTOR)))
+__attribute__((interrupt(TIMER0_A0_VECTOR)))
 static void
 Timer_isr(void){
   Timer_Process();
 }
 
-#elif defined (__MSP430_HAS_TB0__)
+#elif defined (TIMER0_B0_VECTOR)
 
 __attribute__((interrupt(TIMERB0_VECTOR)))
 static void
@@ -130,10 +130,10 @@ static void enableTimer(void)
 
   Timer_Process(); // enable first servo
 
-#if defined(__MSP430_HAS_TA0__)
+#if defined(TIMER0_A0_VECTOR)
   TA0CCTL0 = CCIE;                             // CCR0 interrupt enabled
   TA0CTL = TASSEL_2 + MC_1 + ID_3;           // prescale SMCLK/8, upmode
-#elif defined(__MSP430_HAS_TB0__)
+#elif defined(TIMER0_B0_VECTOR)
   TB0CCTL0 = CCIE;                             // CCR0 interrupt enabled
   TB0CTL = TBSSEL_2 + MC_1 + ID_3;           // prescale SMCLK/8, upmode
 #endif
@@ -141,11 +141,11 @@ static void enableTimer(void)
 
 static void disableTimer(void)
 {
-#if defined(__MSP430_HAS_TA0__)
+#if defined(TIMER0_A0_VECTOR)
   // disable interrupt
   TA0CCTL0 = 0;
   TA0CCR0 = 0;
-#elif defined(__MSP430_HAS_TB0__)
+#elif defined(TIMER0_B0_VECTOR)
   // disable interrupt
   TB0CCTL0 = 0;
   TB0CCR0 = 0;
