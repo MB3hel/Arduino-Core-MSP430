@@ -33,36 +33,41 @@
 void digitalWrite(pin_size_t pinNumber, int status);
 #endif
 
+// Port number to register port_reg[x] -> PxREG
+// Defined in common.h for variants
+const extern uintptr_t port_in[];
+const extern uintptr_t port_out[];
+const extern uintptr_t port_sel0[];
+const extern uintptr_t port_sel1[];
+const extern uintptr_t port_dir[];
+const extern uintptr_t port_ren[];
+const extern uintptr_t port_ies[];
+const extern uintptr_t port_ie[];
+const extern uintptr_t port_ifg[];
 
 // Defined in pins_arduino.h
-const extern uintptr_t pin_inreg[];
-const extern uintptr_t pin_outreg[];
-const extern uintptr_t pin_sel0reg[];
-const extern uintptr_t pin_sel1reg[];
-const extern uintptr_t pin_dirreg[];
-const extern uintptr_t pin_renreg[];
-const extern uintptr_t pin_iesreg[];
-const extern uintptr_t pin_iereg[];
-const extern uintptr_t pin_ifgreg[];
-const extern uint8_t pin_bitmask[];
+// Convert arduino pin number (x) to port, pin, or adc channel
+const extern uint8_t pin_portnum[];
+const extern uint8_t pin_pinnum[];
 const extern uint8_t pin_adcch[];
 
 
-// Macros to use these arrays
-#define PxIN(n)             (*((volatile uint8_t*)pin_inreg[n]))
-#define PxOUT(n)            (*((volatile uint8_t*)pin_outreg[n]))
-#define PxSEL0(n)           (*((volatile uint8_t*)pin_sel0reg[n]))
-#define PxSEL1(n)           (*((volatile uint8_t*)pin_sel1reg[n]))
-#define PxDIR(n)            (*((volatile uint8_t*)pin_dirreg[n]))
-#define PxREN(n)            (*((volatile uint8_t*)pin_renreg[n]))
-#define PxIES(n)            (*((volatile uint8_t*)pin_iesreg[n]))
-#define PxIE(n)             (*((volatile uint8_t*)pin_iereg[n]))
-#define PxIFG(n)            (*((volatile uint8_t*)pin_ifgreg[n]))
-#define PxMASK(n)           ((uint8_t)pin_bitmask[n])
-#define PxADCCH(n)          (pin_adcch[n])
-#define PxADCMASK(n)        (1 << pin_adcch[n])
-// Note PxADCCH is channel number (0, 1, 2, 3, 4, etc)
-//      PxADCMASK is channel bitmask (BIT0, BIT1, BIT2, etc)
+// Macros to convert arduino pin number to registers or masks
+#define PxIN(n)             (*((volatile uint8_t*)port_in[pin_portnum[n]]))
+#define PxOUT(n)            (*((volatile uint8_t*)port_out[pin_portnum[n]]))
+#define PxSEL0(n)           (*((volatile uint8_t*)port_sel0[pin_portnum[n]]))
+#define PxSEL1(n)           (*((volatile uint8_t*)port_sel1[pin_portnum[n]]))
+#define PxDIR(n)            (*((volatile uint8_t*)port_dir[pin_portnum[n]]))
+#define PxREN(n)            (*((volatile uint8_t*)port_ren[pin_portnum[n]]))
+#define PxIES(n)            (*((volatile uint8_t*)port_ies[pin_portnum[n]]))
+#define PxIE(n)             (*((volatile uint8_t*)port_ie[pin_portnum[n]]))
+#define PxIFG(n)            (*((volatile uint8_t*)port_ifg[pin_portnum[n]]))
+#define PORTNUM(n)          ((uint8_t)(pin_portnum[n]))
+#define PINNUM(n)           ((uint8_t)(pin_pinnum[n]))
+#define PINMASK(n)          ((uint8_t)(1 << pin_pinnum[n]))
+#define ADCNUM(n)           ((uint8_t)(pin_adcch[n]))
+#define ADCMASK(n)          ((uint8_t)(1 << pin_adcch[n]))
+
 
 // Interrupt numbers match pin numbers since all pins support interrupts
 #define digitalPinToInterrupt(pin) (pin)

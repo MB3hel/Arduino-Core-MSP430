@@ -23,6 +23,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "../common.h"
 
 
 #define MAX_PINNUM                  (20)
@@ -73,249 +74,59 @@ static const uint8_t RED_LED = 14;
 static const uint8_t GREEN_LED = 2;
 static const uint8_t LED_BUILTIN = RED_LED;
 
-
 #ifdef ARDUINO_MAIN
 
-const uintptr_t pin_inreg[] = {
-    0,                                                  // Placeholder. We count from 1 not 0.
-    0,                                                  // VCC
-    (const uintptr_t)(&P1IN),                           // P1.0
-    (const uintptr_t)(&P1IN),                           // P1.1
-    (const uintptr_t)(&P1IN),                           // P1.2
-    (const uintptr_t)(&P1IN),                           // P1.3
-    (const uintptr_t)(&P1IN),                           // P1.4
-    (const uintptr_t)(&P1IN),                           // P1.5
-    (const uintptr_t)(&P2IN),                           // P2.0
-    (const uintptr_t)(&P2IN),                           // P2.1
-    (const uintptr_t)(&P2IN),                           // P2.2
-    (const uintptr_t)(&P2IN),                           // P2.3
-    (const uintptr_t)(&P2IN),                           // P2.4
-    (const uintptr_t)(&P2IN),                           // P2.5
-    (const uintptr_t)(&P1IN),                           // P1.6
-    (const uintptr_t)(&P1IN),                           // P1.7
-    0,                                                  // RST
-    0,                                                  // TEST
-    (const uintptr_t)(&P2IN),                           // P2.7
-    (const uintptr_t)(&P2IN),                           // P2.6
-    0                                                   // GND
+// Port Numbers (x) Px.y
+const uint8_t pin_portnum[] = {
+    255,                                                // Placeholder. We count from 1 not 0.
+    255,                                                // VCC
+    1,                                                  // P1.0
+    1,                                                  // P1.1
+    1,                                                  // P1.2
+    1,                                                  // P1.3
+    1,                                                  // P1.4
+    1,                                                  // P1.5
+    2,                                                  // P2.0
+    2,                                                  // P2.1
+    2,                                                  // P2.2
+    2,                                                  // P2.3
+    2,                                                  // P2.4
+    2,                                                  // P2.5
+    1,                                                  // P1.6
+    1,                                                  // P1.7
+    255,                                                // RST
+    255,                                                // TEST
+    2,                                                  // P2.7
+    2,                                                  // P2.6
+    255                                                 // GND
 };
 
-const uintptr_t pin_outreg[] = {
-    0,                                                  // Placeholder. We count from 1 not 0.
-    0,                                                  // VCC
-    (const uintptr_t)(&P1OUT),                          // P1.0
-    (const uintptr_t)(&P1OUT),                          // P1.1
-    (const uintptr_t)(&P1OUT),                          // P1.2
-    (const uintptr_t)(&P1OUT),                          // P1.3
-    (const uintptr_t)(&P1OUT),                          // P1.4
-    (const uintptr_t)(&P1OUT),                          // P1.5
-    (const uintptr_t)(&P2OUT),                          // P2.0
-    (const uintptr_t)(&P2OUT),                          // P2.1
-    (const uintptr_t)(&P2OUT),                          // P2.2
-    (const uintptr_t)(&P2OUT),                          // P2.3
-    (const uintptr_t)(&P2OUT),                          // P2.4
-    (const uintptr_t)(&P2OUT),                          // P2.5
-    (const uintptr_t)(&P1OUT),                          // P1.6
-    (const uintptr_t)(&P1OUT),                          // P1.7
-    0,                                                  // RST
-    0,                                                  // TEST
-    (const uintptr_t)(&P2OUT),                          // P2.7
-    (const uintptr_t)(&P2OUT),                          // P2.6
-    0                                                   // GND
+// Pin Numbers (y) Px.y
+const uint8_t pin_pinnum[] = {
+    255,                                                // Placeholder. We count from 1 not 0.
+    255,                                                // VCC
+    0,                                                  // P1.0
+    1,                                                  // P1.1
+    2,                                                  // P1.2
+    3,                                                  // P1.3
+    4,                                                  // P1.4
+    5,                                                  // P1.5
+    0,                                                  // P2.0
+    1,                                                  // P2.1
+    2,                                                  // P2.2
+    3,                                                  // P2.3
+    4,                                                  // P2.4
+    5,                                                  // P2.5
+    6,                                                  // P1.6
+    7,                                                  // P1.7
+    255,                                                // RST
+    255,                                                // TEST
+    7,                                                  // P2.7
+    6,                                                  // P2.6
+    255                                                 // GND
 };
 
-const uintptr_t pin_sel0reg[] = {
-    0,                                                  // Placeholder. We count from 1 not 0.
-    0,                                                  // VCC
-    (const uintptr_t)(&P1SEL),                          // P1.0
-    (const uintptr_t)(&P1SEL),                          // P1.1
-    (const uintptr_t)(&P1SEL),                          // P1.2
-    (const uintptr_t)(&P1SEL),                          // P1.3
-    (const uintptr_t)(&P1SEL),                          // P1.4
-    (const uintptr_t)(&P1SEL),                          // P1.5
-    (const uintptr_t)(&P2SEL),                          // P2.0
-    (const uintptr_t)(&P2SEL),                          // P2.1
-    (const uintptr_t)(&P2SEL),                          // P2.2
-    (const uintptr_t)(&P2SEL),                          // P2.3
-    (const uintptr_t)(&P2SEL),                          // P2.4
-    (const uintptr_t)(&P2SEL),                          // P2.5
-    (const uintptr_t)(&P1SEL),                          // P1.6
-    (const uintptr_t)(&P1SEL),                          // P1.7
-    0,                                                  // RST
-    0,                                                  // TEST
-    (const uintptr_t)(&P2SEL),                          // P2.7
-    (const uintptr_t)(&P2SEL),                          // P2.6
-    0                                                   // GND
-};
-
-const uintptr_t pin_sel1reg[] = {
-    0,                                                  // Placeholder. We count from 1 not 0.
-    0,                                                  // VCC
-    (const uintptr_t)(&P1SEL2),                         // P1.0
-    (const uintptr_t)(&P1SEL2),                         // P1.1
-    (const uintptr_t)(&P1SEL2),                         // P1.2
-    (const uintptr_t)(&P1SEL2),                         // P1.3
-    (const uintptr_t)(&P1SEL2),                         // P1.4
-    (const uintptr_t)(&P1SEL2),                         // P1.5
-    (const uintptr_t)(&P2SEL2),                         // P2.0
-    (const uintptr_t)(&P2SEL2),                         // P2.1
-    (const uintptr_t)(&P2SEL2),                         // P2.2
-    (const uintptr_t)(&P2SEL2),                         // P2.3
-    (const uintptr_t)(&P2SEL2),                         // P2.4
-    (const uintptr_t)(&P2SEL2),                         // P2.5
-    (const uintptr_t)(&P1SEL2),                         // P1.6
-    (const uintptr_t)(&P1SEL2),                         // P1.7
-    0,                                                  // RST
-    0,                                                  // TEST
-    (const uintptr_t)(&P2SEL2),                         // P2.7
-    (const uintptr_t)(&P2SEL2),                         // P2.6
-    0                                                   // GND
-};
-
-const uintptr_t pin_dirreg[] = {
-    0,                                                  // Placeholder. We count from 1 not 0.
-    0,                                                  // VCC
-    (const uintptr_t)(&P1DIR),                          // P1.0
-    (const uintptr_t)(&P1DIR),                          // P1.1
-    (const uintptr_t)(&P1DIR),                          // P1.2
-    (const uintptr_t)(&P1DIR),                          // P1.3
-    (const uintptr_t)(&P1DIR),                          // P1.4
-    (const uintptr_t)(&P1DIR),                          // P1.5
-    (const uintptr_t)(&P2DIR),                          // P2.0
-    (const uintptr_t)(&P2DIR),                          // P2.1
-    (const uintptr_t)(&P2DIR),                          // P2.2
-    (const uintptr_t)(&P2DIR),                          // P2.3
-    (const uintptr_t)(&P2DIR),                          // P2.4
-    (const uintptr_t)(&P2DIR),                          // P2.5
-    (const uintptr_t)(&P1DIR),                          // P1.6
-    (const uintptr_t)(&P1DIR),                          // P1.7
-    0,                                                  // RST
-    0,                                                  // TEST
-    (const uintptr_t)(&P2DIR),                          // P2.7
-    (const uintptr_t)(&P2DIR),                          // P2.6
-    0                                                   // GND
-};
-
-const uintptr_t pin_renreg[] = {
-    0,                                                  // Placeholder. We count from 1 not 0.
-    0,                                                  // VCC
-    (const uintptr_t)(&P1REN),                          // P1.0
-    (const uintptr_t)(&P1REN),                          // P1.1
-    (const uintptr_t)(&P1REN),                          // P1.2
-    (const uintptr_t)(&P1REN),                          // P1.3
-    (const uintptr_t)(&P1REN),                          // P1.4
-    (const uintptr_t)(&P1REN),                          // P1.5
-    (const uintptr_t)(&P2REN),                          // P2.0
-    (const uintptr_t)(&P2REN),                          // P2.1
-    (const uintptr_t)(&P2REN),                          // P2.2
-    (const uintptr_t)(&P2REN),                          // P2.3
-    (const uintptr_t)(&P2REN),                          // P2.4
-    (const uintptr_t)(&P2REN),                          // P2.5
-    (const uintptr_t)(&P1REN),                          // P1.6
-    (const uintptr_t)(&P1REN),                          // P1.7
-    0,                                                  // RST
-    0,                                                  // TEST
-    (const uintptr_t)(&P2REN),                          // P2.7
-    (const uintptr_t)(&P2REN),                          // P2.6
-    0                                                   // GND
-};
-
-const uintptr_t pin_iesreg[] = {
-    0,                                                  // Placeholder. We count from 1 not 0.
-    0,                                                  // VCC
-    (const uintptr_t)(&P1IES),                          // P1.0
-    (const uintptr_t)(&P1IES),                          // P1.1
-    (const uintptr_t)(&P1IES),                          // P1.2
-    (const uintptr_t)(&P1IES),                          // P1.3
-    (const uintptr_t)(&P1IES),                          // P1.4
-    (const uintptr_t)(&P1IES),                          // P1.5
-    (const uintptr_t)(&P2IES),                          // P2.0
-    (const uintptr_t)(&P2IES),                          // P2.1
-    (const uintptr_t)(&P2IES),                          // P2.2
-    (const uintptr_t)(&P2IES),                          // P2.3
-    (const uintptr_t)(&P2IES),                          // P2.4
-    (const uintptr_t)(&P2IES),                          // P2.5
-    (const uintptr_t)(&P1IES),                          // P1.6
-    (const uintptr_t)(&P1IES),                          // P1.7
-    0,                                                  // RST
-    0,                                                  // TEST
-    (const uintptr_t)(&P2IES),                          // P2.7
-    (const uintptr_t)(&P2IES),                          // P2.6
-    0                                                   // GND
-};
-
-const uintptr_t pin_iereg[] = {
-    0,                                                  // Placeholder. We count from 1 not 0.
-    0,                                                  // VCC
-    (const uintptr_t)(&P1IE),                           // P1.0
-    (const uintptr_t)(&P1IE),                           // P1.1
-    (const uintptr_t)(&P1IE),                           // P1.2
-    (const uintptr_t)(&P1IE),                           // P1.3
-    (const uintptr_t)(&P1IE),                           // P1.4
-    (const uintptr_t)(&P1IE),                           // P1.5
-    (const uintptr_t)(&P2IE),                           // P2.0
-    (const uintptr_t)(&P2IE),                           // P2.1
-    (const uintptr_t)(&P2IE),                           // P2.2
-    (const uintptr_t)(&P2IE),                           // P2.3
-    (const uintptr_t)(&P2IE),                           // P2.4
-    (const uintptr_t)(&P2IE),                           // P2.5
-    (const uintptr_t)(&P1IE),                           // P1.6
-    (const uintptr_t)(&P1IE),                           // P1.7
-    0,                                                  // RST
-    0,                                                  // TEST
-    (const uintptr_t)(&P2IE),                           // P2.7
-    (const uintptr_t)(&P2IE),                           // P2.6
-    0                                                   // GND
-};
-
-const uintptr_t pin_ifgreg[] = {
-    0,                                                  // Placeholder. We count from 1 not 0.
-    0,                                                  // VCC
-    (const uintptr_t)(&P1IFG),                          // P1.0
-    (const uintptr_t)(&P1IFG),                          // P1.1
-    (const uintptr_t)(&P1IFG),                          // P1.2
-    (const uintptr_t)(&P1IFG),                          // P1.3
-    (const uintptr_t)(&P1IFG),                          // P1.4
-    (const uintptr_t)(&P1IFG),                          // P1.5
-    (const uintptr_t)(&P2IFG),                          // P2.0
-    (const uintptr_t)(&P2IFG),                          // P2.1
-    (const uintptr_t)(&P2IFG),                          // P2.2
-    (const uintptr_t)(&P2IFG),                          // P2.3
-    (const uintptr_t)(&P2IFG),                          // P2.4
-    (const uintptr_t)(&P2IFG),                          // P2.5
-    (const uintptr_t)(&P1IFG),                          // P1.6
-    (const uintptr_t)(&P1IFG),                          // P1.7
-    0,                                                  // RST
-    0,                                                  // TEST
-    (const uintptr_t)(&P2IFG),                          // P2.7
-    (const uintptr_t)(&P2IFG),                          // P2.6
-    0                                                   // GND
-};
-
-const uint8_t pin_bitmask[] = {
-    0,                                                  // Placeholder. We count from 1 not 0.
-    0,                                                  // VCC
-    BIT0,                                               // P1.0
-    BIT1,                                               // P1.1
-    BIT2,                                               // P1.2
-    BIT3,                                               // P1.3
-    BIT4,                                               // P1.4
-    BIT5,                                               // P1.5
-    BIT0,                                               // P2.0
-    BIT1,                                               // P2.1
-    BIT2,                                               // P2.2
-    BIT3,                                               // P2.3
-    BIT4,                                               // P2.4
-    BIT5,                                               // P2.5
-    BIT6,                                               // P1.6
-    BIT7,                                               // P1.7
-    0,                                                  // RST
-    0,                                                  // TEST
-    BIT7,                                               // P2.7
-    BIT6,                                               // P2.6
-    0                                                   // GND
-};
-
+// ADC channel number (x) Ax
 const uint8_t pin_adcch[] = {
     255,                                                // Placeholder. We count from 1 not 0.
     255,                                                // VCC
